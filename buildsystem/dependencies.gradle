@@ -1,0 +1,79 @@
+allprojects {
+  repositories {
+    jcenter()
+  }
+}
+def minSdk = {
+  def minSdkPropertyName = 'fr.smsl.pokespot.minSdk'
+  def realMinSdk = 18
+
+  project.hasProperty(minSdkPropertyName) ? project.property(minSdkPropertyName) : realMinSdk
+}
+
+ext {
+  //Android
+  androidBuildToolsVersion = "24.0.1"
+  androidMinSdkVersion = minSdk()
+  androidTargetSdkVersion = 24
+  androidCompileSdkVersion = 24
+
+  //Libraries
+  androidSupportVersion = '24.1.0'
+  circleImageViewVersion = '2.0.0'
+  daggerVersion = '2.2'
+  butterKnifeVersion = '7.0.1'
+  glideVersion = '3.7.0'
+  rxJavaVersion = '1.1.6'
+  rxAndroidVersion = '1.2.1'
+  javaxAnnotationVersion = '1.0'
+  javaxAnnotationApiVersion = '1.2'
+  jacksonVersion = '2.7.4'
+  okHttpVersion = '3.3.1'
+  retrofitVersion = '2.1.0'
+  leakCanaryVersion = '1.3.1'
+  stethoVersion = '1.3.1'
+  crashlyticsVersion = '2.6.1'
+  timberVersion = '4.1.2'
+  autoValueVersion = '1.2'
+  autoParcelVersion = '1.0.3'
+  playServiceVersion = '9.0.2'
+  facebookSdkVersion = '4.12.1'
+  lightCycleVersion = '1.1.0'
+  rxPermissionsVersion = '0.5.2'
+
+  dependencies = [daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
+                  dagger            : "com.google.dagger:dagger:${daggerVersion}",
+                  rxJava            : "io.reactivex:rxjava:${rxJavaVersion}",
+                  rxAndroid         : "io.reactivex:rxandroid:${rxAndroidVersion}",
+                  javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+                  recyclerView      : "com.android.support:recyclerview-v7:${androidSupportVersion}",
+                  androidAppcompat  : "com.android.support:appcompat-v7:${androidSupportVersion}",
+                  androidDesign     : "com.android.support:design:${androidSupportVersion}",
+                  androidSupport    : "com.android.support:support-v4:${androidSupportVersion}",
+                  glide             : "com.github.bumptech.glide:glide:${glideVersion}",
+                  androidAnnotations: "com.android.support:support-annotations:${androidSupportVersion}",
+                  crashlytics       : "com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}@aar",
+                  timber            : "com.jakewharton.timber:timber:${timberVersion}",
+                  autoParcelCompiler: "frankiesardo:auto-parcel:${autoParcelVersion}",
+                  authPlayService   : "com.google.android.gms:play-services-auth:${playServiceVersion}",
+                  facebookSdk       : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
+                  lightCycle        : "com.soundcloud.lightcycle:lightcycle-lib:${lightCycleVersion}",
+                  lightCycleCompiler: "com.soundcloud.lightcycle:lightcycle-processor:${lightCycleVersion}",
+                  okHttp            : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+                  okHttpUrl         : "com.squareup.okhttp3:okhttp-urlconnection:${okHttpVersion}",
+                  retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+                  retrofitRx        : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
+                  jacksonConverter  : "com.squareup.retrofit2:converter-jackson:${retrofitVersion}",
+                  jackson           : "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}",
+                  rxPermissions     : "com.tbruyelle.rxpermissions:rxpermissions:${rxPermissionsVersion}@aar",
+                  kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"]
+
+  debugDependencies =
+      [leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+       stethoDebug             : "com.facebook.stetho:stetho:${stethoVersion}",
+       stethoInterceptor       : "com.facebook.stetho:stetho-okhttp3:${stethoVersion}",
+       okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"]
+
+  releaseDependencies =
+      [leakCanaryRelease: "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"]
+}

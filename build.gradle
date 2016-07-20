@@ -1,0 +1,34 @@
+apply from: 'buildsystem/dependencies.gradle'
+
+buildscript {
+  ext.kotlin_version = '1.0.3'
+
+  repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:2.1.2'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
+    classpath 'io.fabric.tools:gradle:1.+'
+  }
+}
+
+allprojects {
+
+  ext {
+    androidApplicationId = "fr.amsl.pokespot"
+    androidVersionCode = 1
+    androidVersionName = "1.0"
+  }
+
+  repositories {
+    jcenter()
+  }
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}
