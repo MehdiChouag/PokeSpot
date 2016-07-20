@@ -22,8 +22,15 @@ android {
 
   buildTypes {
     release {
-      minifyEnabled false
+      minifyEnabled true
+      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      buildConfigField "String", "AUTHORIZATION_KEY",
+          "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgBAMAAAAQtmoLAAAAMFBMVEUAAAAQEBAYSkoxc3M5lJRSYili1bRzrDGD7sWk1UGsADG9"
+    }
+    debug {
+      buildConfigField "String", "AUTHORIZATION_KEY",
+          "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgBAMAAAAQtmoLAAAAMFBMVEUAAAAQEBAYSkoxc3M5lJRSYili1bRzrDGD7sWk1UGsADG9"
     }
   }
 
