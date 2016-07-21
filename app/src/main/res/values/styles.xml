@@ -1,11 +1,12 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="PokeSpot" />
+
+    <!-- Download -->
+    <style name="PokeSpot.Download" />
+
+    <style name="PokeSpot.Download.Message" parent="@style/TextAppearance.AppCompat.Display1">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

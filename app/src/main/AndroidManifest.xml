@@ -28,7 +28,8 @@
         </activity>
 
         <activity
-            android:name=".presentation.download.DownloadActivity" />
+            android:name=".presentation.download.DownloadActivity"
+            android:theme="@style/Theme.PokeSpot.Download" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

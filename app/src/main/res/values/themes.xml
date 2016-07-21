@@ -14,4 +14,8 @@
         <item name="android:windowBackground">@drawable/launch_screen_logo</item>
     </style>
 
+    <style name="Theme.PokeSpot.Download">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
 </resources>
