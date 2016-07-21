@@ -10,6 +10,7 @@ import java.io.File
 /**
  * Model class for pokemon fetch for db.
  */
+// Name could be null a pokemon name if null in translation.
 data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String) : Parcelable {
 
   companion object {
@@ -73,47 +74,47 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
       return this
     }
 
-    fun nameEn(name: String): Builder {
+    fun nameEn(name: String?): Builder {
       contentValue.put(NAME_EN, name)
       return this
     }
 
-    fun nameIt(name: String): Builder {
+    fun nameIt(name: String?): Builder {
       contentValue.put(NAME_IT, name)
       return this
     }
 
-    fun nameEs(name: String): Builder {
+    fun nameEs(name: String?): Builder {
       contentValue.put(NAME_ES, name)
       return this
     }
 
-    fun nameDe(name: String): Builder {
+    fun nameDe(name: String?): Builder {
       contentValue.put(NAME_DE, name)
       return this
     }
 
-    fun nameFr(name: String): Builder {
+    fun nameFr(name: String?): Builder {
       contentValue.put(NAME_FR, name)
       return this
     }
 
-    fun nameZh(name: String): Builder {
+    fun nameZh(name: String?): Builder {
       contentValue.put(NAME_ZH, name)
       return this
     }
 
-    fun nameKo(name: String): Builder {
+    fun nameKo(name: String?): Builder {
       contentValue.put(NAME_KO, name)
       return this
     }
 
-    fun nameRoomaji(name: String): Builder {
+    fun nameRoomaji(name: String?): Builder {
       contentValue.put(NAME_ROOMAJI, name)
       return this
     }
 
-    fun nameJa(name: String): Builder {
+    fun nameJa(name: String?): Builder {
       contentValue.put(NAME_JA, name)
       return this
     }

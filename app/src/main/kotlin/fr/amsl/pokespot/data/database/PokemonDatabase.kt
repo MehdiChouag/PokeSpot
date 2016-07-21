@@ -21,15 +21,15 @@ class PokemonDatabase : SQLiteOpenHelper {
         "(${PokemonModel.ID} INTEGER NOT NULL PRIMARY KEY," +
         "${PokemonModel.POKEMON_ID} INTEGER NOT NULL," +
         "${PokemonModel.IMAGE_PATH} TEXT NOT NULL," +
-        "${PokemonModel.NAME_EN} TEXT NOT NULL," +
-        "${PokemonModel.NAME_IT} TEXT NOT NULL," +
-        "${PokemonModel.NAME_ES} TEXT NOT NULL," +
-        "${PokemonModel.NAME_DE} TEXT NOT NULL," +
-        "${PokemonModel.NAME_FR} TEXT NOT NULL," +
-        "${PokemonModel.NAME_ZH} TEXT NOT NULL," +
-        "${PokemonModel.NAME_KO} TEXT NOT NULL," +
-        "${PokemonModel.NAME_ROOMAJI} TEXT NOT NULL," +
-        "${PokemonModel.NAME_JA} TEXT NOT NULL)"
+        "${PokemonModel.NAME_EN} TEXT," +
+        "${PokemonModel.NAME_IT} TEXT," +
+        "${PokemonModel.NAME_ES} TEXT," +
+        "${PokemonModel.NAME_DE} TEXT," +
+        "${PokemonModel.NAME_FR} TEXT," +
+        "${PokemonModel.NAME_ZH} TEXT," +
+        "${PokemonModel.NAME_KO} TEXT," +
+        "${PokemonModel.NAME_ROOMAJI}," +
+        "${PokemonModel.NAME_JA} TEXT)"
   }
 
   @Inject

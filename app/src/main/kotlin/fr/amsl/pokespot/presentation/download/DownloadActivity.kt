@@ -4,6 +4,7 @@ import android.content.Context
 import fr.amsl.pokespot.R
 import fr.amsl.pokespot.di.module.DownloadModule
 import fr.amsl.pokespot.presentation.base.BaseActivity
+import fr.amsl.pokespot.presentation.navigator.Navigator
 import javax.inject.Inject
 
 /**
@@ -13,6 +14,7 @@ class DownloadActivity : BaseActivity(), DownloadView {
 
   override val layoutResource: Int = R.layout.activity_download
 
+  @Inject lateinit var navigator: Navigator
   @Inject lateinit var downloadPresenter: DownloadPresenter
 
   override fun initializeInjector() {
@@ -37,6 +39,10 @@ class DownloadActivity : BaseActivity(), DownloadView {
   }
 
   override fun showError(message: String) {
+  }
+
+  override fun downloadFinished() {
+    navigator.navigateToMapActivity(this)
   }
 
   override fun context(): Context = applicationContext

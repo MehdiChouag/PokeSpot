@@ -16,12 +16,13 @@ class DownloadPresenter @Inject constructor(private val downloadPokemonRepositor
     view?.showLoadingView()
     subscriptions.add(downloadPokemonRepository.getPokemonList()
         .subscribe({
-
+          Timber.d("TOTO")
         }, {
           view?.hideLoadingView()
           Timber.e(it.message, it.cause)
         }, {
           view?.hideLoadingView()
+          view?.downloadFinished()
         }))
   }
 }

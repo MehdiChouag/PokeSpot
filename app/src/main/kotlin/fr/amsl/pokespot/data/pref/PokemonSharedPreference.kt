@@ -1,6 +1,7 @@
 package fr.amsl.pokespot.data.pref
 
 import android.content.Context
+import android.preference.PreferenceManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -10,10 +11,9 @@ import javax.inject.Singleton
 @Singleton
 class PokemonSharedPreference @Inject constructor(private val context: Context) {
 
-  private val sharedPreference by lazy { context.getSharedPreferences(FILE_SHARED_PREF, Context.MODE_PRIVATE) }
+  private val sharedPreference by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
 
   companion object {
-    private val FILE_SHARED_PREF = "asml_shared_preference"
     private val KEY_POKEMON_DOWNLOADED = "fr.amsl.pokespot.data.pref.KEY_POKEMON_DOWNLOADED"
   }
 

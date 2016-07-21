@@ -33,6 +33,10 @@
             android:name=".presentation.download.DownloadActivity"
             android:theme="@style/Theme.PokeSpot.Download" />
 
+        <activity
+            android:name=".presentation.map.MapActivity"
+            android:launchMode="singleTop" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b530c727b80c919026778b7621bddda97fcbe55f" />
