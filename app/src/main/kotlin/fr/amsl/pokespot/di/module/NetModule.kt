@@ -4,6 +4,7 @@ import android.support.annotation.NonNull
 import dagger.Module
 import dagger.Provides
 import fr.amsl.pokespot.BuildConfig
+import fr.amsl.pokespot.data.net.AuthorizationInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -29,7 +30,10 @@ open class NetModule {
   @NonNull
   @Provides
   @Singleton
-  open fun provideOkHttpBuilder(): OkHttpClient.Builder = OkHttpClient.Builder()
+  open fun provideOkHttpBuilder(authorizationInterceptor: AuthorizationInterceptor): OkHttpClient.Builder {
+    return OkHttpClient.Builder()
+        .addInterceptor(authorizationInterceptor)
+  }
 
   /**
    * Provide retrofit dependencies.
@@ -39,7 +43,7 @@ open class NetModule {
   @Singleton
   fun provideRetrofit(client: OkHttpClient.Builder): Retrofit {
     return Retrofit.Builder()
-        .baseUrl("")
+        .baseUrl(BuildConfig.SERVER_URL)
         .client(client.build())
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
         .addConverterFactory(JacksonConverterFactory.create())

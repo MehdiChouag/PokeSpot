@@ -2,7 +2,9 @@ package fr.amsl.pokespot.di.component
 
 import dagger.Component
 import fr.amsl.pokespot.di.module.ApplicationModule
+import fr.amsl.pokespot.di.module.DownloadModule
 import fr.amsl.pokespot.di.module.NetModule
+import fr.amsl.pokespot.presentation.launcher.LauncherActivity
 import javax.inject.Singleton
 
 /**
@@ -14,4 +16,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(ApplicationModule::class, NetModule::class))
 interface ApplicationComponent {
+
+  fun inject(launcherActivity: LauncherActivity): Unit
+
+  fun plus(downloadModule: DownloadModule): DownloadComponent
 }
