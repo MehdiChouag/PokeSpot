@@ -1,11 +1,16 @@
 package fr.amsl.pokespot.data.pokemon.model
 
 import android.content.ContentValues
+import android.content.Context
+import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable
+import java.io.File
 
 /**
- * @author mehdichouag on 20/07/2016.
+ * Model class for pokemon fetch for db.
  */
-data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String) {
+data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String) : Parcelable {
 
   companion object {
     val TABLE = "pokemon"
@@ -22,6 +27,37 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     val NAME_KO = "name_ko"
     val NAME_ROOMAJI = "name_roomaji"
     val NAME_JA = "name_ja"
+
+    val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {
+      override fun createFromParcel(parcel: Parcel): PokemonModel {
+        return PokemonModel(parcel)
+      }
+
+      override fun newArray(size: Int): Array<PokemonModel?> {
+        return arrayOfNulls<PokemonModel?>(size)
+      }
+    }
+  }
+
+  constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString(), parcel.readString())
+
+  /**
+   * Return Pokemon image's Uri.
+   */
+  fun getImageUri(context: Context): Uri {
+    val file = File(context.filesDir, imagePath)
+    return Uri.fromFile(file)
+  }
+
+  override fun writeToParcel(out: Parcel?, flag: Int) {
+    out?.writeString(id)
+    out?.writeString(name)
+    out?.writeString(imagePath)
+    out?.writeString(pokemonId)
+  }
+
+  override fun describeContents(): Int {
+    return 0
   }
 
   class Builder {
