@@ -16,17 +16,18 @@ class PokemonDatabase : SQLiteOpenHelper {
   companion object {
     private val DB_NAME = "pokemon.db"
     private val DB_VERSION = 1
-    private val TABLE_POKEMON = "pokemon"
 
-    private val CREATE_POKEMON_LIST = "CREATE TABLE $TABLE_POKEMON " +
+    private val CREATE_POKEMON_LIST = "CREATE TABLE ${PokemonModel.TABLE} " +
         "(${PokemonModel.ID} INTEGER NOT NULL PRIMARY KEY," +
         "${PokemonModel.POKEMON_ID} INTEGER NOT NULL," +
+        "${PokemonModel.IMAGE_PATH} TEXT NOT NULL," +
         "${PokemonModel.NAME_EN} TEXT NOT NULL," +
         "${PokemonModel.NAME_IT} TEXT NOT NULL," +
         "${PokemonModel.NAME_ES} TEXT NOT NULL," +
         "${PokemonModel.NAME_DE} TEXT NOT NULL," +
         "${PokemonModel.NAME_FR} TEXT NOT NULL," +
         "${PokemonModel.NAME_ZH} TEXT NOT NULL," +
+        "${PokemonModel.NAME_KO} TEXT NOT NULL," +
         "${PokemonModel.NAME_ROOMAJI} TEXT NOT NULL," +
         "${PokemonModel.NAME_JA} TEXT NOT NULL)"
   }

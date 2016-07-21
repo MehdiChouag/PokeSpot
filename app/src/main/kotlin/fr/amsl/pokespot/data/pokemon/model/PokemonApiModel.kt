@@ -7,6 +7,6 @@ import com.google.gson.annotations.SerializedName
  */
 data class PokemonApiModel(
     @SerializedName("_id") val id: String,
-    val apiName: PokemonApiNameModel,
+    val name: PokemonApiNameModel,
     val pokemonId: String,
     val image: String)
