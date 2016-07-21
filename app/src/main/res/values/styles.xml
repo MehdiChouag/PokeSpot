@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="PokeSpot" />
+
+    <!-- Download -->
+    <style name="PokeSpot.Download" />
+
+    <style name="PokeSpot.Download.Message" parent="@style/TextAppearance.AppCompat.Display1">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+</resources>

@@ -1,0 +1,102 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.fabric'
+
+android {
+  compileSdkVersion rootProject.ext.androidCompileSdkVersion
+  buildToolsVersion rootProject.ext.androidBuildToolsVersion
+
+  defaultConfig {
+    applicationId rootProject.ext.androidApplicationId
+    minSdkVersion rootProject.ext.androidMinSdkVersion
+    targetSdkVersion rootProject.ext.androidMinSdkVersion
+    versionCode rootProject.ext.androidVersionCode
+    versionName rootProject.ext.androidVersionName
+
+    multiDexEnabled true
+  }
+
+  repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled true
+      shrinkResources true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      buildConfigField "String", "SERVER_URL", "\"https://pokeappwtf.herokuapp.com\""
+      buildConfigField "String", "AUTHORIZATION_KEY",
+          "\"iVBORw0KGgoAAAANSUhEUgAAAGAAAABgBAMAAAAQtmoLAAAAMFBMVEUAAAAQEBAYSkoxc3M5lJRSYili1bRzrDGD7sWk1UGsADG9\""
+    }
+    debug {
+      buildConfigField "String", "SERVER_URL", "\"https://pokeappwtf-staging.herokuapp.com\""
+      buildConfigField "String", "AUTHORIZATION_KEY",
+          "\"iVBORw0KGgoAAAANSUhEUgAAAGAAAABgBAMAAAAQtmoLAAAAMFBMVEUAAAAQEBAYSkoxc3M5lJRSYili1bRzrDGD7sWk1UGsADG9\""
+    }
+  }
+
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    debug.java.srcDirs += 'src/debug/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
+    androidTest.java.srcDirs += 'src/androidTest/kotlin'
+  }
+
+  dexOptions {
+    incremental false
+    javaMaxHeapSize "2048M"
+    preDexLibraries = false
+  }
+}
+
+kapt {
+  generateStubs = true
+}
+
+dependencies {
+  def dependencies = rootProject.ext.dependencies
+  def debugDependencies = rootProject.ext.debugDependencies
+  def releaseDependencies = rootProject.ext.releaseDependencies
+
+  kapt dependencies.daggerCompiler
+  kapt dependencies.lightCycleCompiler
+  provided dependencies.javaxAnnotation
+
+  testCompile 'junit:junit:4.12'
+
+  //Library
+  compile dependencies.dagger
+  compile dependencies.lightCycle
+  compile dependencies.rxJava
+  compile dependencies.rxAndroid
+  compile dependencies.timber
+  compile dependencies.kotlin
+  compile dependencies.retrofit
+  compile dependencies.retrofitRx
+  compile dependencies.gsonConverter
+  compile dependencies.facebookSdk
+  compile dependencies.sqlbrite
+  compile(dependencies.crashlytics) {
+    transitive = true;
+  }
+
+  //Google supports dependencies
+  compile dependencies.androidAppcompat
+  compile dependencies.androidSupport
+  compile dependencies.androidDesign
+  compile dependencies.androidAnnotations
+  compile dependencies.recyclerView
+
+  //Dependency needed only on debug
+  debugCompile debugDependencies.leakCanaryDebug
+  debugCompile debugDependencies.stethoDebug
+  debugCompile debugDependencies.stethoInterceptor
+  debugCompile debugDependencies.okHttpLoggingInterceptor
+  debugCompile debugDependencies.multiDex
+
+  //Dependency needed only on release
+  releaseCompile releaseDependencies.leakCanaryRelease
+}
