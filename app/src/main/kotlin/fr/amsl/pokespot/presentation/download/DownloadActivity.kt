@@ -21,27 +21,22 @@ class DownloadActivity : BaseActivity(), DownloadView {
 
   override fun initialize() {
     downloadPresenter.view = this
-    //downloadPresenter.startDownload()
+    downloadPresenter.startDownload()
   }
 
   override fun showLoadingView() {
-    throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 
   override fun hideLoadingView() {
-    throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 
   override fun showRetry() {
-    throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 
   override fun hideRetry() {
-    throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 
   override fun showError(message: String) {
-    throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 
   override fun context(): Context = applicationContext

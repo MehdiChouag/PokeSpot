@@ -10,11 +10,11 @@ import rx.subscriptions.CompositeSubscription
 abstract class FragmentBasePresenter<T : View> : DefaultSupportFragmentLightCycle<Fragment>() {
 
   var view: T? = null
-  var subscription: CompositeSubscription = CompositeSubscription()
+  var subscriptions: CompositeSubscription = CompositeSubscription()
 
   override fun onDestroy(fragment: Fragment?) {
     view = null
-    subscription.clear()
+    subscriptions.clear()
     super.onDestroy(fragment)
   }
 }

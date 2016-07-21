@@ -8,6 +8,7 @@ import fr.amsl.pokespot.PSApplication
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -24,10 +25,12 @@ class ApplicationModule(private val application: PSApplication) {
   @NonNull
   @Provides
   @Singleton
+  @Named("WorkerThread")
   fun provideMainThreadScheduler(): Scheduler = AndroidSchedulers.mainThread()
 
   @NonNull
   @Provides
   @Singleton
+  @Named("MainThread")
   fun providerWorkerThreadScheduler(): Scheduler = Schedulers.io()
 }

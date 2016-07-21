@@ -12,13 +12,14 @@ import javax.inject.Inject
 class DownloadPresenter @Inject constructor(private val downloadPokemonRepository: DownloadPokemonRepository) : FragmentBasePresenter<DownloadView>() {
 
   fun startDownload() {
-    var subscription = downloadPokemonRepository.getPokemonList()
-    .subscribe({
+    view?.showLoadingView()
+    subscriptions.add(downloadPokemonRepository.getPokemonList()
+        .subscribe({
 
-    }, {
-
-    }, {
-
-    })
+        }, {
+          view?.hideLoadingView()
+        }, {
+          view?.hideLoadingView()
+        }))
   }
 }
