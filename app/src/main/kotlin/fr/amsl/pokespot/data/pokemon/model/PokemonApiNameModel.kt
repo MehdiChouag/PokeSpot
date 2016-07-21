@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * @author mehdichouag on 20/07/2016.
  */
-data class PokemonNameModel(
+data class PokemonApiNameModel(
     @SerializedName("EN") var en: String,
     @SerializedName("IT") var it: String,
     @SerializedName("ES") var es: String,

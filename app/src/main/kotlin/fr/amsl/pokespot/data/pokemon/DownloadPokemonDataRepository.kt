@@ -1,6 +1,6 @@
 package fr.amsl.pokespot.data.pokemon
 
-import fr.amsl.pokespot.data.pokemon.model.PokemonModel
+import fr.amsl.pokespot.data.pokemon.model.PokemonApiModel
 import fr.amsl.pokespot.data.pokemon.repository.DownloadPokemonRepository
 import fr.amsl.pokespot.data.pokemon.service.DownloadPokemonService
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
@@ -18,13 +18,12 @@ class DownloadPokemonDataRepository @Inject constructor(@Named("MainThread") pri
                                                         private val pokemonSharedPreference: PokemonSharedPreference,
                                                         private val downloadPokemonService: DownloadPokemonService) : DownloadPokemonRepository {
 
-  override fun getPokemonList(): Observable<List<PokemonModel>> {
+  override fun getPokemonList(): Observable<List<PokemonApiModel>> {
     return downloadPokemonService.getPokemonList()
         .subscribeOn(workerThreadScheduler)
-        .observeOn(mainThreadScheduler)
         .doOnNext {
           Timber.d(Thread.currentThread().name)
-          it.forEach { Timber.d(it.toString()) }
         }
+        .observeOn(mainThreadScheduler)
   }
 }
