@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * @author mehdichouag on 20/07/2016.
+ * Class that wrap {@link SharedPreference} call.
  */
 @Singleton
 class PokemonSharedPreference @Inject constructor(private val context: Context) {
