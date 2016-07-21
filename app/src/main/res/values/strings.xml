@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Pokespot</string>
+    <string name="app_name">Pokespot for Pokemon GO</string>
+
+    <!-- Download -->
+    <string name="download_message">"Downloading Pokémon&#8230;)"</string>
+    <string name="download_dialog_error_title">Error</string>
+    <string name="download_error_message">An error occurred. Please retry in a few minutes.</string>
 </resources>

@@ -5,7 +5,7 @@
     <!-- Download -->
     <style name="PokeSpot.Download" />
 
-    <style name="PokeSpot.Download.Message" parent="@style/TextAppearance.AppCompat.Display1">
+    <style name="PokeSpot.Download.Message" parent="@style/TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@android:color/white</item>
     </style>
 
