@@ -51,7 +51,9 @@ abstract class BaseActivity : AppCompatActivity(), LightCycleDispatcher<Activity
   /**
    * Initialize Dagger's injector.
    */
-  abstract fun initializeInjector()
+  open fun initializeInjector() {
+    // no-op
+  }
 
   /**
    * Called right after Dagger injection.
