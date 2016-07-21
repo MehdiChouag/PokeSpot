@@ -6,8 +6,8 @@ import android.content.ContentValues
  * @author mehdichouag on 20/07/2016.
  */
 data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String) {
-  companion object {
 
+  companion object {
     val TABLE = "pokemon"
 
     val ID = "_id"
