@@ -1,4 +1,4 @@
-package fr.amsl.pokespot.net
+package fr.amsl.pokespot.data.net
 
 import okhttp3.Interceptor
 import okhttp3.Request
