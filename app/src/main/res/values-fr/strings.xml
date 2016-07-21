@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Download -->
-    <string name="download_message">"Téléchargment des Pokémons&#8230;)"</string>
+    <string name="download_message">"Téléchargment des Pokémons&#8230;"</string>
     <string name="download_dialog_error_title">Erreur</string>
     <string name="download_error_message">Une erreur est survenue. Veuillez réessayer dans une minute.</string>
 </resources>
