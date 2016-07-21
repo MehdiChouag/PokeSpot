@@ -6,7 +6,7 @@ import com.squareup.sqlbrite.BriteDatabase
 /**
  * Encapsulate transaction calls.
  */
-fun BriteDatabase.executeTransction(block: BriteDatabase.() -> Unit) {
+fun BriteDatabase.executeTransaction(block: BriteDatabase.() -> Unit) {
   val transaction = newTransaction()
   try {
     block()
