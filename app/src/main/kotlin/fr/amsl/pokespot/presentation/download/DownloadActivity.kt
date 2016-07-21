@@ -11,7 +11,7 @@ import javax.inject.Inject
  */
 class DownloadActivity : BaseActivity(), DownloadView {
 
-  override val layoutResource: Int = R.layout.download
+  override val layoutResource: Int = R.layout.activity_download
 
   @Inject lateinit var downloadPresenter: DownloadPresenter
 
