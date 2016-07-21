@@ -78,6 +78,7 @@ dependencies {
   compile dependencies.retrofitRx
   compile dependencies.gsonConverter
   compile dependencies.facebookSdk
+  compile dependencies.sqlbrite
   compile(dependencies.crashlytics) {
     transitive = true;
   }

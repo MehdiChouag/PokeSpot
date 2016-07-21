@@ -40,6 +40,7 @@ ext {
   facebookSdkVersion = '4.12.1'
   lightCycleVersion = '1.1.0'
   rxPermissionsVersion = '0.5.2'
+  sqlbriteVersion = '0.7.0'
   multiDexVersion = '1.0.1'
 
   dependencies = [daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
@@ -65,7 +66,8 @@ ext {
                   retrofitRx        : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
                   gsonConverter     : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
                   rxPermissions     : "com.tbruyelle.rxpermissions:rxpermissions:${rxPermissionsVersion}@aar",
-                  kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"]
+                  kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}",
+                  sqlbrite          : "com.squareup.sqlbrite:sqlbrite:${sqlbriteVersion}"]
 
   debugDependencies =
       [leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
