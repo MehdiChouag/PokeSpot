@@ -1,0 +1,12 @@
+package fr.amsl.pokespot.data.pokemon.model
+
+import com.fasterxml.jackson.annotation.JsonProperty
+
+/**
+ * @author mehdichouag on 20/07/2016.
+ */
+data class PokemonModel(
+    @JsonProperty("id") val id: String,
+    val name: PokemonNameModel,
+    val pokemonId: String,
+    val image: String)
