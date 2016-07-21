@@ -22,6 +22,9 @@ class DownloadPokemonDataRepository @Inject constructor(@Named("MainThread") pri
     return downloadPokemonService.getPokemonList()
         .subscribeOn(workerThreadScheduler)
         .observeOn(mainThreadScheduler)
-        .doOnNext { it.forEach { Timber.d(it.toString()) } }
+        .doOnNext {
+          Timber.d(Thread.currentThread().name)
+          it.forEach { Timber.d(it.toString()) }
+        }
   }
 }

@@ -13,6 +13,8 @@ android {
     targetSdkVersion rootProject.ext.androidMinSdkVersion
     versionCode rootProject.ext.androidVersionCode
     versionName rootProject.ext.androidVersionName
+
+    multiDexEnabled true
   }
 
   repositories {
@@ -42,6 +44,12 @@ android {
     test.java.srcDirs += 'src/test/kotlin'
     androidTest.java.srcDirs += 'src/androidTest/kotlin'
   }
+
+  dexOptions {
+    incremental false
+    javaMaxHeapSize "2048M"
+    preDexLibraries = false
+  }
 }
 
 kapt {
@@ -64,13 +72,11 @@ dependencies {
   compile dependencies.lightCycle
   compile dependencies.rxJava
   compile dependencies.rxAndroid
-  compile dependencies.glide
   compile dependencies.timber
   compile dependencies.kotlin
   compile dependencies.retrofit
   compile dependencies.retrofitRx
-  compile dependencies.jackson
-  compile dependencies.jacksonConverter
+  compile dependencies.gsonConverter
   compile dependencies.facebookSdk
   compile(dependencies.crashlytics) {
     transitive = true;
@@ -88,6 +94,7 @@ dependencies {
   debugCompile debugDependencies.stethoDebug
   debugCompile debugDependencies.stethoInterceptor
   debugCompile debugDependencies.okHttpLoggingInterceptor
+  debugCompile debugDependencies.multiDex
 
   //Dependency needed only on release
   releaseCompile releaseDependencies.leakCanaryRelease

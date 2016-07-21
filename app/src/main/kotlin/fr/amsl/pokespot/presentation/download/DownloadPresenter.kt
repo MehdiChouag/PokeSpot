@@ -3,6 +3,7 @@ package fr.amsl.pokespot.presentation.download
 import fr.amsl.pokespot.data.pokemon.repository.DownloadPokemonRepository
 import fr.amsl.pokespot.di.scope.ActivityScope
 import fr.amsl.pokespot.presentation.base.FragmentBasePresenter
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -18,6 +19,7 @@ class DownloadPresenter @Inject constructor(private val downloadPokemonRepositor
 
         }, {
           view?.hideLoadingView()
+          Timber.e(it.message, it.cause)
         }, {
           view?.hideLoadingView()
         }))

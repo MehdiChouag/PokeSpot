@@ -1,6 +1,7 @@
 package fr.amsl.pokespot
 
 import android.os.StrictMode
+import android.support.multidex.MultiDex
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import fr.amsl.pokespot.di.module.DebugNetModule
@@ -19,6 +20,7 @@ class PSDebugApplication : PSApplication() {
     initializeStrictMode()
 
     Timber.plant(Timber.DebugTree())
+    MultiDex.install(this)
   }
 
   override fun initializeLeakCanary() {

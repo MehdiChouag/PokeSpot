@@ -8,7 +8,7 @@ import fr.amsl.pokespot.data.net.AuthorizationInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -46,7 +46,7 @@ open class NetModule {
         .baseUrl(BuildConfig.SERVER_URL)
         .client(client.build())
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-        .addConverterFactory(JacksonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
   }
 }

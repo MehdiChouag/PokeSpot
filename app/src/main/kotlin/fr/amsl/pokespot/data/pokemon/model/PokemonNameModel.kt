@@ -1,17 +1,17 @@
 package fr.amsl.pokespot.data.pokemon.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 /**
  * @author mehdichouag on 20/07/2016.
  */
 data class PokemonNameModel(
-    @JsonProperty("EN") var en: String,
-    @JsonProperty("IT") var it: String,
-    @JsonProperty("ES") var es: String,
-    @JsonProperty("DE") var de: String,
-    @JsonProperty("FR") var fr: String,
-    @JsonProperty("ZH") var zh: String,
-    @JsonProperty("KO") var ko: String,
-    @JsonProperty("ROOMAJI") var roomaji: String,
-    @JsonProperty("JA") var ja: String)
+    @SerializedName("EN") var en: String,
+    @SerializedName("IT") var it: String,
+    @SerializedName("ES") var es: String,
+    @SerializedName("DE") var de: String,
+    @SerializedName("FR") var fr: String,
+    @SerializedName("ZH") var zh: String,
+    @SerializedName("KO") var ko: String,
+    @SerializedName("ROOMAJI") var roomaji: String,
+    @SerializedName("JA") var ja: String)

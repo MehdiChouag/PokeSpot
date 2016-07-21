@@ -25,12 +25,12 @@ class ApplicationModule(private val application: PSApplication) {
   @NonNull
   @Provides
   @Singleton
-  @Named("WorkerThread")
+  @Named("MainThread")
   fun provideMainThreadScheduler(): Scheduler = AndroidSchedulers.mainThread()
 
   @NonNull
   @Provides
   @Singleton
-  @Named("MainThread")
+  @Named("WorkerThread")
   fun providerWorkerThreadScheduler(): Scheduler = Schedulers.io()
 }
