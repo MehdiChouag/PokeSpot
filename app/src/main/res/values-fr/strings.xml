@@ -8,4 +8,9 @@
     <string name="download_message">"Téléchargment des Pokémons&#8230;"</string>
     <string name="download_dialog_error_title">Erreur</string>
     <string name="download_error_message">Une erreur est survenue. Veuillez réessayer dans une minute.</string>
+
+    <!-- Filter -->
+    <string name="filter_show_only">Afficher seulement</string>
+    <string name="filter_radius">Rayon</string>
+    <string name="filter_reliability">Fiabilité</string>
 </resources>

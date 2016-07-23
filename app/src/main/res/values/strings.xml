@@ -11,4 +11,9 @@
     <string name="download_message">"Downloading Pokémon&#8230;"</string>
     <string name="download_dialog_error_title">Error</string>
     <string name="download_error_message">An error occurred. Please retry in a few minutes.</string>
+
+    <!-- Filter -->
+    <string name="filter_show_only">Only show</string>
+    <string name="filter_radius">Reliability</string>
+    <string name="filter_reliability">Radius</string>
 </resources>
