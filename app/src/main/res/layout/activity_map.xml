@@ -37,7 +37,7 @@
 
         <fragment
             android:id="@+id/filter"
-            android:name="fr.amsl.pokespot.presentation.map.FilterFragment"
+            android:name="fr.amsl.pokespot.presentation.map.filter.FilterFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

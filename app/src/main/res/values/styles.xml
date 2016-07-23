@@ -52,12 +52,18 @@
         <item name="android:layout_marginRight">@dimen/horizontal_margin</item>
     </style>
 
-    <style name="Filter.Title" parent="TextAppearance.AppCompat.Body2">
+    <style name="Filter.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminate">true</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="Filter.Title" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_alignParentStart">true</item>
     </style>
 
-    <style name="Filter.Value" parent="TextAppearance.AppCompat.Caption">
+    <style name="Filter.Value" parent="TextAppearance.AppCompat.Body2">
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:gravity">bottom</item>
@@ -66,6 +72,12 @@
     <style name="Filter.SeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:layout_marginTop">@dimen/space_std</item>
         <item name="android:max">100</item>
+    </style>
+
+    <style name="Filter.Item" />
+
+    <style name="Filter.Item.Offset" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/bright_gray</item>
     </style>
 
 </resources>

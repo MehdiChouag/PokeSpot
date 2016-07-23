@@ -18,6 +18,8 @@
     <string name="filter_radius">Radius</string>
     <string name="filter_radius_value" translatable="false">%1$d Km</string>
     <string name="filter_reliability">Reliability</string>
-    <string name="filter_reliability_value">"%1$d%%"</string>
-    <string name="filter_reliability_greater_value">"> %1$d%%"</string>
+    <string name="filter_reliability_value" translatable="false">"%1$d%%"</string>
+    <string name="filter_reliability_greater_value" translatable="false">"> %1$d%%"</string>
+    <string name="filter_content_description">Pokemon</string>
+    <string name="filter_offset">+%1$d</string>
 </resources>

@@ -3,6 +3,7 @@ package fr.amsl.pokespot.data.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import fr.amsl.pokespot.data.pokemon.model.PokemonFilter
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,6 +31,11 @@ class PokemonDatabase : SQLiteOpenHelper {
         "${PokemonModel.NAME_KO} TEXT," +
         "${PokemonModel.NAME_ROOMAJI}," +
         "${PokemonModel.NAME_JA} TEXT)"
+
+    private val CREATE_FILTER_LIST = "CREATE TABLE ${PokemonFilter.TABLE} " +
+        "(${PokemonFilter.ID} INTEGER NOT NULL PRIMARY KEY," +
+        "${PokemonFilter.POKEMON_ID} INTEGER NOT NULL," +
+        "${PokemonFilter.IMAGE_PATH} TEXT NOT NULL)"
   }
 
   @Inject
@@ -37,6 +43,7 @@ class PokemonDatabase : SQLiteOpenHelper {
 
   override fun onCreate(database: SQLiteDatabase?) {
     database?.execSQL(CREATE_POKEMON_LIST)
+    database?.execSQL(CREATE_FILTER_LIST)
   }
 
   override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {

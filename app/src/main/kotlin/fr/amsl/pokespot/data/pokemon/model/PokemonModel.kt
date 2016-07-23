@@ -10,7 +10,7 @@ import java.io.File
 /**
  * Model class for pokemon fetch for db.
  */
-// Name could be null a pokemon name if null in translation.
+// Name could be null if the pokemon name is null in translation.
 data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String) : Parcelable {
 
   companion object {

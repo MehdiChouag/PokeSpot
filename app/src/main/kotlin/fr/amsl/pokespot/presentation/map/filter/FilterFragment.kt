@@ -1,12 +1,18 @@
-package fr.amsl.pokespot.presentation.map
+package fr.amsl.pokespot.presentation.map.filter
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.AppCompatSeekBar
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.TextView
 import fr.amsl.pokespot.R
+import fr.amsl.pokespot.data.pokemon.model.PokemonFilter
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
+import fr.amsl.pokespot.di.module.FilterModule
 import fr.amsl.pokespot.presentation.base.BaseFragment
 import fr.amsl.pokespot.presentation.util.bindView
 import javax.inject.Inject
@@ -14,11 +20,19 @@ import javax.inject.Inject
 /**
  * @author mehdichouag on 23/07/2016.
  */
-class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener {
+class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterView {
 
   override val layoutResource: Int = R.layout.filter
 
   @Inject lateinit var pokePreference: PokemonSharedPreference
+  @Inject lateinit var presenter: FilterPresenter
+  @Inject lateinit var adapter: FilterAdapter
+
+  val recycler: RecyclerView by bindView(R.id.recycler_view)
+  val progressBar: ProgressBar by bindView(R.id.progress_bar)
+
+  val rowNumber: Int by lazy { resources.getInteger(R.integer.row_filer_item) }
+  val columnNumber: Int by lazy { resources.getInteger(R.integer.columns_filer_item) }
 
   val firstSeenValue: TextView by bindView(R.id.first_seen_value)
   val firstSeenSeek: AppCompatSeekBar by bindView(R.id.first_seen_seekbar)
@@ -34,16 +48,25 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener {
   }
 
   override fun initializeInjector() {
-    applicationComponent.inject(this)
+    applicationComponent.plus(FilterModule()).inject(this)
   }
 
   override fun initialize() {
+    presenter.view = this
+    recycler.adapter = adapter
+    presenter.getFilterPokemon(rowNumber, columnNumber)
   }
 
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    initRecyclerView()
     initRadius()
     initReliability()
+  }
+
+  fun initRecyclerView() {
+    recycler.layoutManager = GridLayoutManager(context(), rowNumber)
+    recycler.setHasFixedSize(true)
   }
 
   fun initRadius() {
@@ -85,6 +108,22 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener {
       }
     }
   }
+
+  override fun displayFilteredPokemon(list: List<PokemonFilter>, numberPokemonOffset: Int) {
+    adapter.pokemonList = list
+    adapter.numberPokemonOffset = numberPokemonOffset
+    adapter.notifyDataSetChanged()
+  }
+
+  override fun showLoadingView() {
+    progressBar.visibility = View.VISIBLE
+  }
+
+  override fun hideLoadingView() {
+    progressBar.visibility = View.GONE
+  }
+
+  override fun context(): Context = activity.applicationContext
 
   override fun onStartTrackingTouch(p0: SeekBar?) {
   }
