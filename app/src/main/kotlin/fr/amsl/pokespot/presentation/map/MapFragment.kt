@@ -6,8 +6,6 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener
-import com.google.android.gms.location.LocationListener
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,20 +13,26 @@ import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import fr.amsl.pokespot.PSApplication
+import timber.log.Timber
 
 /**
  * @author mehdichouag on 22/07/2016.
  */
-class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
+    OnConnectionFailedListener, GoogleMap.OnCameraChangeListener {
+
+  val refWatch by lazy { PSApplication.get(activity).refWatcher }
 
   var map: GoogleMap? = null
   var googleApiClient: GoogleApiClient? = null
   var currentLocation: Location? = null
+  var shouldFocus: Boolean = true
 
-  override fun onCreate(p0: Bundle?) {
-    super.onCreate(p0)
-    initializeGoogleApiClient()
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
     getMapAsync(this)
+    shouldFocus = savedInstanceState == null
   }
 
   fun initializeGoogleApiClient() {
@@ -41,14 +45,19 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks, OnCo
 
   override fun onMapReady(googleMap: GoogleMap?) {
     map = googleMap
-    map?.mapType = GoogleMap.MAP_TYPE_NORMAL
-    map?.isMyLocationEnabled = true
-    map?.uiSettings?.isMyLocationButtonEnabled = false
-    map?.uiSettings?.isTiltGesturesEnabled = false
+    map?.apply {
+      mapType = GoogleMap.MAP_TYPE_NORMAL
+      setOnCameraChangeListener(this@MapFragment)
+      isMyLocationEnabled = true
+      uiSettings.isZoomControlsEnabled = true
+      uiSettings?.isMyLocationButtonEnabled = false
+      uiSettings?.isTiltGesturesEnabled = false
+    }
   }
 
   override fun onStart() {
     super.onStart()
+    initializeGoogleApiClient()
     googleApiClient?.connect()
   }
 
@@ -61,24 +70,36 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks, OnCo
     }
   }
 
-  override fun onLocationChanged(location: Location?) {
-    currentLocation = location
-    focusOnCurrentLocation()
+  override fun onCameraChange(p0: CameraPosition?) {
+    Timber.d(p0?.target.toString())
   }
 
   override fun onStop() {
     super.onStop()
-    googleApiClient?.disconnect()
+    googleApiClient?.run {
+      unregisterConnectionCallbacks(this@MapFragment)
+      unregisterConnectionFailedListener(this@MapFragment)
+      disconnect()
+    }
   }
 
   override fun onConnected(p0: Bundle?) {
-    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, LocationRequest.create(), this)
+    currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
+    if (shouldFocus) {
+      focusOnCurrentLocation()
+    }
   }
 
   override fun onConnectionSuspended(p0: Int) {
     googleApiClient?.connect()
+
   }
 
   override fun onConnectionFailed(p0: ConnectionResult) {
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    refWatch.watch(this)
   }
 }
