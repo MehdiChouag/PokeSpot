@@ -1,11 +1,13 @@
 package fr.amsl.pokespot.presentation.map
 
-import android.net.Uri
-import android.widget.ImageView
+import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 import fr.amsl.pokespot.R
 import fr.amsl.pokespot.presentation.base.BaseActivity
 import fr.amsl.pokespot.presentation.util.bindView
-import java.io.File
 
 /**
  * @author mehdichouag on 20/07/2016.
@@ -14,10 +16,38 @@ class MapActivity : BaseActivity() {
 
   override val layoutResource: Int = R.layout.activity_map
 
-  val image: ImageView by bindView(R.id.pokemon)
+  val drawerLayout: DrawerLayout by bindView(R.id.drawer_layout)
+  val toolbar: Toolbar by bindView(R.id.toolbar)
+
+  lateinit var mapFragment: MapFragment
 
   override fun initialize() {
-    val path = File(filesDir, "57896719856468a03b687d7a.png")
-    image.setImageURI(Uri.fromFile(path))
+    setSupportActionBar(toolbar)
+    initializeMapFragment()
+  }
+
+  fun initializeMapFragment() {
+    mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    return menuInflater.run { inflate(R.menu.map, menu); true }
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    return when (item?.itemId) {
+      R.id.filter -> {
+        drawerLayout.openDrawer(GravityCompat.END)
+        return true
+      }
+      else -> super.onOptionsItemSelected(item)
+    }
+  }
+
+  override fun onBackPressed() {
+    with(drawerLayout) {
+      if (isDrawerOpen(GravityCompat.END)) closeDrawer(GravityCompat.END)
+      else super.onBackPressed()
+    }
   }
 }

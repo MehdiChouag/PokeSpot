@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Application Theme -->
+    <style name="Theme.PokeSpot" parent="Theme.Base" />
+
     <!-- Base application theme. -->
     <style name="Theme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-    <!-- Application Theme -->
-    <style name="Theme.PokeSpot" parent="Theme.Base" />
 
     <style name="Theme.PokeSpot.SplashScreen" parent="Theme.PokeSpot">
         <item name="android:windowBackground">@drawable/launch_screen_logo</item>

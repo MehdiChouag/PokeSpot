@@ -14,7 +14,20 @@ android {
     versionCode rootProject.ext.androidVersionCode
     versionName rootProject.ext.androidVersionName
 
+    vectorDrawables.useSupportLibrary = true
     multiDexEnabled true
+
+    // Get API Keys from gradle.properties store at ~/.gradle/gradle.properties
+    manifestPlaceholders = [GoogleMapsApiKey: "${GoogleMapsApiKey}"]
+  }
+
+  signingConfigs {
+    debug {
+      storeFile file("../keystore/debug.keystore")
+      storePassword "androiddev"
+      keyAlias "androiddebugkey"
+      keyPassword "androiddev"
+    }
   }
 
   repositories {

@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">Pokespot for Pokemon GO</string>
+    <string name="app_name" translatable="false">Pokespot for Pokemon GO</string>
+
+    <!-- Toolbar -->
+    <string name="toolbar_title" translatable="false">Pokespot</string>
+
+    <!-- Menu -->
+    <string name="map_menu_filter">Filter</string>
 
     <!-- Download -->
     <string name="download_message">"Downloading Pokémon&#8230;"</string>
