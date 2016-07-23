@@ -45,7 +45,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
   override fun onMapReady(googleMap: GoogleMap?) {
     map = googleMap
-    map?.apply {
+    map?.run {
       mapType = GoogleMap.MAP_TYPE_NORMAL
       setOnCameraChangeListener(this@MapFragment)
       isMyLocationEnabled = true
