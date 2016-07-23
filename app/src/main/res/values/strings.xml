@@ -16,5 +16,8 @@
     <string name="filter_show_only">Only show</string>
     <string name="filter_first_seen">First seen</string>
     <string name="filter_radius">Radius</string>
+    <string name="filter_radius_value" translatable="false">%1$d Km</string>
     <string name="filter_reliability">Reliability</string>
+    <string name="filter_reliability_value">"%1$d%%"</string>
+    <string name="filter_reliability_greater_value">"> %1$d%%"</string>
 </resources>

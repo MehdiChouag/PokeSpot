@@ -65,6 +65,7 @@
 
     <style name="Filter.SeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:layout_marginTop">@dimen/space_std</item>
+        <item name="android:max">100</item>
     </style>
 
 </resources>

@@ -6,6 +6,7 @@ import fr.amsl.pokespot.di.module.DatabaseModule
 import fr.amsl.pokespot.di.module.DownloadModule
 import fr.amsl.pokespot.di.module.NetModule
 import fr.amsl.pokespot.presentation.launcher.LauncherActivity
+import fr.amsl.pokespot.presentation.map.FilterFragment
 import javax.inject.Singleton
 
 /**
@@ -19,6 +20,8 @@ import javax.inject.Singleton
 interface ApplicationComponent {
 
   fun inject(launcherActivity: LauncherActivity): Unit
+
+  fun inject(filterFragment: FilterFragment): Unit
 
   fun plus(downloadModule: DownloadModule): DownloadComponent
 }
