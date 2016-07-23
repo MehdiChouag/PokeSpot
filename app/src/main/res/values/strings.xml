@@ -14,6 +14,7 @@
 
     <!-- Filter -->
     <string name="filter_show_only">Only show</string>
-    <string name="filter_radius">Reliability</string>
-    <string name="filter_reliability">Radius</string>
+    <string name="filter_first_seen">First seen</string>
+    <string name="filter_radius">Radius</string>
+    <string name="filter_reliability">Reliability</string>
 </resources>

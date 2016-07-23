@@ -20,7 +20,7 @@
         <item name="title">@string/toolbar_title</item>
     </style>
 
-    <!-- Maps Activity -->
+    <!-- Maps Fab -->
     <style name="PokeSpot.FAB" />
 
     <style name="Base.FAB" parent="Widget.Design.FloatingActionButton">
@@ -43,4 +43,28 @@
         <item name="backgroundTint">@android:color/white</item>
         <item name="srcCompat">@drawable/ic_my_location</item>
     </style>
+
+    <!-- Filter -->
+    <style name="Filter" />
+
+    <style name="Filter.Container">
+        <item name="android:layout_marginLeft">@dimen/horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/horizontal_margin</item>
+    </style>
+
+    <style name="Filter.Title" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+    </style>
+
+    <style name="Filter.Value" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <style name="Filter.SeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:layout_marginTop">@dimen/space_std</item>
+    </style>
+
 </resources>

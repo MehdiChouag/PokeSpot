@@ -11,6 +11,7 @@
 
     <!-- Filter -->
     <string name="filter_show_only">Afficher seulement</string>
+    <string name="filter_first_seen">Première apparition</string>
     <string name="filter_radius">Rayon</string>
     <string name="filter_reliability">Fiabilité</string>
 </resources>
