@@ -14,7 +14,20 @@ android {
     versionCode rootProject.ext.androidVersionCode
     versionName rootProject.ext.androidVersionName
 
+    vectorDrawables.useSupportLibrary = true
     multiDexEnabled true
+
+    // Get API Keys from gradle.properties store at ~/.gradle/gradle.properties
+    manifestPlaceholders = [GoogleMapsApiKey: "${GoogleMapsApiKey}"]
+  }
+
+  signingConfigs {
+    debug {
+      storeFile file("../keystore/debug.keystore")
+      storePassword "androiddev"
+      keyAlias "androiddebugkey"
+      keyPassword "androiddev"
+    }
   }
 
   repositories {
@@ -79,6 +92,8 @@ dependencies {
   compile dependencies.gsonConverter
   compile dependencies.facebookSdk
   compile dependencies.sqlbrite
+  compile dependencies.mapsServices
+  compile dependencies.locationServices
   compile(dependencies.crashlytics) {
     transitive = true;
   }

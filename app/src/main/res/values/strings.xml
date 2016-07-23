@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">Pokespot</string>
+    <string name="app_name" translatable="false">Pokespot for Pokemon GO</string>
+
+    <!-- Toolbar -->
+    <string name="toolbar_title" translatable="false">Pokespot</string>
+
+    <!-- Menu -->
+    <string name="map_menu_filter">Filter</string>
+
+    <!-- Download -->
+    <string name="download_message">"Downloading Pokémon&#8230;"</string>
+    <string name="download_dialog_error_title">Error</string>
+    <string name="download_error_message">An error occurred. Please retry in a few minutes.</string>
 </resources>

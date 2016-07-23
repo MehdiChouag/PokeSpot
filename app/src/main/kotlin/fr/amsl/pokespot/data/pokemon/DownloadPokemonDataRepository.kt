@@ -3,6 +3,7 @@ package fr.amsl.pokespot.data.pokemon
 import android.content.ContentValues
 import android.content.Context
 import com.squareup.sqlbrite.BriteDatabase
+import fr.amsl.pokespot.data.database.util.executeTransaction
 import fr.amsl.pokespot.data.pokemon.model.PokemonApiModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.DownloadPokemonRepository
@@ -16,12 +17,13 @@ import javax.inject.Named
 /**
  * @author mehdichouag on 20/07/2016.
  */
-class DownloadPokemonDataRepository @Inject constructor(@Named("MainThread") private val mainThreadScheduler: Scheduler,
-                                                        @Named("WorkerThread") private val workerThreadScheduler: Scheduler,
-                                                        private val context: Context,
-                                                        private val briteDatabase: BriteDatabase,
-                                                        private val pokemonSharedPreference: PokemonSharedPreference,
-                                                        private val downloadPokemonService: DownloadPokemonService) : DownloadPokemonRepository {
+class DownloadPokemonDataRepository
+@Inject constructor(@Named("MainThread") private val mainThreadScheduler: Scheduler,
+                    @Named("WorkerThread") private val workerThreadScheduler: Scheduler,
+                    private val context: Context,
+                    private val briteDatabase: BriteDatabase,
+                    private val pokemonSharedPreference: PokemonSharedPreference,
+                    private val downloadPokemonService: DownloadPokemonService) : DownloadPokemonRepository {
 
   override fun getPokemonList(): Observable<List<PokemonApiModel>> {
     return downloadPokemonService.getPokemonList()
@@ -33,7 +35,7 @@ class DownloadPokemonDataRepository @Inject constructor(@Named("MainThread") pri
             val value = getValue(item, fileName)
 
             outStream.use { it.write(android.util.Base64.decode(item.image, android.util.Base64.DEFAULT)); it.flush() }
-            briteDatabase.insert(PokemonModel.TABLE, value)
+            briteDatabase.executeTransaction({ insert(PokemonModel.TABLE, value) })
           }
           pokemonSharedPreference.isPokemonDownloaded = true
         }

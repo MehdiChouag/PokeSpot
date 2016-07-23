@@ -19,8 +19,9 @@ class LauncherActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setTheme(R.style.Theme_PokeSpot)
     initializeInjector()
+
     if (!sharePref.isPokemonDownloaded) navigator.navigateToDownloadActivity(this)
-    else navigator.navigateToHomeActivity(this)
+    else navigator.navigateToMapActivity(this)
   }
 
   /**

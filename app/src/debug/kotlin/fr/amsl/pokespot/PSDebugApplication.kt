@@ -29,6 +29,10 @@ class PSDebugApplication : PSApplication() {
     refWatcher = LeakCanary.install(this)
   }
 
+  override fun initializeFabric() {
+    // no-op
+  }
+
   /**
    * Initialize Stetho for debug flavor.
    */

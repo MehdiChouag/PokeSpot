@@ -12,6 +12,6 @@
         style="@style/PokeSpot.Download.Message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Downloading data" />
+        android:text="@string/download_message" />
 
 </LinearLayout>

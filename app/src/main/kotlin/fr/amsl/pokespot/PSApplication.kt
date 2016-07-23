@@ -7,6 +7,7 @@ import com.squareup.leakcanary.RefWatcher
 import fr.amsl.pokespot.di.component.ApplicationComponent
 import fr.amsl.pokespot.di.component.DaggerApplicationComponent
 import fr.amsl.pokespot.di.module.ApplicationModule
+import fr.amsl.pokespot.di.module.DatabaseModule
 import fr.amsl.pokespot.di.module.NetModule
 import io.fabric.sdk.android.Fabric
 
@@ -33,6 +34,7 @@ open class PSApplication : Application() {
   fun initializeInjector() {
     applicationComponent = DaggerApplicationComponent.builder()
         .applicationModule(getApplicationModule())
+        .databaseModule(getDatabaseModule())
         .netModule(getNetModule())
         .build()
   }
@@ -58,4 +60,9 @@ open class PSApplication : Application() {
    * Instantiate NetModule, that can be override in debug flavor.
    */
   open fun getNetModule(): NetModule = NetModule()
+
+  /**
+   * Instantiate DatabaseModule, that can be override in debug flavor.
+   */
+  open fun getDatabaseModule(): DatabaseModule = DatabaseModule()
 }

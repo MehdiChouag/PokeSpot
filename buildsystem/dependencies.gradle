@@ -36,7 +36,7 @@ ext {
   timberVersion = '4.1.2'
   autoValueVersion = '1.2'
   autoParcelVersion = '1.0.3'
-  playServiceVersion = '9.0.2'
+  playServiceVersion = '9.2.1'
   facebookSdkVersion = '4.12.1'
   lightCycleVersion = '1.1.0'
   rxPermissionsVersion = '0.5.2'
@@ -67,7 +67,9 @@ ext {
                   gsonConverter     : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
                   rxPermissions     : "com.tbruyelle.rxpermissions:rxpermissions:${rxPermissionsVersion}@aar",
                   kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}",
-                  sqlbrite          : "com.squareup.sqlbrite:sqlbrite:${sqlbriteVersion}"]
+                  sqlbrite          : "com.squareup.sqlbrite:sqlbrite:${sqlbriteVersion}",
+                  mapsServices      : "com.google.android.gms:play-services-maps:${playServiceVersion}",
+                  locationServices  : "com.google.android.gms:play-services-location:${playServiceVersion}"]
 
   debugDependencies =
       [leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",

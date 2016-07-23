@@ -2,11 +2,45 @@
 
     <style name="PokeSpot" />
 
+    <style name="Base" />
+
     <!-- Download -->
     <style name="PokeSpot.Download" />
 
-    <style name="PokeSpot.Download.Message" parent="@style/TextAppearance.AppCompat.Display1">
+    <style name="PokeSpot.Download.Message" parent="@style/TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <!-- Toolbar -->
+    <style name="PokeSpot.Toolbar" parent="Base.Toolbar" />
+
+    <style name="Base.Toolbar">
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="android:background">?colorPrimary</item>
+        <item name="title">@string/toolbar_title</item>
+    </style>
+
+    <!-- Maps Activity -->
+    <style name="PokeSpot.FAB" />
+
+    <style name="Base.FAB" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/fab_margin</item>
+        <item name="android:layout_marginBottom">@dimen/fab_margin</item>
+        <item name="fabSize">normal</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="PokeSpot.FAB.Add" parent="Base.FAB">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="srcCompat">@drawable/ic_add</item>
+    </style>
+
+    <style name="PokeSpot.FAB.Location" parent="Base.FAB">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="srcCompat">@drawable/ic_my_location</item>
+    </style>
 </resources>
