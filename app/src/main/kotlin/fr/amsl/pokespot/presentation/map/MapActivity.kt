@@ -26,6 +26,10 @@ class MapActivity : BaseActivity() {
 
   override fun initialize() {
     setSupportActionBar(toolbar)
+
+    // Disable DrawerLayout gesture due to SeekBars in filers
+    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
     initializeMapFragment()
     initializeFAB()
   }
