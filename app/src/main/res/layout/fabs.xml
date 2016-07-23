@@ -6,11 +6,11 @@
     tools:showIn="@layout/activity_map">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/location"
+        android:id="@+id/fab_location"
         style="@style/PokeSpot.FAB.Location"
-        android:layout_above="@+id/add" />
+        android:layout_above="@+id/fab_add" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add"
+        android:id="@+id/fab_add"
         style="@style/PokeSpot.FAB.Add" />
 </merge>

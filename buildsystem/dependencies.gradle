@@ -68,7 +68,8 @@ ext {
                   rxPermissions     : "com.tbruyelle.rxpermissions:rxpermissions:${rxPermissionsVersion}@aar",
                   kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}",
                   sqlbrite          : "com.squareup.sqlbrite:sqlbrite:${sqlbriteVersion}",
-                  mapsServices      : "com.google.android.gms:play-services-maps:${playServiceVersion}"]
+                  mapsServices      : "com.google.android.gms:play-services-maps:${playServiceVersion}",
+                  locationServices  : "com.google.android.gms:play-services-location:${playServiceVersion}"]
 
   debugDependencies =
       [leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",

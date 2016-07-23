@@ -1,5 +1,6 @@
 package fr.amsl.pokespot.presentation.map
 
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
@@ -18,16 +19,23 @@ class MapActivity : BaseActivity() {
 
   val drawerLayout: DrawerLayout by bindView(R.id.drawer_layout)
   val toolbar: Toolbar by bindView(R.id.toolbar)
+  val addFab: FloatingActionButton by bindView(R.id.fab_add)
+  val locationFab: FloatingActionButton by bindView(R.id.fab_location)
 
   lateinit var mapFragment: MapFragment
 
   override fun initialize() {
     setSupportActionBar(toolbar)
     initializeMapFragment()
+    initializeFAB()
   }
 
   fun initializeMapFragment() {
     mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
+  }
+
+  fun initializeFAB() {
+    locationFab.setOnClickListener { mapFragment.focusOnCurrentLocation() }
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
