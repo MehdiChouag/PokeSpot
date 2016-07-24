@@ -50,7 +50,7 @@ class BrowsePokemonAdapter @Inject constructor(private val context: Context) : R
       pokemonModel.setPokemonPicture(context, pokemonImage)
       pokemonId.text = context.getString(R.string.browse_pokemon_id_value, pokemonModel.pokemonId)
       pokemonName.text = pokemonModel.name
-      if (pokemonModel.filter == 1) {
+      if (isFilter && pokemonModel.filter == 1) {
         pokemonName.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
       } else {
         pokemonName.setTextColor(ContextCompat.getColor(context, android.R.color.black))
