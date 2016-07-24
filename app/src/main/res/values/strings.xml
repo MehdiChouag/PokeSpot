@@ -15,6 +15,10 @@
     <!-- Filter -->
     <string name="filter_show_only">Only show</string>
     <string name="filter_first_seen">First seen</string>
+    <string name="filter_first_seen_minute" translatable="false">"&lt; %1$dmin"</string>
+    <string name="filter_first_seen_hour" translatable="false">"&lt; %1$dh"</string>
+    <string name="filter_first_seen_hour_and_minute" translatable="false">&lt; %1$dh%2$02d</string>
+    <string name="filter_first_seen_all">All</string>
     <string name="filter_radius">Radius</string>
     <string name="filter_radius_value" translatable="false">%1$d Km</string>
     <string name="filter_reliability">Reliability</string>

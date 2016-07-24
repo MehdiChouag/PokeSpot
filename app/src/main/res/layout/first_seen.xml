@@ -25,6 +25,7 @@
         style="@style/Filter.SeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/first_seen_title" />
+        android:layout_below="@+id/first_seen_title"
+        android:max="117" />
 
 </RelativeLayout>

@@ -59,6 +59,7 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
     initRecyclerView()
     initRadius()
     initReliability()
+    initFirstSeen()
   }
 
   fun initRecyclerView() {
@@ -86,6 +87,13 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
     reliabilitySeek.setOnSeekBarChangeListener(this)
   }
 
+  fun initFirstSeen() {
+    val firstSeen = pokePreference.firstSeen
+    firstSeenSeek.progress = firstSeen
+    displayFirstSeenValue(firstSeen)
+    firstSeenSeek.setOnSeekBarChangeListener(this)
+  }
+
   override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
     if (fromUser) {
       when (seekBar) {
@@ -102,6 +110,30 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
           reliabilityValue.text = getString(message, progress)
           pokePreference.reliability = progress
         }
+        firstSeenSeek -> {
+          pokePreference.firstSeen = progress + 5
+          displayFirstSeenValue(progress + 5)
+        }
+      }
+    }
+  }
+
+  fun displayFirstSeenValue(progress: Int) {
+    if (progress < 60) {
+      firstSeenValue.text = getString(R.string.filter_first_seen_minute, progress)
+    } else if (progress % 60 == 0) {
+      firstSeenValue.text = getString(R.string.filter_first_seen_hour, progress / 60)
+    } else {
+      val hours = progress / 60
+      val minutes = progress % 60
+      if (progress == 121) {
+        // 24 hours
+        firstSeenValue.text = getString(R.string.filter_first_seen_hour, 24)
+      } else if (progress == 122) {
+        // Everything
+        firstSeenValue.text = getString(R.string.filter_first_seen_all)
+      } else {
+        firstSeenValue.text = getString(R.string.filter_first_seen_hour_and_minute, hours, minutes)
       }
     }
   }
