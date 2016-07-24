@@ -9,5 +9,9 @@ import rx.Observable
 interface BrowsePokemonRepository {
   fun searchPokemon(query: String): Observable<List<PokemonModel>>
 
+  fun searchFilterPokemon(query: String): Observable<List<PokemonModel>>
+
   fun getAllPokemons(): Observable<List<PokemonModel>>
+
+  fun getAllFilterPokemon(): Observable<List<PokemonModel>>
 }

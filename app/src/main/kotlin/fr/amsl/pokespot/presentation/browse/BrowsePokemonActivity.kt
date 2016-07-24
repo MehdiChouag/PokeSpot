@@ -28,12 +28,15 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
 
   companion object {
     val KEY_POKEMON = "fr.amsl.pokespot.presentation.browse.KEY_POKEMON"
+
+    val KEY_FILTER = "fr.amsl.pokespot.presentation.browse.KEY_FILTER"
   }
 
   val toolbar: Toolbar by bindView(R.id.toolbar)
   val recycler: RecyclerView by bindView(R.id.recycler_view)
   val progressBar: ProgressBar by bindView(R.id.progress_bar)
   val columnNumber: Int by lazy { resources.getInteger(R.integer.columns_browse_item) }
+  var isFilter: Boolean = false
 
   @Inject @LightCycle lateinit var presenter: BrowsePokemonPresenter
   @Inject lateinit var adapter: BrowsePokemonAdapter
@@ -46,11 +49,15 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
     initializeToolbar()
     initRecyclerView()
 
+    isFilter = intent.getBooleanExtra(KEY_FILTER, false)
+
     adapter.listener = this
+    adapter.isFilter = isFilter
     recycler.adapter = adapter
 
     presenter.view = this
-    presenter.getAllPokemon()
+    presenter.isFilter = isFilter
+    presenter.AllPokemon()
   }
 
   fun initializeToolbar() {
@@ -91,7 +98,7 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
       if (!query.isEmpty()) {
         presenter.searchPokemon(query)
       } else {
-        presenter.getAllPokemon()
+        presenter.AllPokemon()
       }
     }
   }

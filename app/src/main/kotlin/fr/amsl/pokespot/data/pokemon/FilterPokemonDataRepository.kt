@@ -3,7 +3,6 @@ package fr.amsl.pokespot.data.pokemon
 import android.database.Cursor
 import com.squareup.sqlbrite.BriteDatabase
 import fr.amsl.pokespot.data.database.util.getString
-import fr.amsl.pokespot.data.pokemon.model.PokemonFilter
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.FilterPokemonRepository
 import rx.Observable
@@ -22,7 +21,7 @@ class FilterPokemonDataRepository
                     private val userLocale: Locale) : FilterPokemonRepository, Func1<Cursor, PokemonModel> {
 
   override fun getFilteredPokemon(): Observable<List<PokemonModel>> {
-    return briteDatabase.createQuery(PokemonFilter.TABLE, PokemonModel.selectPokemonFilterByLocale(userLocale.language))
+    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonFilterByLocale(userLocale.language))
         .mapToList(this)
         .observeOn(mainThreadScheduler)
   }

@@ -36,4 +36,13 @@ class Navigator @Inject constructor() {
     val intent = Intent(activity, BrowsePokemonActivity::class.java)
     activity.startActivityForResult(intent, id)
   }
+
+  /**
+   * Start browse activity with filter.
+   */
+  fun navigateToBrowsePokemonFilter(activity: Activity, id: Int) {
+    val intent = Intent(activity, BrowsePokemonActivity::class.java)
+    intent.putExtra(BrowsePokemonActivity.KEY_FILTER, true)
+    activity.startActivityForResult(intent, id)
+  }
 }

@@ -54,7 +54,7 @@ class FilterAdapter @Inject constructor(private val context: Context) : Recycler
     val pokemonImage: ImageView by bindView(R.id.pokemon)
 
     fun displayPokemon(pokemonModel: PokemonModel) {
-      pokemonImage.setImageURI(pokemonModel.getImageUri(context))
+      pokemonModel.setPokemonPicture(context, pokemonImage)
     }
   }
 

@@ -23,12 +23,25 @@ class BrowsePokemonDataRepository
 
   override fun searchPokemon(query: String): Observable<List<PokemonModel>> {
     val formattedQuery = "%$query%"
-    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQuery(userLocale.language), formattedQuery)
+    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQueryWithoutAll(userLocale.language), formattedQuery)
+        .mapToList(this)
+        .observeOn(mainThreadScheduler)
+  }
+
+  override fun searchFilterPokemon(query: String): Observable<List<PokemonModel>> {
+    val formattedQuery = "%$query%"
+    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQuery(userLocale.language), formattedQuery, PokemonModel.WITHOUT_FILTER)
         .mapToList(this)
         .observeOn(mainThreadScheduler)
   }
 
   override fun getAllPokemons(): Observable<List<PokemonModel>> {
+    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByLocaleWithoutAll(userLocale.language))
+        .mapToList(this)
+        .observeOn(mainThreadScheduler)
+  }
+
+  override fun getAllFilterPokemon(): Observable<List<PokemonModel>> {
     return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByLocale(userLocale.language))
         .mapToList(this)
         .observeOn(mainThreadScheduler)

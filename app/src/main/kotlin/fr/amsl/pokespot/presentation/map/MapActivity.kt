@@ -26,6 +26,7 @@ class MapActivity : BaseActivity() {
 
   companion object {
     private val REQUEST_BROWSE_POKEMON = 10
+    val REQUEST_BROWSE_POKEMON_FILTER = 11
   }
 
   val drawerLayout: DrawerLayout by bindView(R.id.drawer_layout)
@@ -79,6 +80,8 @@ class MapActivity : BaseActivity() {
       val pokemon: PokemonModel = data!!.getParcelableExtra(BrowsePokemonActivity.KEY_POKEMON)
       Timber.d(pokemon.toString())
       // TODO Call api here.
+    } else if (requestCode == REQUEST_BROWSE_POKEMON_FILTER && resultCode == Activity.RESULT_OK) {
+      Timber.d("OnActivityResult")
     }
   }
 

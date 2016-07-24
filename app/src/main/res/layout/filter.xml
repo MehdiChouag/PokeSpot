@@ -14,6 +14,7 @@
         android:showDividers="middle">
 
         <LinearLayout
+            android:id="@+id/only_show_container"
             style="@style/Filter.Container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

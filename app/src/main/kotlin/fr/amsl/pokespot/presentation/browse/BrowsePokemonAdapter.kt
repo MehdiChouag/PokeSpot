@@ -20,6 +20,7 @@ class BrowsePokemonAdapter @Inject constructor(private val context: Context) : R
 
   var pokemonList: List<PokemonModel>? = null
   var listener: BrowsePokemonListener? = null
+  var isFilter: Boolean = false
 
   override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BrowsePokemonViewHolder {
     return BrowsePokemonViewHolder(parent!!.inflate(R.layout.item_browse))
@@ -45,7 +46,7 @@ class BrowsePokemonAdapter @Inject constructor(private val context: Context) : R
     }
 
     fun displayPokemon(pokemonModel: PokemonModel) {
-      pokemonImage.setImageURI(pokemonModel.getImageUri(context))
+      pokemonModel.setPokemonPicture(context, pokemonImage)
       pokemonId.text = context.getString(R.string.browse_pokemon_id_value, pokemonModel.pokemonId)
       pokemonName.text = pokemonModel.name
     }
