@@ -28,7 +28,6 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   var map: GoogleMap? = null
   var googleApiClient: GoogleApiClient? = null
   var currentLocation: Location? = null
-  var lastLocation: Location? = null
   var shouldFocus: Boolean = true
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,14 +65,11 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   fun focusOnCurrentLocation() {
-    if (lastLocation != currentLocation) {
-      currentLocation?.apply {
-        val position = CameraPosition.builder().target(LatLng(latitude,
-            longitude)).zoom(16f).bearing(0.0f).tilt(0.0f).build()
+    currentLocation?.apply {
+      val position = CameraPosition.builder().target(LatLng(latitude,
+          longitude)).zoom(16f).bearing(0.0f).tilt(0.0f).build()
 
-        map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
-        lastLocation = currentLocation
-      }
+      map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
     }
   }
 
