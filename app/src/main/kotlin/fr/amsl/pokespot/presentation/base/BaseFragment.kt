@@ -1,6 +1,5 @@
 package fr.amsl.pokespot.presentation.base
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -43,14 +42,6 @@ abstract class BaseFragment : Fragment(), LightCycleDispatcher<SupportFragmentLi
     lightCycleDispatcher.bind(lightCycle)
   }
 
-  override fun onAttach(context: Context?) {
-    super.onAttach(context)
-    initializeInjector()
-    bindIfNecessary()
-    initialize()
-    lightCycleDispatcher.onAttach(this, activity)
-  }
-
   /**
    * Dependencies injection goes here.
    */
@@ -74,10 +65,17 @@ abstract class BaseFragment : Fragment(), LightCycleDispatcher<SupportFragmentLi
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     lightCycleDispatcher.onCreate(this, savedInstanceState)
+    initializeInjector()
+    bindIfNecessary()
   }
 
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater!!.inflate(layoutResource, container, false)
+  }
+
+  override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    initialize()
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {

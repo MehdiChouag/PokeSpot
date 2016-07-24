@@ -41,10 +41,14 @@ class FilterAdapter @Inject constructor(private val context: Context) : Recycler
 
   override fun getItemViewType(position: Int): Int {
     val size = pokemonList!!.size
-    return if (size < numberPokemonOffset && position == size) TYPE_OFFSET else TYPE_POKEMON
+    return if (numberPokemonOffset != 0 && position > size - 1) TYPE_OFFSET else TYPE_POKEMON
   }
 
-  override fun getItemCount() = pokemonList?.size ?: 0
+  override fun getItemCount(): Int {
+    val offset = if (numberPokemonOffset > 0) 1 else 0
+    val count = pokemonList?.size ?: 0
+    return count + offset
+  }
 
   inner class FilterPokemonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val pokemonImage: ImageView by bindView(R.id.pokemon)

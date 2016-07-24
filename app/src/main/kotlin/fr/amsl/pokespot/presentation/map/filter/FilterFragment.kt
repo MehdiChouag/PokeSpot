@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.TextView
+import com.soundcloud.lightcycle.LightCycle
 import fr.amsl.pokespot.R
 import fr.amsl.pokespot.data.pokemon.model.PokemonFilter
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
@@ -25,8 +26,8 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
   override val layoutResource: Int = R.layout.filter
 
   @Inject lateinit var pokePreference: PokemonSharedPreference
-  @Inject lateinit var presenter: FilterPresenter
   @Inject lateinit var adapter: FilterAdapter
+  @Inject @LightCycle lateinit var presenter: FilterPresenter
 
   val recycler: RecyclerView by bindView(R.id.recycler_view)
   val progressBar: ProgressBar by bindView(R.id.progress_bar)
@@ -43,16 +44,12 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
   val reliabilityValue: TextView by bindView(R.id.reliability_value)
   val reliabilitySeek: AppCompatSeekBar by bindView(R.id.reliability_seekbar)
 
-  init {
-    retainInstance = true
-  }
-
   override fun initializeInjector() {
     applicationComponent.plus(FilterModule()).inject(this)
+    presenter.view = this
   }
 
   override fun initialize() {
-    presenter.view = this
     recycler.adapter = adapter
     presenter.getFilterPokemon(rowNumber, columnNumber)
   }
@@ -65,7 +62,7 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
   }
 
   fun initRecyclerView() {
-    recycler.layoutManager = GridLayoutManager(context(), rowNumber)
+    recycler.layoutManager = GridLayoutManager(context(), columnNumber)
     recycler.setHasFixedSize(true)
   }
 

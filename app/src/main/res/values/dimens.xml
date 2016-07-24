@@ -16,5 +16,5 @@
 
     <dimen name="stroke_size">1dp</dimen>
 
-    <dimen name="filter_item_size">50dp</dimen>
+    <dimen name="filter_item_size">60dp</dimen>
 </resources>

@@ -18,9 +18,14 @@ class FilterPresenter @Inject constructor(private val filterPokemonRepository: F
     subscriptions.add(filterPokemonRepository.getFilteredPokemon()
         .map {
           val condition = rowNumber * columnsNumber
-          offset = it.size - (condition - 1)
-          return@map if (it.size > condition) it.take(condition - 1) else it
+          return@map if (it.size > condition) {
+            offset = it.size - (condition - 1)
+            it.take(condition - 1)
+          } else it
         }
-        .subscribe({ view?.displayFilteredPokemon(it, offset) }, {}, { view?.hideLoadingView() }))
+        .subscribe({
+          view?.hideLoadingView()
+          view?.displayFilteredPokemon(it, offset)
+        }))
   }
 }
