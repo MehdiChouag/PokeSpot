@@ -30,10 +30,10 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     val NAME_ROOMAJI = "name_roomaji"
     val NAME_JA = "name_ja"
 
-    val SELECT_ALL_POKEMON = "SELECT * FROM ${PokemonModel.TABLE}"
-
     fun selectPokemonByLocale(locale: String): String {
-      return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN,  ${NAME + locale} FROM $TABLE"
+      return "SELECT $ID, " +
+          "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+          " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
     }
 
     val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {

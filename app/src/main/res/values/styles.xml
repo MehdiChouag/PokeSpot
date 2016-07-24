@@ -20,6 +20,13 @@
         <item name="title">@string/toolbar_title</item>
     </style>
 
+    <!-- ProgressBar -->
+    <style name="Base.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminate">true</item>
+        <item name="android:visibility">invisible</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
     <!-- Maps Fab -->
     <style name="PokeSpot.FAB" />
 
@@ -52,11 +59,7 @@
         <item name="android:layout_marginRight">@dimen/horizontal_margin</item>
     </style>
 
-    <style name="Filter.ProgressBar" parent="Widget.AppCompat.ProgressBar">
-        <item name="android:indeterminate">true</item>
-        <item name="android:visibility">visible</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
+    <style name="Filter.ProgressBar" parent="Base.ProgressBar" />
 
     <style name="Filter.Title" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:layout_alignParentTop">true</item>
@@ -79,5 +82,16 @@
     <style name="Filter.Item.Offset" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/bright_gray</item>
     </style>
+
+    <!-- Browse -->
+    <style name="Browse" />
+
+    <style name="Browse.Item" />
+
+    <style name="Browse.Item.Name" parent="TextAppearance.AppCompat.Subhead" />
+
+    <style name="Browse.Item.Number" parent="TextAppearance.AppCompat.Body2" />
+
+    <style name="Browse.ProgressBar" parent="Base.ProgressBar" />
 
 </resources>

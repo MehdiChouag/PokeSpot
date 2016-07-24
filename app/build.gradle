@@ -94,6 +94,7 @@ dependencies {
   compile dependencies.sqlbrite
   compile dependencies.mapsServices
   compile dependencies.locationServices
+  compile dependencies.searchView
   compile(dependencies.crashlytics) {
     transitive = true;
   }

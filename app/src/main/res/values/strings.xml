@@ -26,4 +26,8 @@
     <string name="filter_reliability_greater_value" translatable="false">"> %1$d%%"</string>
     <string name="filter_content_description">Pokemon</string>
     <string name="filter_offset">+%1$d</string>
+
+    <!-- Browse -->
+    <string name="browse_content_description">Pokemon</string>
+    <string name="browse_pokemon_id_value">#%1$s</string>
 </resources>
