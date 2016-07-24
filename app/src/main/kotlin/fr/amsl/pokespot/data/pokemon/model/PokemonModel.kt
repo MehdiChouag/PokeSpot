@@ -13,7 +13,7 @@ import java.io.File
  * Model class for pokemon fetch for db.
  */
 // Name could be null if the pokemon name is null in translation.
-data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String) : Parcelable {
+data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String, val filter: Int) : Parcelable {
 
   companion object {
     val TABLE = "pokemon"
@@ -45,10 +45,10 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonByLocaleWithoutAll(locale: String): String {
       return if (!isLocaleExist(locale)) {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN FROM $TABLE WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER, FROM $TABLE WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
       } else {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
             " ${NAME + locale} FROM $TABLE WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
       }
     }
@@ -56,10 +56,10 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonByLocale(locale: String): String {
       return if (!isLocaleExist(locale)) {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN FROM $TABLE ORDER BY $POKEMON_ID ASC"
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER, FROM $TABLE ORDER BY $POKEMON_ID ASC"
       } else {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
             " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
       }
     }
@@ -67,15 +67,15 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonFilterByLocale(locale: String): String {
       return if (!isLocaleExist(locale)) {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
             " ${NAME + locale} FROM $TABLE " +
-            "WHERE $FILTER = 1 " +
+            "WHERE $FILTER=1 " +
             "ORDER BY $POKEMON_ID ASC "
       } else {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
             " ${NAME + locale} FROM $TABLE " +
-            "WHERE $FILTER = 1 " +
+            "WHERE $FILTER=1 " +
             "ORDER BY $POKEMON_ID ASC"
       }
     }
@@ -83,13 +83,13 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonByQuery(locale: String): String {
       return if (!isLocaleExist(locale)) {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER," +
             " ${NAME + locale} FROM $TABLE " +
             "WHERE $NAME_EN LIKE ? " +
             "ORDER BY $POKEMON_ID ASC "
       } else {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
             " ${NAME + locale} FROM $TABLE " +
             "WHERE ${NAME + locale} LIKE ? " +
             "ORDER BY $POKEMON_ID ASC"
@@ -99,14 +99,14 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonByQueryWithoutAll(locale: String): String {
       return if (!isLocaleExist(locale)) {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
             " ${NAME + locale} FROM $TABLE " +
             "WHERE $NAME_EN LIKE ? AND " +
             "$POKEMON_ID > 0 " +
             "ORDER BY $POKEMON_ID ASC "
       } else {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
             " ${NAME + locale} FROM $TABLE " +
             "WHERE ${NAME + locale} LIKE ? AND " +
             "$POKEMON_ID > 0 " +
@@ -125,7 +125,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     }
   }
 
-  constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString(), parcel.readString())
+  constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString(), parcel.readString(), parcel.readInt())
 
   /**
    * Return Pokemon image's Uri.
@@ -144,6 +144,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     out?.writeString(name)
     out?.writeString(imagePath)
     out?.writeString(pokemonId)
+    out?.writeInt(filter)
   }
 
   override fun describeContents(): Int {
@@ -151,7 +152,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
   }
 
   class Builder {
-    val contentValue = ContentValues()
+    private val contentValue = ContentValues()
 
     fun pokemonId(pokemonId: String): Builder {
       contentValue.put(POKEMON_ID, pokemonId)
@@ -208,7 +209,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
       return this
     }
 
-    fun filter(filter: String): Builder {
+    fun filter(filter: Int): Builder {
       contentValue.put(FILTER, filter)
       return this
     }

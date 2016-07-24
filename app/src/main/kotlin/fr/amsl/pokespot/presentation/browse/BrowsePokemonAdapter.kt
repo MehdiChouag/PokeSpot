@@ -1,6 +1,7 @@
 package fr.amsl.pokespot.presentation.browse
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,11 @@ class BrowsePokemonAdapter @Inject constructor(private val context: Context) : R
       pokemonModel.setPokemonPicture(context, pokemonImage)
       pokemonId.text = context.getString(R.string.browse_pokemon_id_value, pokemonModel.pokemonId)
       pokemonName.text = pokemonModel.name
+      if (pokemonModel.filter == 1) {
+        pokemonName.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+      } else {
+        pokemonName.setTextColor(ContextCompat.getColor(context, android.R.color.black))
+      }
     }
   }
 }

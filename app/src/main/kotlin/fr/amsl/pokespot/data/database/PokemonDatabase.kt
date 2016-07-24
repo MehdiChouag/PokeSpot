@@ -43,7 +43,7 @@ class PokemonDatabase : SQLiteOpenHelper {
         .nameEn("All")
         .nameFr("Tous")
         .imagePath(PokemonModel.ALL_POKEMON_PICTURE_NAME)
-        .filter("1")
+        .filter(1)
         .build())
   }
 

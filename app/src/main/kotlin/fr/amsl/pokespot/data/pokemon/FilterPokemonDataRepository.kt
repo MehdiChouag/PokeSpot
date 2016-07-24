@@ -2,6 +2,7 @@ package fr.amsl.pokespot.data.pokemon
 
 import android.database.Cursor
 import com.squareup.sqlbrite.BriteDatabase
+import fr.amsl.pokespot.data.database.util.getInt
 import fr.amsl.pokespot.data.database.util.getString
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.FilterPokemonRepository
@@ -35,6 +36,7 @@ class FilterPokemonDataRepository
     return PokemonModel(cursor.getString(PokemonModel.ID)!!,
         nameLocale ?: nameEn!!,
         cursor.getString(PokemonModel.IMAGE_PATH)!!,
-        cursor.getString(PokemonModel.POKEMON_ID)!!)
+        cursor.getString(PokemonModel.POKEMON_ID)!!,
+        cursor.getInt(PokemonModel.FILTER))
   }
 }

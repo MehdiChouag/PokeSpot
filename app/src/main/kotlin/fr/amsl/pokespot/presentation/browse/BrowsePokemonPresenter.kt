@@ -4,6 +4,7 @@ import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.BrowsePokemonRepository
 import fr.amsl.pokespot.presentation.base.ActivityBasePresenter
 import rx.Observable
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -16,9 +17,8 @@ class BrowsePokemonPresenter @Inject constructor(private val browsePokemonReposi
 
   fun searchPokemon(query: String) {
     view?.showLoadingView()
-    subscription.add(getSearchPokemon(query)
-        .subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
-
+    subscription.clear()
+    subscription.add(getSearchPokemon(query).subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
   }
 
   private fun getSearchPokemon(query: String): Observable<List<PokemonModel>> {
@@ -31,8 +31,8 @@ class BrowsePokemonPresenter @Inject constructor(private val browsePokemonReposi
 
   fun AllPokemon() {
     view?.showLoadingView()
-    subscription.add(getAllPokemon()
-        .subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
+    subscription.clear()
+    subscription.add(getAllPokemon().subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
   }
 
   private fun getAllPokemon(): Observable<List<PokemonModel>> {
@@ -40,6 +40,16 @@ class BrowsePokemonPresenter @Inject constructor(private val browsePokemonReposi
       browsePokemonRepository.getAllFilterPokemon()
     } else {
       browsePokemonRepository.getAllPokemons()
+    }
+  }
+
+  fun handlePokemonClick(pokemonModel: PokemonModel) {
+    if (isFilter) {
+      val newFilter = if (pokemonModel.filter == 1) 0 else 1
+      val ret = browsePokemonRepository.updatePokemonFilter(pokemonModel, newFilter)
+      Timber.d(ret.toString())
+    } else {
+      view?.finishActivity(pokemonModel)
     }
   }
 }

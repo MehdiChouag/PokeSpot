@@ -1,7 +1,6 @@
 package fr.amsl.pokespot.di.module
 
 import com.squareup.sqlbrite.BriteDatabase
-import com.squareup.sqlbrite.BuildConfig
 import com.squareup.sqlbrite.SqlBrite
 import dagger.Module
 import dagger.Provides
@@ -25,7 +24,7 @@ open class DatabaseModule {
   fun provideBriteDatabase(@Named("WorkerThread") workThreadScheduler: Scheduler,
                            sqlBrite: SqlBrite, db: PokemonDatabase): BriteDatabase {
     val briteDatabase = sqlBrite.wrapDatabaseHelper(db, workThreadScheduler)
-    briteDatabase.setLoggingEnabled(BuildConfig.DEBUG)
+    briteDatabase.setLoggingEnabled(true)
     return briteDatabase
   }
 }

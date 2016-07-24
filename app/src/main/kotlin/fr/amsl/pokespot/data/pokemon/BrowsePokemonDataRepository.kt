@@ -2,6 +2,7 @@ package fr.amsl.pokespot.data.pokemon
 
 import android.database.Cursor
 import com.squareup.sqlbrite.BriteDatabase
+import fr.amsl.pokespot.data.database.util.getInt
 import fr.amsl.pokespot.data.database.util.getString
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.BrowsePokemonRepository
@@ -30,7 +31,7 @@ class BrowsePokemonDataRepository
 
   override fun searchFilterPokemon(query: String): Observable<List<PokemonModel>> {
     val formattedQuery = "%$query%"
-    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQuery(userLocale.language), formattedQuery, PokemonModel.WITHOUT_FILTER)
+    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQuery(userLocale.language), formattedQuery)
         .mapToList(this)
         .observeOn(mainThreadScheduler)
   }
@@ -47,6 +48,11 @@ class BrowsePokemonDataRepository
         .observeOn(mainThreadScheduler)
   }
 
+  override fun updatePokemonFilter(pokemonModel: PokemonModel, filter: Int): Int {
+    val newValue = PokemonModel.Builder().filter(filter).build()
+    return briteDatabase.update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+  }
+
   override fun call(cursor: Cursor): PokemonModel {
     val nameEn = cursor.getString(PokemonModel.NAME_EN)
     val nameLocale = if (PokemonModel.isLocaleExist(userLocale.language)) {
@@ -56,6 +62,8 @@ class BrowsePokemonDataRepository
     return PokemonModel(cursor.getString(PokemonModel.ID)!!,
         nameLocale ?: nameEn!!,
         cursor.getString(PokemonModel.IMAGE_PATH)!!,
-        cursor.getString(PokemonModel.POKEMON_ID)!!)
+        cursor.getString(PokemonModel.POKEMON_ID)!!,
+        cursor.getInt(PokemonModel.FILTER))
   }
+
 }

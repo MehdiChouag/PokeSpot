@@ -21,4 +21,9 @@ interface BrowsePokemonView : View {
    * Display a list of pokemon.
    */
   fun displayPokemons(list: List<PokemonModel>)
+
+  /**
+   * Finish activity with result
+   */
+  fun finishActivity(pokemonModel: PokemonModel)
 }
