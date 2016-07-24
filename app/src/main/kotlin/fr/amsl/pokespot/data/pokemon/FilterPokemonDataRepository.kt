@@ -15,10 +15,13 @@ class FilterPokemonDataRepository
 @Inject constructor(@Named("MainThread") private val mainThreadScheduler: Scheduler,
                     private val briteDatabase: BriteDatabase) : FilterPokemonRepository {
 
+  companion object {
+    val SELECT_ALL = "SELECT * FROM ${PokemonFilter.TABLE}"
+  }
+
   override fun getFilteredPokemon(): Observable<List<PokemonFilter>> {
-    return briteDatabase.createQuery(PokemonFilter.TABLE, PokemonFilter.SELECT_ALL)
+    return briteDatabase.createQuery(PokemonFilter.TABLE, SELECT_ALL)
         .mapToList(PokemonFilter.MAP)
-        .map { if (it.isEmpty()) listOf(PokemonFilter("TOTO", "TODI")) else it }
         .observeOn(mainThreadScheduler)
   }
 }
