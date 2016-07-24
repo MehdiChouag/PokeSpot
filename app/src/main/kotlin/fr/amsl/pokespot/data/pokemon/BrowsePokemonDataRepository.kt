@@ -2,6 +2,7 @@ package fr.amsl.pokespot.data.pokemon
 
 import android.database.Cursor
 import com.squareup.sqlbrite.BriteDatabase
+import fr.amsl.pokespot.data.database.util.executeTransactionRun
 import fr.amsl.pokespot.data.database.util.getInt
 import fr.amsl.pokespot.data.database.util.getString
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
@@ -49,8 +50,26 @@ class BrowsePokemonDataRepository
   }
 
   override fun updatePokemonFilter(pokemonModel: PokemonModel, filter: Int): Int {
+    val prevFilter = if (filter == 0) 1 else 0
     val newValue = PokemonModel.Builder().filter(filter).build()
-    return briteDatabase.update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+    val prevValue = PokemonModel.Builder().filter(prevFilter).build()
+    return if (pokemonModel.pokemonId == "0" && filter == 1) {
+      briteDatabase.executeTransactionRun {
+        update(PokemonModel.TABLE, prevValue, "${PokemonModel.POKEMON_ID}!=?", "${pokemonModel.pokemonId}")
+        update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+      }
+    } else if (pokemonModel.id != "0" && filter == 1) {
+      briteDatabase.executeTransactionRun {
+        update(PokemonModel.TABLE, prevValue, "${PokemonModel.POKEMON_ID}=?", "0")
+        update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+      }
+    } else if (pokemonModel.pokemonId != "0") {
+      briteDatabase.executeTransactionRun {
+        update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+      }
+    } else {
+      -1
+    }
   }
 
   override fun call(cursor: Cursor): PokemonModel {
