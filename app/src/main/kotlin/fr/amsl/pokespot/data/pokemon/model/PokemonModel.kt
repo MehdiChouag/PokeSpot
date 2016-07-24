@@ -46,7 +46,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
       }
     }
 
-    val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {
+    @JvmField val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {
       override fun createFromParcel(parcel: Parcel): PokemonModel {
         return PokemonModel(parcel)
       }

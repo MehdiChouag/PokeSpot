@@ -1,6 +1,8 @@
 package fr.amsl.pokespot.presentation.browse
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -16,9 +18,13 @@ import javax.inject.Inject
 /**
  * @author mehdichouag on 23/07/2016.
  */
-class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView {
+class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonListener {
 
   override val layoutResource: Int = R.layout.activity_browse
+
+  companion object {
+    val KEY_POKEMON = "fr.amsl.pokespot.presentation.browse.KEY_POKEMON"
+  }
 
   val recycler: RecyclerView by bindView(R.id.recycler_view)
   val progressBar: ProgressBar by bindView(R.id.progress_bar)
@@ -33,7 +39,9 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView {
 
   override fun initialize() {
     initRecyclerView()
+    adapter.listener = this
     recycler.adapter = adapter
+
     presenter.view = this
     presenter.getAllPokemon()
   }
@@ -46,6 +54,14 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView {
   override fun displayPokemons(list: List<PokemonModel>) {
     adapter.pokemonList = list
     adapter.notifyDataSetChanged()
+  }
+
+  override fun onClickListener(pokemonModel: PokemonModel) {
+    val data = Intent()
+    data.putExtra(KEY_POKEMON, pokemonModel)
+
+    setResult(Activity.RESULT_OK, data)
+    finish()
   }
 
   override fun showLoadingView() {

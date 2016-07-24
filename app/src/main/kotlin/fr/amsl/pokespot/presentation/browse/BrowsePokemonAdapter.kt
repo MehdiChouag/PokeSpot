@@ -19,6 +19,7 @@ import javax.inject.Inject
 class BrowsePokemonAdapter @Inject constructor(private val context: Context) : RecyclerView.Adapter<BrowsePokemonViewHolder>() {
 
   var pokemonList: List<PokemonModel>? = null
+  var listener: BrowsePokemonListener? = null
 
   override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BrowsePokemonViewHolder {
     return BrowsePokemonViewHolder(parent!!.inflate(R.layout.item_browse))
@@ -31,10 +32,17 @@ class BrowsePokemonAdapter @Inject constructor(private val context: Context) : R
 
   override fun getItemCount() = pokemonList?.size ?: 0
 
-  inner class BrowsePokemonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+  inner class BrowsePokemonViewHolder : RecyclerView.ViewHolder {
     val pokemonImage: ImageView by bindView(R.id.pokemonImage)
     val pokemonId: TextView by bindView(R.id.pokemonId)
     val pokemonName: TextView by bindView(R.id.pokemonName)
+
+    constructor(view: View) : super(view) {
+      itemView.setOnClickListener {
+        val model = pokemonList!!.get(layoutPosition)
+        listener?.onClickListener(model)
+      }
+    }
 
     fun displayPokemon(pokemonModel: PokemonModel) {
       pokemonImage.setImageURI(pokemonModel.getImageUri(context))

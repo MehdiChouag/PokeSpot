@@ -1,5 +1,7 @@
 package fr.amsl.pokespot.presentation.map
 
+import android.app.Activity
+import android.content.Intent
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
@@ -7,9 +9,12 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import fr.amsl.pokespot.R
+import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.presentation.base.BaseActivity
+import fr.amsl.pokespot.presentation.browse.BrowsePokemonActivity
 import fr.amsl.pokespot.presentation.navigator.Navigator
 import fr.amsl.pokespot.presentation.util.bindView
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -66,6 +71,14 @@ class MapActivity : BaseActivity() {
         return true
       }
       else -> super.onOptionsItemSelected(item)
+    }
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (requestCode == REQUEST_BROWSE_POKEMON && resultCode == Activity.RESULT_OK) {
+      val pokemon: PokemonModel = data!!.getParcelableExtra(BrowsePokemonActivity.KEY_POKEMON)
+      Timber.d(pokemon.toString())
+      // TODO Call api here.
     }
   }
 
