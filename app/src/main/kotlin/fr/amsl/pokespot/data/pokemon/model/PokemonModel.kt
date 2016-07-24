@@ -30,10 +30,20 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     val NAME_ROOMAJI = "name_roomaji"
     val NAME_JA = "name_ja"
 
+    val LOCALES = arrayOf("en", "it", "es", "de", "fr", "zh", "ko", "roomaji", "ja")
+
+    fun isLocaleExist(locale: String): Boolean = LOCALES.find { it == locale } != null
+
     fun selectPokemonByLocale(locale: String): String {
-      return "SELECT $ID, " +
-          "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
-          " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
+      return if (!isLocaleExist(locale)) {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN " +
+            " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
+      } else {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+            " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
+      }
     }
 
     val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {

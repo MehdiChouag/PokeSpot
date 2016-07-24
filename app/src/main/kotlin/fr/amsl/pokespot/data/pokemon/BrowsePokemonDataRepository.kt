@@ -26,12 +26,14 @@ class BrowsePokemonDataRepository
     return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByLocale(userLocale.language))
         .mapToList({
           val nameEn = it.getString(PokemonModel.NAME_EN)
-          val nameLocale = it.getString(PokemonModel.NAME + userLocale.language)
+          val nameLocale = if (PokemonModel.isLocaleExist(userLocale.language)) {
+            it.getString(PokemonModel.NAME + userLocale.language)
+          } else null
+
           return@mapToList PokemonModel(it.getString(PokemonModel.ID)!!,
               nameLocale ?: nameEn!!,
               it.getString(PokemonModel.IMAGE_PATH)!!,
               it.getString(PokemonModel.POKEMON_ID)!!)
-        })
-        .observeOn(mainThreadScheduler)
+        }).observeOn(mainThreadScheduler)
   }
 }
