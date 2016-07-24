@@ -1,6 +1,6 @@
 package fr.amsl.pokespot.presentation.map.filter
 
-import fr.amsl.pokespot.data.pokemon.model.PokemonFilter
+import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.presentation.base.View
 
 /**
@@ -20,5 +20,5 @@ interface FilterView : View {
   /**
    * Display an list of pokemon.
    */
-  fun displayFilteredPokemon(list: List<PokemonFilter>, numberPokemonOffset: Int)
+  fun displayFilteredPokemon(list: List<PokemonModel>, numberPokemonOffset: Int)
 }

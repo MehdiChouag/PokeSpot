@@ -34,5 +34,5 @@ class PokemonSharedPreference @Inject constructor(private val context: Context) 
 
   var firstSeen: Int
     set(value) = sharedPreference.edit().putInt(KEY_FILTER_FIRST_SEEN, value).apply()
-    get() = sharedPreference.getInt(KEY_FILTER_FIRST_SEEN, 1000)
+    get() = sharedPreference.getInt(KEY_FILTER_FIRST_SEEN, 5)
 }

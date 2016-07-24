@@ -5,6 +5,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import android.widget.ImageView
+import fr.amsl.pokespot.presentation.util.getDrawableByName
 import java.io.File
 
 /**
@@ -15,6 +17,8 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
 
   companion object {
     val TABLE = "pokemon"
+
+    val ALL_POKEMON_PICTURE_NAME = "all"
 
     val ID = "_id"
     val POKEMON_ID = "pokemon_id"
@@ -29,6 +33,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     val NAME_KO = "name_ko"
     val NAME_ROOMAJI = "name_roomaji"
     val NAME_JA = "name_ja"
+    val FILTER = "filter"
 
     val LOCALES = arrayOf("en", "it", "es", "de", "fr", "zh", "ko", "roomaji", "ja")
 
@@ -37,11 +42,27 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonByLocale(locale: String): String {
       return if (!isLocaleExist(locale)) {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN FROM $TABLE ORDER BY $POKEMON_ID ASC"
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN FROM $TABLE ORDER BY $POKEMON_ID ASC $POKEMON_ID > 0"
       } else {
         "SELECT $ID, " +
             "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
-            " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
+            " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC WHERE $POKEMON_ID > 0"
+      }
+    }
+
+    fun selectPokemonFilterByLocale(locale: String): String {
+      return if (!isLocaleExist(locale)) {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN " +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE $FILTER = 1 " +
+            "ORDER BY $POKEMON_ID ASC "
+      } else {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE $FILTER = 1 " +
+            "ORDER BY $POKEMON_ID ASC"
       }
     }
 
@@ -77,9 +98,13 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
   /**
    * Return Pokemon image's Uri.
    */
-  fun getImageUri(context: Context): Uri {
-    val file = File(context.filesDir, imagePath)
-    return Uri.fromFile(file)
+  fun setPokemonPicture(context: Context, imageView: ImageView) {
+    if (imagePath != ALL_POKEMON_PICTURE_NAME) {
+      val file = File(context.filesDir, imagePath)
+      imageView.setImageURI(Uri.fromFile(file))
+    } else {
+      imageView.setImageResource(getDrawableByName(context, ALL_POKEMON_PICTURE_NAME))
+    }
   }
 
   override fun writeToParcel(out: Parcel?, flag: Int) {
@@ -148,6 +173,11 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
 
     fun nameJa(name: String?): Builder {
       contentValue.put(NAME_JA, name)
+      return this
+    }
+
+    fun filter(filter: String): Builder {
+      contentValue.put(FILTER, filter)
       return this
     }
 

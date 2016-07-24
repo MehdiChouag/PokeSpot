@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import fr.amsl.pokespot.R
-import fr.amsl.pokespot.data.pokemon.model.PokemonFilter
+import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.presentation.util.bindView
 import fr.amsl.pokespot.presentation.util.inflate
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class FilterAdapter @Inject constructor(private val context: Context) : Recycler
     private val TYPE_OFFSET = 1
   }
 
-  var pokemonList: List<PokemonFilter>? = null
+  var pokemonList: List<PokemonModel>? = null
   var numberPokemonOffset: Int = 0
 
   override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
@@ -53,8 +53,8 @@ class FilterAdapter @Inject constructor(private val context: Context) : Recycler
   inner class FilterPokemonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val pokemonImage: ImageView by bindView(R.id.pokemon)
 
-    fun displayPokemon(pokemonFilter: PokemonFilter) {
-      pokemonImage.setImageURI(pokemonFilter.getImageUri(context))
+    fun displayPokemon(pokemonModel: PokemonModel) {
+      pokemonImage.setImageURI(pokemonModel.getImageUri(context))
     }
   }
 

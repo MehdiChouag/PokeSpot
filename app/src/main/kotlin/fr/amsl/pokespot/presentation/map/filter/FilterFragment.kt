@@ -11,7 +11,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import com.soundcloud.lightcycle.LightCycle
 import fr.amsl.pokespot.R
-import fr.amsl.pokespot.data.pokemon.model.PokemonFilter
+import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
 import fr.amsl.pokespot.di.module.FilterModule
 import fr.amsl.pokespot.presentation.base.BaseFragment
@@ -138,7 +138,7 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
     }
   }
 
-  override fun displayFilteredPokemon(list: List<PokemonFilter>, numberPokemonOffset: Int) {
+  override fun displayFilteredPokemon(list: List<PokemonModel>, numberPokemonOffset: Int) {
     adapter.pokemonList = list
     adapter.numberPokemonOffset = numberPokemonOffset
     adapter.notifyDataSetChanged()

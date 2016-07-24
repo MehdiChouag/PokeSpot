@@ -3,7 +3,6 @@ package fr.amsl.pokespot.data.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import fr.amsl.pokespot.data.pokemon.model.PokemonFilter
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,12 +29,8 @@ class PokemonDatabase : SQLiteOpenHelper {
         "${PokemonModel.NAME_ZH} TEXT," +
         "${PokemonModel.NAME_KO} TEXT," +
         "${PokemonModel.NAME_ROOMAJI}," +
-        "${PokemonModel.NAME_JA} TEXT)"
-
-    private val CREATE_FILTER_LIST = "CREATE TABLE ${PokemonFilter.TABLE} " +
-        "(${PokemonFilter.ID} INTEGER NOT NULL PRIMARY KEY," +
-        "${PokemonFilter.POKEMON_ID} INTEGER NOT NULL," +
-        "${PokemonFilter.IMAGE_PATH} TEXT NOT NULL)"
+        "${PokemonModel.NAME_JA} TEXT, " +
+        "${PokemonModel.FILTER} INTEGER NOT NULL DEFAULT 0)"
   }
 
   @Inject
@@ -43,7 +38,13 @@ class PokemonDatabase : SQLiteOpenHelper {
 
   override fun onCreate(database: SQLiteDatabase?) {
     database?.execSQL(CREATE_POKEMON_LIST)
-    database?.execSQL(CREATE_FILTER_LIST)
+    database?.insert(PokemonModel.TABLE, null, PokemonModel.Builder()
+        .pokemonId("0")
+        .nameEn("All")
+        .nameFr("Tous")
+        .imagePath(PokemonModel.ALL_POKEMON_PICTURE_NAME)
+        .filter("1")
+        .build())
   }
 
   override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
