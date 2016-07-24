@@ -4,7 +4,6 @@ import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.BrowsePokemonRepository
 import fr.amsl.pokespot.presentation.base.ActivityBasePresenter
 import rx.Observable
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -47,7 +46,7 @@ class BrowsePokemonPresenter @Inject constructor(private val browsePokemonReposi
     if (isFilter) {
       val newFilter = if (pokemonModel.filter == 1) 0 else 1
       val ret = browsePokemonRepository.updatePokemonFilter(pokemonModel, newFilter)
-      Timber.d(ret.toString())
+
     } else {
       view?.finishActivity(pokemonModel)
     }

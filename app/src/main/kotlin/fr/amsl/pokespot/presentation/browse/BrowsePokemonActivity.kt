@@ -112,6 +112,10 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
     presenter.handlePokemonClick(pokemonModel)
   }
 
+  override fun resultCodeOk() {
+    setResult(Activity.RESULT_OK)
+  }
+
   override fun finishActivity(pokemonModel: PokemonModel) {
     val data = Intent()
     data.putExtra(KEY_POKEMON, pokemonModel)
