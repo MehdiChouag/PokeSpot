@@ -37,12 +37,27 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonByLocale(locale: String): String {
       return if (!isLocaleExist(locale)) {
         "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN " +
-            " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN FROM $TABLE ORDER BY $POKEMON_ID ASC"
       } else {
         "SELECT $ID, " +
             "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
             " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
+      }
+    }
+
+    fun selectPokemonByQuery(locale: String): String {
+      return if (!isLocaleExist(locale)) {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN " +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE $NAME_EN LIKE ? " +
+            "ORDER BY $POKEMON_ID ASC "
+      } else {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, " +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE ${NAME + locale} LIKE ? " +
+            "ORDER BY $POKEMON_ID ASC"
       }
     }
 

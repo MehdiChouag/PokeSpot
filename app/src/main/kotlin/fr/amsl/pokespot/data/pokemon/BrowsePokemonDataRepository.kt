@@ -21,8 +21,11 @@ class BrowsePokemonDataRepository
                     private val userLocale: Locale) : BrowsePokemonRepository, Func1<Cursor, PokemonModel> {
 
 
-  override fun searchPokemon(query: String?): Observable<List<PokemonModel>> {
-    return Observable.empty()
+  override fun searchPokemon(query: String): Observable<List<PokemonModel>> {
+    val formattedQuery = "%$query%"
+    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQuery(userLocale.language), formattedQuery)
+        .mapToList(this)
+        .observeOn(mainThreadScheduler)
   }
 
   override fun getAllPokemons(): Observable<List<PokemonModel>> {

@@ -30,4 +30,6 @@
     <!-- Browse -->
     <string name="browse_content_description">Pokemon</string>
     <string name="browse_pokemon_id_value">#%1$s</string>
+    <string name="browse_search">Search</string>
+    <string name="browse_hint_search">"Search a Pokémon"</string>
 </resources>

@@ -43,10 +43,25 @@
         <activity
             android:name=".presentation.browse.BrowsePokemonActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".presentation.map.MapActivity">
+            android:parentActivityName=".presentation.map.MapActivity"
+            android:windowSoftInputMode="adjustResize">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.browse.BrowsePokemonActivity" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name=".action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="fr.amsl.pokespot.android.app.searchable"
+                android:resource="@xml/searchable" />
+
         </activity>
 
         <meta-data

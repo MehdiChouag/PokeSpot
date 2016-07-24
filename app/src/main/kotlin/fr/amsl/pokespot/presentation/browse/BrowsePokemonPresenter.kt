@@ -9,7 +9,12 @@ import javax.inject.Inject
  */
 class BrowsePokemonPresenter @Inject constructor(private val browsePokemonRepository: BrowsePokemonRepository) :
     ActivityBasePresenter<BrowsePokemonView>() {
+
   fun searchPokemon(query: String) {
+    val lowerCaseQuery = query.toLowerCase()
+    view?.showLoadingView()
+    subscription.add(browsePokemonRepository.searchPokemon(lowerCaseQuery)
+        .subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
 
   }
 

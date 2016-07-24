@@ -16,4 +16,8 @@
     <string name="filter_radius">Rayon</string>
     <string name="filter_reliability">Fiabilité</string>
 
+    <!-- Browse -->
+    <string name="browse_search">Chercher</string>
+    <string name="browse_hint_search">"Chercher un Pokémon"</string>
+
 </resources>

@@ -1,8 +1,12 @@
 <resources>
 
+    <style name="Base" />
+
     <style name="PokeSpot" />
 
-    <style name="Base" />
+    <style name="PokeSpot.SearchView" parent="@style/Widget.AppCompat.SearchView.ActionBar">
+        <item name="searchIcon">@null</item>
+    </style>
 
     <!-- Download -->
     <style name="PokeSpot.Download" />
@@ -88,7 +92,9 @@
 
     <style name="Browse.Item" />
 
-    <style name="Browse.Item.Name" parent="TextAppearance.AppCompat.Subhead" />
+    <style name="Browse.Item.Name" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:singleLine">true</item>
+    </style>
 
     <style name="Browse.Item.Number" parent="TextAppearance.AppCompat.Body2" />
 
