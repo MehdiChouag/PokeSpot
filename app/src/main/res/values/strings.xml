@@ -11,4 +11,25 @@
     <string name="download_message">"Downloading Pokémon&#8230;"</string>
     <string name="download_dialog_error_title">Error</string>
     <string name="download_error_message">An error occurred. Please retry in a few minutes.</string>
+
+    <!-- Filter -->
+    <string name="filter_show_only">Only show</string>
+    <string name="filter_first_seen">First seen</string>
+    <string name="filter_first_seen_minute" translatable="false">"&lt; %1$dmin"</string>
+    <string name="filter_first_seen_hour" translatable="false">"&lt; %1$dh"</string>
+    <string name="filter_first_seen_hour_and_minute" translatable="false">&lt; %1$dh%2$02d</string>
+    <string name="filter_first_seen_all">All</string>
+    <string name="filter_radius">Radius</string>
+    <string name="filter_radius_value" translatable="false">%1$d Km</string>
+    <string name="filter_reliability">Reliability</string>
+    <string name="filter_reliability_value" translatable="false">"%1$d%%"</string>
+    <string name="filter_reliability_greater_value" translatable="false">"> %1$d%%"</string>
+    <string name="filter_content_description">Pokemon</string>
+    <string name="filter_offset">+%1$d</string>
+
+    <!-- Browse -->
+    <string name="browse_content_description">Pokemon</string>
+    <string name="browse_pokemon_id_value">#%1$s</string>
+    <string name="browse_search">Search</string>
+    <string name="browse_hint_search">"Search a Pokémon"</string>
 </resources>

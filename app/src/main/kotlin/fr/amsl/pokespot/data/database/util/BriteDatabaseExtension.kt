@@ -15,3 +15,15 @@ fun BriteDatabase.executeTransaction(block: BriteDatabase.() -> Unit) {
     transaction.end()
   }
 }
+
+fun <T> BriteDatabase.executeTransactionRun(block: BriteDatabase.() -> T): T {
+  val transaction = newTransaction()
+  val result: T
+  try {
+    result = block()
+    transaction.markSuccessful()
+  } finally {
+    transaction.end()
+  }
+  return result
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="columns_filer_item">4</integer>
+    <integer name="row_filer_item">2</integer>
+
+    <integer name="columns_browse_item">4</integer>
+</resources>

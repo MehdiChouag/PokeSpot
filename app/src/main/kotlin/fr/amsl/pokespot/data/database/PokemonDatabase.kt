@@ -29,7 +29,8 @@ class PokemonDatabase : SQLiteOpenHelper {
         "${PokemonModel.NAME_ZH} TEXT," +
         "${PokemonModel.NAME_KO} TEXT," +
         "${PokemonModel.NAME_ROOMAJI}," +
-        "${PokemonModel.NAME_JA} TEXT)"
+        "${PokemonModel.NAME_JA} TEXT, " +
+        "${PokemonModel.FILTER} INTEGER NOT NULL DEFAULT 0)"
   }
 
   @Inject
@@ -37,6 +38,13 @@ class PokemonDatabase : SQLiteOpenHelper {
 
   override fun onCreate(database: SQLiteDatabase?) {
     database?.execSQL(CREATE_POKEMON_LIST)
+    database?.insert(PokemonModel.TABLE, null, PokemonModel.Builder()
+        .pokemonId("0")
+        .nameEn("All")
+        .nameFr("Tous")
+        .imagePath(PokemonModel.ALL_POKEMON_PICTURE_NAME)
+        .filter(1)
+        .build())
   }
 
   override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {

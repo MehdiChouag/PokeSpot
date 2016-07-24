@@ -8,6 +8,7 @@ import fr.amsl.pokespot.PSApplication
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -32,5 +33,12 @@ class ApplicationModule(private val application: PSApplication) {
   @Provides
   @Singleton
   @Named("WorkerThread")
-  fun providerWorkerThreadScheduler(): Scheduler = Schedulers.io()
+  fun provideWorkerThreadScheduler(): Scheduler = Schedulers.io()
+
+  @NonNull
+  @Provides
+  @Singleton
+  fun provideUserLocale(): Locale {
+    return Locale.getDefault()
+  }
 }

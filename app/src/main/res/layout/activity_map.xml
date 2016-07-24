@@ -30,15 +30,16 @@
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="end">
+        android:layout_gravity="end"
+        android:clickable="true">
 
-        <View
+        <fragment
+            android:id="@+id/filter"
+            android:name="fr.amsl.pokespot.presentation.map.filter.FilterFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent" />
+            android:layout_height="match_parent" />
 
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

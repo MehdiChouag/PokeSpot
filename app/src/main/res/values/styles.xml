@@ -1,8 +1,12 @@
 <resources>
 
+    <style name="Base" />
+
     <style name="PokeSpot" />
 
-    <style name="Base" />
+    <style name="PokeSpot.SearchView" parent="@style/Widget.AppCompat.SearchView.ActionBar">
+        <item name="searchIcon">@null</item>
+    </style>
 
     <!-- Download -->
     <style name="PokeSpot.Download" />
@@ -20,7 +24,14 @@
         <item name="title">@string/toolbar_title</item>
     </style>
 
-    <!-- Maps Activity -->
+    <!-- ProgressBar -->
+    <style name="Base.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminate">true</item>
+        <item name="android:visibility">invisible</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <!-- Maps Fab -->
     <style name="PokeSpot.FAB" />
 
     <style name="Base.FAB" parent="Widget.Design.FloatingActionButton">
@@ -43,4 +54,50 @@
         <item name="backgroundTint">@android:color/white</item>
         <item name="srcCompat">@drawable/ic_my_location</item>
     </style>
+
+    <!-- Filter -->
+    <style name="Filter" />
+
+    <style name="Filter.Container">
+        <item name="android:layout_marginLeft">@dimen/horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/horizontal_margin</item>
+    </style>
+
+    <style name="Filter.ProgressBar" parent="Base.ProgressBar" />
+
+    <style name="Filter.Title" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+    </style>
+
+    <style name="Filter.Value" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <style name="Filter.SeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:layout_marginTop">@dimen/space_std</item>
+        <item name="android:max">100</item>
+    </style>
+
+    <style name="Filter.Item" />
+
+    <style name="Filter.Item.Offset" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/bright_gray</item>
+    </style>
+
+    <!-- Browse -->
+    <style name="Browse" />
+
+    <style name="Browse.Item" />
+
+    <style name="Browse.Item.Name" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Browse.Item.Number" parent="TextAppearance.AppCompat.Body2" />
+
+    <style name="Browse.ProgressBar" parent="Base.ProgressBar" />
+
 </resources>

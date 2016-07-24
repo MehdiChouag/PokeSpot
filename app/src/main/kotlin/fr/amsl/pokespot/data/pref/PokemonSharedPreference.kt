@@ -15,13 +15,24 @@ class PokemonSharedPreference @Inject constructor(private val context: Context) 
 
   companion object {
     private val KEY_POKEMON_DOWNLOADED = "fr.amsl.pokespot.data.pref.KEY_POKEMON_DOWNLOADED"
+    private val KEY_FILTER_RADIUS = "fr.amsl.pokespot.data.pref.KEY_FILTER_RADIUS"
+    private val KEY_FILTER_RELIABILITY = "fr.amsl.pokespot.data.pref.KEY_FILTER_RELIABILITY"
+    private val KEY_FILTER_FIRST_SEEN = "fr.amsl.pokespot.data.pref.KEY_FILTER_FIRST_SEEN"
   }
 
   var isPokemonDownloaded: Boolean
-    set(value) {
-      sharedPreference.edit().putBoolean(KEY_POKEMON_DOWNLOADED, value).apply()
-    }
-    get() {
-      return sharedPreference.getBoolean(KEY_POKEMON_DOWNLOADED, false)
-    }
+    set(value) = sharedPreference.edit().putBoolean(KEY_POKEMON_DOWNLOADED, value).apply()
+    get() = sharedPreference.getBoolean(KEY_POKEMON_DOWNLOADED, false)
+
+  var radius: Int
+    set(value) = sharedPreference.edit().putInt(KEY_FILTER_RADIUS, value).apply()
+    get() = sharedPreference.getInt(KEY_FILTER_RADIUS, 100)
+
+  var reliability: Int
+    set(value) = sharedPreference.edit().putInt(KEY_FILTER_RELIABILITY, value).apply()
+    get() = sharedPreference.getInt(KEY_FILTER_RELIABILITY, 100)
+
+  var firstSeen: Int
+    set(value) = sharedPreference.edit().putInt(KEY_FILTER_FIRST_SEEN, value).apply()
+    get() = sharedPreference.getInt(KEY_FILTER_FIRST_SEEN, 5)
 }

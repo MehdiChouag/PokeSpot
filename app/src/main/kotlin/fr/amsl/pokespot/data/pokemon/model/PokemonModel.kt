@@ -5,20 +5,30 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import android.widget.ImageView
+import fr.amsl.pokespot.presentation.util.getDrawableByName
 import java.io.File
 
 /**
  * Model class for pokemon fetch for db.
  */
-// Name could be null a pokemon name if null in translation.
-data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String) : Parcelable {
+// Name could be null if the pokemon name is null in translation.
+data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String, val filter: Int) : Parcelable {
+
+  var numberSelectedPokemon: Int? = null
 
   companion object {
     val TABLE = "pokemon"
 
+    val ALL_POKEMON_PICTURE_NAME = "all"
+
+    val WITH_FILTER = "1"
+    val WITHOUT_FILTER = "0"
+
     val ID = "_id"
     val POKEMON_ID = "pokemon_id"
     val IMAGE_PATH = "image_path"
+    val NAME = "name_"
     val NAME_EN = "name_en"
     val NAME_IT = "name_it"
     val NAME_ES = "name_es"
@@ -28,8 +38,85 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     val NAME_KO = "name_ko"
     val NAME_ROOMAJI = "name_roomaji"
     val NAME_JA = "name_ja"
+    val FILTER = "filter"
 
-    val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {
+    val LOCALES = arrayOf("en", "it", "es", "de", "fr", "zh", "ko", "roomaji", "ja")
+
+    fun isLocaleExist(locale: String): Boolean = LOCALES.find { it == locale } != null
+
+    fun selectPokemonByLocaleWithoutAll(locale: String): String {
+      return if (!isLocaleExist(locale)) {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER, FROM $TABLE WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
+      } else {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
+            " ${NAME + locale} FROM $TABLE WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
+      }
+    }
+
+    fun selectPokemonByLocale(locale: String): String {
+      return if (!isLocaleExist(locale)) {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER, FROM $TABLE ORDER BY $POKEMON_ID ASC"
+      } else {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
+            " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
+      }
+    }
+
+    fun selectPokemonFilterByLocale(locale: String): String {
+      return if (!isLocaleExist(locale)) {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE $FILTER=1 " +
+            "ORDER BY $POKEMON_ID ASC "
+      } else {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE $FILTER=1 " +
+            "ORDER BY $POKEMON_ID ASC"
+      }
+    }
+
+    fun selectPokemonByQuery(locale: String): String {
+      return if (!isLocaleExist(locale)) {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER," +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE $NAME_EN LIKE ? " +
+            "ORDER BY $POKEMON_ID ASC "
+      } else {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE ${NAME + locale} LIKE ? " +
+            "ORDER BY $POKEMON_ID ASC"
+      }
+    }
+
+    fun selectPokemonByQueryWithoutAll(locale: String): String {
+      return if (!isLocaleExist(locale)) {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE $NAME_EN LIKE ? AND " +
+            "$POKEMON_ID > 0 " +
+            "ORDER BY $POKEMON_ID ASC "
+      } else {
+        "SELECT $ID, " +
+            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
+            " ${NAME + locale} FROM $TABLE " +
+            "WHERE ${NAME + locale} LIKE ? AND " +
+            "$POKEMON_ID > 0 " +
+            "ORDER BY $POKEMON_ID ASC"
+      }
+    }
+
+    @JvmField val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {
       override fun createFromParcel(parcel: Parcel): PokemonModel {
         return PokemonModel(parcel)
       }
@@ -40,14 +127,18 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     }
   }
 
-  constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString(), parcel.readString())
+  constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString(), parcel.readString(), parcel.readInt())
 
   /**
    * Return Pokemon image's Uri.
    */
-  fun getImageUri(context: Context): Uri {
-    val file = File(context.filesDir, imagePath)
-    return Uri.fromFile(file)
+  fun setPokemonPicture(context: Context, imageView: ImageView) {
+    if (imagePath != ALL_POKEMON_PICTURE_NAME) {
+      val file = File(context.filesDir, imagePath)
+      imageView.setImageURI(Uri.fromFile(file))
+    } else {
+      imageView.setImageResource(getDrawableByName(context, ALL_POKEMON_PICTURE_NAME))
+    }
   }
 
   override fun writeToParcel(out: Parcel?, flag: Int) {
@@ -55,6 +146,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     out?.writeString(name)
     out?.writeString(imagePath)
     out?.writeString(pokemonId)
+    out?.writeInt(filter)
   }
 
   override fun describeContents(): Int {
@@ -62,7 +154,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
   }
 
   class Builder {
-    val contentValue = ContentValues()
+    private val contentValue = ContentValues()
 
     fun pokemonId(pokemonId: String): Builder {
       contentValue.put(POKEMON_ID, pokemonId)
@@ -116,6 +208,11 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
 
     fun nameJa(name: String?): Builder {
       contentValue.put(NAME_JA, name)
+      return this
+    }
+
+    fun filter(filter: Int): Builder {
+      contentValue.put(FILTER, filter)
       return this
     }
 

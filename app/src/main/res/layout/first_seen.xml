@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout style="@style/Filter.Container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/first_seen_title"
+        style="@style/Filter.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_first_seen" />
+
+    <TextView
+        android:id="@+id/first_seen_value"
+        style="@style/Filter.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/first_seen_title"
+        tools:text="TOTO" />
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/first_seen_seekbar"
+        style="@style/Filter.SeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/first_seen_title"
+        android:max="117" />
+
+</RelativeLayout>

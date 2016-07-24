@@ -13,6 +13,7 @@ import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import fr.amsl.pokespot.BuildConfig
 import fr.amsl.pokespot.PSApplication
 import timber.log.Timber
 
@@ -45,11 +46,13 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
   override fun onMapReady(googleMap: GoogleMap?) {
     map = googleMap
-    map?.apply {
+    map?.run {
       mapType = GoogleMap.MAP_TYPE_NORMAL
       setOnCameraChangeListener(this@MapFragment)
       isMyLocationEnabled = true
-      uiSettings.isZoomControlsEnabled = true
+
+      // Zoom Controls only for debug.
+      uiSettings.isZoomControlsEnabled = BuildConfig.DEBUG
       uiSettings?.isMyLocationButtonEnabled = false
       uiSettings?.isTiltGesturesEnabled = false
     }
