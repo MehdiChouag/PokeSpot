@@ -15,6 +15,8 @@ import java.io.File
 // Name could be null if the pokemon name is null in translation.
 data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String, val filter: Int) : Parcelable {
 
+  var numberSelectedPokemon: Int? = null
+
   companion object {
     val TABLE = "pokemon"
 

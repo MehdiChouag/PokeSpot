@@ -23,6 +23,8 @@ class BrowsePokemonDataRepository
                     private val userLocale: Locale) : BrowsePokemonRepository, Func1<Cursor, PokemonModel> {
 
 
+  var numberSelectedPokemon: Int = 0
+
   override fun searchPokemon(query: String): Observable<List<PokemonModel>> {
     val formattedQuery = "%$query%"
     return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQueryWithoutAll(userLocale.language), formattedQuery)
@@ -32,6 +34,7 @@ class BrowsePokemonDataRepository
 
   override fun searchFilterPokemon(query: String): Observable<List<PokemonModel>> {
     val formattedQuery = "%$query%"
+    numberSelectedPokemon = 0
     return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQuery(userLocale.language), formattedQuery)
         .mapToList(this)
         .observeOn(mainThreadScheduler)
@@ -44,6 +47,7 @@ class BrowsePokemonDataRepository
   }
 
   override fun getAllFilterPokemon(): Observable<List<PokemonModel>> {
+    numberSelectedPokemon = 0
     return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByLocale(userLocale.language))
         .mapToList(this)
         .observeOn(mainThreadScheduler)
@@ -54,20 +58,25 @@ class BrowsePokemonDataRepository
     val newValue = PokemonModel.Builder().filter(filter).build()
     val prevValue = PokemonModel.Builder().filter(prevFilter).build()
     return if (pokemonModel.pokemonId == "0" && filter == 1) {
+      numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
         update(PokemonModel.TABLE, prevValue, "${PokemonModel.POKEMON_ID}!=?", "${pokemonModel.pokemonId}")
         update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
-    } else if (pokemonModel.id != "0" && filter == 1) {
+    } else if (pokemonModel.id != "0" && filter == 1 || filter == 0 && numberSelectedPokemon == 1) {
+      numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
         update(PokemonModel.TABLE, prevValue, "${PokemonModel.POKEMON_ID}=?", "0")
         update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
+
     } else if (pokemonModel.pokemonId != "0") {
+      numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
         update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
     } else {
+      numberSelectedPokemon = 0
       -1
     }
   }
@@ -78,11 +87,16 @@ class BrowsePokemonDataRepository
       cursor.getString(PokemonModel.NAME + userLocale.language)
     } else null
 
-    return PokemonModel(cursor.getString(PokemonModel.ID)!!,
+
+    val pokemonModel = PokemonModel(cursor.getString(PokemonModel.ID)!!,
         nameLocale ?: nameEn!!,
         cursor.getString(PokemonModel.IMAGE_PATH)!!,
         cursor.getString(PokemonModel.POKEMON_ID)!!,
         cursor.getInt(PokemonModel.FILTER))
+
+    numberSelectedPokemon += if (pokemonModel.filter == 1) 1 else 0
+
+    return pokemonModel
   }
 
 }
