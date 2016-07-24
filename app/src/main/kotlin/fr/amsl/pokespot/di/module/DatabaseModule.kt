@@ -21,10 +21,8 @@ open class DatabaseModule {
 
   @Provides
   @Singleton
-  fun provideBriteDatabase(@Named("WorkerThread") workThreadScheduler: Scheduler,
-                           sqlBrite: SqlBrite, db: PokemonDatabase): BriteDatabase {
-    val briteDatabase = sqlBrite.wrapDatabaseHelper(db, workThreadScheduler)
-    briteDatabase.setLoggingEnabled(true)
-    return briteDatabase
+  open fun provideBriteDatabase(@Named("WorkerThread") workThreadScheduler: Scheduler,
+                                sqlBrite: SqlBrite, db: PokemonDatabase): BriteDatabase {
+    return sqlBrite.wrapDatabaseHelper(db, workThreadScheduler)
   }
 }
