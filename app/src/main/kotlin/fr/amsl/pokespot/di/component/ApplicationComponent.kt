@@ -20,4 +20,6 @@ interface ApplicationComponent {
   fun plus(downloadModule: DownloadModule): DownloadComponent
 
   fun plus(filterModule: FilterModule): FilterComponent
+
+  fun plus(browsePokemonModule: BrowsePokemonModule): BrowsePokemonComponent
 }
