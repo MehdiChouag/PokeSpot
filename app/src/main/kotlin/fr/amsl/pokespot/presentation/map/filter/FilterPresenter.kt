@@ -21,7 +21,10 @@ class FilterPresenter @Inject constructor(private val filterPokemonRepository: F
           return@map if (it.size > condition) {
             offset = it.size - (condition - 1)
             it.take(condition - 1)
-          } else it
+          } else {
+            offset = 0
+            it
+          }
         }
         .subscribe({
           view?.hideLoadingView()
