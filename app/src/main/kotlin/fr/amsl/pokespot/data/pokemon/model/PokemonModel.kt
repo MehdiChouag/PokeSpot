@@ -135,7 +135,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
       val file = File(context.filesDir, imagePath)
       imageView.setImageURI(Uri.fromFile(file))
     } else {
-      imageView.setImageResource(getDrawableByName(context, "ic_location"))
+      imageView.setImageResource(getDrawableByName(context, ALL_POKEMON_PICTURE_NAME))
     }
   }
 
