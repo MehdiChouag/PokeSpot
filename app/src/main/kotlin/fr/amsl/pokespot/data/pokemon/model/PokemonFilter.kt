@@ -19,7 +19,7 @@ data class PokemonFilter(val pokemonId: String, val imagePath: String) {
     val IMAGE_PATH = "image_path"
 
     val MAP = Func1<Cursor, PokemonFilter>({
-      return@Func1 PokemonFilter(it.getString(POKEMON_ID), it.getString(IMAGE_PATH))
+      return@Func1 PokemonFilter(it.getString(POKEMON_ID)!!, it.getString(IMAGE_PATH)!!)
     })
   }
 

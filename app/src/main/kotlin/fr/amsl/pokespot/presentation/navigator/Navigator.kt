@@ -1,7 +1,9 @@
 package fr.amsl.pokespot.presentation.navigator
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import fr.amsl.pokespot.presentation.browse.BrowsePokemonActivity
 import fr.amsl.pokespot.presentation.download.DownloadActivity
 import fr.amsl.pokespot.presentation.map.MapActivity
 import javax.inject.Inject
@@ -25,5 +27,13 @@ class Navigator @Inject constructor() {
    */
   fun navigateToMapActivity(context: Context) {
     context.startActivity(Intent(context, MapActivity::class.java))
+  }
+
+  /**
+   * Start browse activity.
+   */
+  fun navigateToBrowsePokemon(activity: Activity, id: Int) {
+    val intent = Intent(activity, BrowsePokemonActivity::class.java)
+    activity.startActivityForResult(intent, id)
   }
 }

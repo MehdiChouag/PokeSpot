@@ -40,6 +40,15 @@
             android:name=".presentation.map.MapActivity"
             android:launchMode="singleTop" />
 
+        <activity
+            android:name=".presentation.browse.BrowsePokemonActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".presentation.map.MapActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.browse.BrowsePokemonActivity" />
+        </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b530c727b80c919026778b7621bddda97fcbe55f" />

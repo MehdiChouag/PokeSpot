@@ -19,6 +19,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     val ID = "_id"
     val POKEMON_ID = "pokemon_id"
     val IMAGE_PATH = "image_path"
+    val NAME = "name_"
     val NAME_EN = "name_en"
     val NAME_IT = "name_it"
     val NAME_ES = "name_es"
@@ -28,6 +29,12 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     val NAME_KO = "name_ko"
     val NAME_ROOMAJI = "name_roomaji"
     val NAME_JA = "name_ja"
+
+    val SELECT_ALL_POKEMON = "SELECT * FROM ${PokemonModel.TABLE}"
+
+    fun selectPokemonByLocale(locale: String): String {
+      return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN,  ${NAME + locale} FROM $TABLE"
+    }
 
     val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {
       override fun createFromParcel(parcel: Parcel): PokemonModel {

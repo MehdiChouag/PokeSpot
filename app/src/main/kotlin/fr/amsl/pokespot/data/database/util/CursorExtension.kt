@@ -5,7 +5,7 @@ import android.database.Cursor
 /**
  * Extension for Cursor.
  */
-fun Cursor.getString(columnsName: String): String {
+fun Cursor.getString(columnsName: String): String? {
   return getString(getColumnIndexOrThrow(columnsName))
 }
 
