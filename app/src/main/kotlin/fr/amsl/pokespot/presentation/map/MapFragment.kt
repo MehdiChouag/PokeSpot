@@ -13,6 +13,7 @@ import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import fr.amsl.pokespot.BuildConfig
 import fr.amsl.pokespot.PSApplication
 import timber.log.Timber
 
@@ -27,6 +28,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   var map: GoogleMap? = null
   var googleApiClient: GoogleApiClient? = null
   var currentLocation: Location? = null
+  var lastLocation: Location? = null
   var shouldFocus: Boolean = true
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +51,9 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
       mapType = GoogleMap.MAP_TYPE_NORMAL
       setOnCameraChangeListener(this@MapFragment)
       isMyLocationEnabled = true
-      uiSettings.isZoomControlsEnabled = true
+
+      // Zoom Controls only for debug.
+      uiSettings.isZoomControlsEnabled = BuildConfig.DEBUG
       uiSettings?.isMyLocationButtonEnabled = false
       uiSettings?.isTiltGesturesEnabled = false
     }
@@ -62,11 +66,14 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   fun focusOnCurrentLocation() {
-    currentLocation?.apply {
-      val position = CameraPosition.builder().target(LatLng(latitude,
-          longitude)).zoom(16f).bearing(0.0f).tilt(0.0f).build()
+    if (lastLocation != currentLocation) {
+      currentLocation?.apply {
+        val position = CameraPosition.builder().target(LatLng(latitude,
+            longitude)).zoom(16f).bearing(0.0f).tilt(0.0f).build()
 
-      map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
+        map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
+        lastLocation = currentLocation
+      }
     }
   }
 
