@@ -12,10 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import fr.amsl.pokespot.BuildConfig
 import fr.amsl.pokespot.PSApplication
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
@@ -40,6 +37,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   var currentLocation: Location? = null
   var shouldFocus: Boolean = true
   var latLng: LatLng? = null
+  var markers: List<Marker> = listOf()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -116,9 +114,12 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   override fun displayPokemon(list: List<PokemonMapApi>) {
+    map?.clear()
     for (item in list) {
       val position = LatLng(item.latitude, item.longitude)
-      map?.addMarker(MarkerOptions().position(position))
+      map?.addMarker(MarkerOptions()
+          .position(position)
+          .icon(BitmapDescriptorFactory.fromBitmap(item.getImageBitmap(context()))))
     }
   }
 

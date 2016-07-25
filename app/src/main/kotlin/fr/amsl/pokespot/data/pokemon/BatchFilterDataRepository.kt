@@ -7,30 +7,36 @@ import fr.amsl.pokespot.data.database.util.getString
 import fr.amsl.pokespot.data.pokemon.model.FilterModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.BatchFilterRepository
+import rx.Observable
+import rx.Scheduler
 import rx.functions.Func1
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * @author mehdichouag on 24/07/2016.
  */
-class BatchFilterDataRepository @Inject constructor(private val briteDatabase: BriteDatabase) : BatchFilterRepository, Func1<Cursor, PokemonModel> {
+class BatchFilterDataRepository
+@Inject constructor(@Named("WorkerThread") private val workerThreadScheduler: Scheduler,
+                    private val briteDatabase: BriteDatabase) : BatchFilterRepository, Func1<Cursor, PokemonModel> {
 
   override fun batchFilter() {
-    briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.selectPokemonFilterMap())
-        .mapToList(this)
-        .map {
+    Observable.defer { Observable.just(briteDatabase.query(PokemonModel.selectPokemonFilterMap())) }
+        .subscribeOn(workerThreadScheduler)
+        .subscribe {
           val transaction = briteDatabase.newTransaction()
           try {
             briteDatabase.delete(FilterModel.TABLE_FILTER, null)
-            it.forEach {
-              val values = FilterModel.Builder().pokemonId(it.pokemonId).build()
+            while (it.moveToNext()) {
+              val values = FilterModel.Builder().pokemonId(it.getString(FilterModel.POKEMON_ID)!!).build()
               briteDatabase.insert(FilterModel.TABLE_FILTER, values)
             }
             transaction.markSuccessful()
           } finally {
             transaction.end()
+            it.close()
           }
-        }.subscribe { }
+        }
   }
 
   override fun call(cursor: Cursor): PokemonModel {

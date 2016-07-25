@@ -53,7 +53,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonByLocale(locale: String): String {
       return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
           getNameLocale(locale) +
-          "FROM $TABLE_POKEMON " + "WHERE $POKEMON_ID < 152" +
+          "FROM $TABLE_POKEMON " + "WHERE $POKEMON_ID < 152 " +
           "ORDER BY $POKEMON_ID ASC"
     }
 
