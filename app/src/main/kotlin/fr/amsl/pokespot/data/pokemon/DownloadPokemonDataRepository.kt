@@ -3,7 +3,6 @@ package fr.amsl.pokespot.data.pokemon
 import android.content.ContentValues
 import android.content.Context
 import com.squareup.sqlbrite.BriteDatabase
-import fr.amsl.pokespot.data.database.util.executeTransaction
 import fr.amsl.pokespot.data.pokemon.model.PokemonApiModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.DownloadPokemonRepository
@@ -25,18 +24,23 @@ class DownloadPokemonDataRepository
                     private val pokemonSharedPreference: PokemonSharedPreference,
                     private val downloadPokemonService: DownloadPokemonService) : DownloadPokemonRepository {
 
-  //TODO Optimize insertion.
   override fun getPokemonList(): Observable<List<PokemonApiModel>> {
     return downloadPokemonService.getPokemonList()
         .subscribeOn(workerThreadScheduler)
         .doOnNext {
-          it.forEach { item ->
-            val fileName = "${item.id}.png"
-            val outStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
-            val value = getValue(item, fileName)
+          val transaction = briteDatabase.newTransaction()
+          try {
+            it.forEach { item ->
+              val fileName = "${item.pokemonId}.png"
+              val outStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
+              val value = getValue(item, fileName)
 
-            outStream.use { it.write(android.util.Base64.decode(item.image, android.util.Base64.DEFAULT)); it.flush() }
-            briteDatabase.executeTransaction({ insert(PokemonModel.TABLE_POKEMON, value) })
+              outStream.use { it.write(android.util.Base64.decode(item.image, android.util.Base64.DEFAULT)); it.flush() }
+              briteDatabase.insert(PokemonModel.TABLE_POKEMON, value)
+            }
+            transaction.markSuccessful()
+          } finally {
+            transaction.end()
           }
           pokemonSharedPreference.isPokemonDownloaded = true
         }
