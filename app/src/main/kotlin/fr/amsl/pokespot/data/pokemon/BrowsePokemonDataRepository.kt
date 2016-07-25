@@ -81,24 +81,6 @@ class BrowsePokemonDataRepository
     }
   }
 
-  override fun batchFilter() {
-    briteDatabase.delete(FilterModel.TABLE_FILTER, null)
-    briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.selectPokemonFilterMap())
-        .mapToList(this)
-        .map {
-          val transaction = briteDatabase.newTransaction()
-          try {
-            it.forEach {
-              val value = FilterModel.Builder().pokemonId(it.pokemonId).build()
-              briteDatabase.insert(FilterModel.TABLE_FILTER, value)
-            }
-            transaction.markSuccessful()
-          } finally {
-            transaction.end()
-          }
-        }
-  }
-
   override fun call(cursor: Cursor): PokemonModel {
     val nameEn = cursor.getString(PokemonModel.NAME_EN)
     val nameLocale = if (PokemonModel.isLocaleExist(userLocale.language)) {
