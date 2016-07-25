@@ -47,26 +47,26 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     fun selectPokemonByLocaleWithoutAll(locale: String): String {
       return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
           getNameLocale(locale) + "FROM $TABLE_POKEMON " +
-          "WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
+          "WHERE $POKEMON_ID > 0 AND $POKEMON_ID < 152 ORDER BY $POKEMON_ID ASC"
     }
 
     fun selectPokemonByLocale(locale: String): String {
       return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
           getNameLocale(locale) +
-          "FROM $TABLE_POKEMON ORDER BY $POKEMON_ID ASC"
+          "FROM $TABLE_POKEMON " + "WHERE $POKEMON_ID < 152" +
+          "ORDER BY $POKEMON_ID ASC"
     }
 
     fun selectPokemonFilterByLocale(locale: String): String {
       return "SELECT $ID, " +
           "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
           getNameLocale(locale) + "FROM $TABLE_POKEMON " +
-          "WHERE $FILTER=1 " +
-          "ORDER BY $POKEMON_ID ASC"
+          "WHERE $FILTER=1 AND $POKEMON_ID < 152 ORDER BY $POKEMON_ID ASC"
     }
 
     fun selectPokemonFilterMap(): String {
       return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER FROM $TABLE_POKEMON " +
-          "WHERE $FILTER=1 " + "ORDER BY $POKEMON_ID ASC "
+          "WHERE $FILTER=1 AND $POKEMON_ID < 152 ORDER BY $POKEMON_ID ASC "
     }
 
     fun selectPokemonByQuery(locale: String): String {
@@ -74,7 +74,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
           "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER" +
           getNameLocale(locale) +
           "FROM $TABLE_POKEMON " +
-          "WHERE $NAME_EN LIKE ? " +
+          "WHERE $NAME_EN LIKE ? AND $POKEMON_ID < 152 " +
           "ORDER BY $POKEMON_ID ASC"
     }
 
@@ -82,7 +82,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
       return "SELECT $ID, " +
           "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
           getNameLocale(locale) + "FROM $TABLE_POKEMON " +
-          "WHERE $NAME_EN LIKE ? AND " + "$POKEMON_ID > 0 " +
+          "WHERE $NAME_EN LIKE ? AND " + "$POKEMON_ID > 0 AND $POKEMON_ID < 152 " +
           "ORDER BY $POKEMON_ID ASC"
     }
 
