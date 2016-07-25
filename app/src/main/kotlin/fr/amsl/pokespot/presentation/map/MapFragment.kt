@@ -135,6 +135,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
     if (shouldFocus) {
       focusOnCurrentLocation()
+      shouldFocus = false
     }
   }
 
