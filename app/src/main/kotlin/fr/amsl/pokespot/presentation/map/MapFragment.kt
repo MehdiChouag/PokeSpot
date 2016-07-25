@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import fr.amsl.pokespot.BuildConfig
 import fr.amsl.pokespot.PSApplication
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
+import fr.amsl.pokespot.data.pref.PokemonSharedPreference
 import fr.amsl.pokespot.di.module.MapModule
 import javax.inject.Inject
 
@@ -29,6 +30,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     OnConnectionFailedListener, GoogleMap.OnCameraChangeListener, MapView, GoogleMap.OnMarkerClickListener {
 
   @Inject lateinit var presenter: MapPresenter
+  @Inject lateinit var pokemonPref: PokemonSharedPreference
 
   val refWatch by lazy { PSApplication.get(activity).refWatcher }
   val applicationComponent by lazy { PSApplication.get(activity).applicationComponent }
@@ -37,6 +39,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   var googleApiClient: GoogleApiClient? = null
   var currentLocation: Location? = null
   var shouldFocus: Boolean = true
+  var latLng: LatLng? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -52,6 +55,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
   fun initialize() {
     presenter.view = this
+
   }
 
   fun initializeGoogleApiClient() {
@@ -85,15 +89,21 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   fun focusOnCurrentLocation() {
     currentLocation?.apply {
       val position = CameraPosition.builder().target(LatLng(latitude,
-          longitude)).zoom(15f).bearing(0.0f).tilt(0.0f).build()
+          longitude)).zoom(13f).bearing(0.0f).tilt(0.0f).build()
 
       map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
     }
   }
 
   override fun onCameraChange(cameraPosition: CameraPosition) {
-    val latLong = cameraPosition.target
-    presenter.fetchPokemon(latLong.latitude, latLong.longitude)
+    latLng = cameraPosition.target
+    presenter.fetchPokemon(latLng!!.latitude, latLng!!.longitude)
+  }
+
+  fun reloadPokemon() {
+    latLng?.run {
+      presenter.fetchPokemon(latitude, longitude)
+    }
   }
 
   override fun onStop() {

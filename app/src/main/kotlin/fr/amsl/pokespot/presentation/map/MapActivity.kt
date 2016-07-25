@@ -8,10 +8,12 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import fr.amsl.pokespot.R
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.presentation.base.BaseActivity
 import fr.amsl.pokespot.presentation.browse.BrowsePokemonActivity
+import fr.amsl.pokespot.presentation.map.filter.FilterFragment
 import fr.amsl.pokespot.presentation.navigator.Navigator
 import fr.amsl.pokespot.presentation.util.bindView
 import timber.log.Timber
@@ -37,6 +39,7 @@ class MapActivity : BaseActivity() {
   @Inject lateinit var navigator: Navigator
 
   lateinit var mapFragment: MapFragment
+  lateinit var filterFragment: FilterFragment
 
   override fun initialize() {
     setSupportActionBar(toolbar)
@@ -44,16 +47,35 @@ class MapActivity : BaseActivity() {
     // Disable DrawerLayout gesture due to SeekBars in filers
     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-    initializeMapFragment()
+    initializeFragments()
     initializeFAB()
+
+    drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+      override fun onDrawerClosed(drawerView: View?) {
+        if (filterFragment.hasBeenModify) {
+          filterFragment.hasBeenModify = false
+          mapFragment.reloadPokemon()
+        }
+      }
+
+      override fun onDrawerStateChanged(newState: Int) {
+      }
+
+      override fun onDrawerSlide(drawerView: View?, slideOffset: Float) {
+      }
+
+      override fun onDrawerOpened(drawerView: View?) {
+      }
+    })
   }
 
   override fun initializeInjector() {
     applicationComponent.inject(this)
   }
 
-  fun initializeMapFragment() {
+  fun initializeFragments() {
     mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
+    filterFragment = supportFragmentManager.findFragmentById(R.id.filter) as FilterFragment
   }
 
   fun initializeFAB() {

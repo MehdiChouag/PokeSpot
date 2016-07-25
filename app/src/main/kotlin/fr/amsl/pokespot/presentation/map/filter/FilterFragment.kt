@@ -32,6 +32,7 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
   @Inject @LightCycle lateinit var presenter: FilterPresenter
   @Inject lateinit var navigator: Navigator
 
+  var hasBeenModify: Boolean = false
   val recycler: RecyclerView by bindView(R.id.recycler_view)
   val filterContainer: View by bindView(R.id.only_show_container)
   val progressBar: ProgressBar by bindView(R.id.progress_bar)
@@ -101,6 +102,7 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
 
   override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
     if (fromUser) {
+      hasBeenModify = true
       when (seekBar) {
         radiusSeek -> {
           radiusValue.text = getString(R.string.filter_radius_value, progress)

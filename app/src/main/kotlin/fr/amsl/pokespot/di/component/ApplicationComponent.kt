@@ -1,7 +1,6 @@
 package fr.amsl.pokespot.di.component
 
 import dagger.Component
-import fr.amsl.pokespot.data.database.service.BatchFilterService
 import fr.amsl.pokespot.di.module.*
 import fr.amsl.pokespot.presentation.launcher.LauncherActivity
 import fr.amsl.pokespot.presentation.map.MapActivity
@@ -20,8 +19,6 @@ interface ApplicationComponent {
   fun inject(launcherActivity: LauncherActivity)
 
   fun inject(mapActivity: MapActivity)
-
-  fun inject(batchFilterService: BatchFilterService)
 
   fun plus(downloadModule: DownloadModule): DownloadComponent
 
