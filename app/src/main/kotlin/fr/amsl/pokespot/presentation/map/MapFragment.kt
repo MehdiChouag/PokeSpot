@@ -39,8 +39,9 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   var googleApiClient: GoogleApiClient? = null
   var currentLocation: Location? = null
   var shouldFocus: Boolean = true
+  var clearMarkers: Boolean = false
   var latLng: LatLng? = null
-  var pokemons: List<PokemonMapApi> = listOf()
+  var pokemons: MutableSet<PokemonMapApi> = mutableSetOf()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -104,6 +105,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   fun reloadPokemon() {
     latLng?.run {
       presenter.fetchPokemon(latitude, longitude)
+      clearMarkers = true
     }
   }
 
@@ -138,12 +140,19 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   override fun displayPokemon(list: List<PokemonMapApi>) {
-    map?.clear()
+    if (clearMarkers) {
+      pokemons.clear()
+      map?.clear()
+      clearMarkers = false
+    }
     list.forEach {
-      val position = LatLng(it.latitude, it.longitude)
-      it.marker = map?.addMarker(MarkerOptions()
-          .position(position)
-          .icon(BitmapDescriptorFactory.fromBitmap(it.getImageBitmap(context()))))
+      if (!pokemons.contains(it)) {
+        val position = LatLng(it.latitude, it.longitude)
+        it.marker = map?.addMarker(MarkerOptions()
+            .position(position)
+            .icon(BitmapDescriptorFactory.fromBitmap(it.getImageBitmap(context()))))
+        pokemons.plus(it)
+      }
     }
   }
 

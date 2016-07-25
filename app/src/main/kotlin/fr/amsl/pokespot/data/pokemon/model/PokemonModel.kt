@@ -71,7 +71,7 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
 
     fun selectPokemonByQuery(locale: String): String {
       return "SELECT $ID, " +
-          "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER" +
+          "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
           getNameLocale(locale) +
           "FROM $TABLE_POKEMON " +
           "WHERE $NAME_EN LIKE ? AND $POKEMON_ID < 152 " +
