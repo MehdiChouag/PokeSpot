@@ -3,6 +3,8 @@ package fr.amsl.pokespot.data.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import fr.amsl.pokespot.R
+import fr.amsl.pokespot.data.pokemon.model.FilterModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,11 +15,13 @@ import javax.inject.Singleton
 @Singleton
 class PokemonDatabase : SQLiteOpenHelper {
 
+  val context: Context
+
   companion object {
     private val DB_NAME = "pokemon.db"
     private val DB_VERSION = 1
 
-    private val CREATE_POKEMON_LIST = "CREATE TABLE ${PokemonModel.TABLE} " +
+    private val CREATE_POKEMON_LIST = "CREATE TABLE ${PokemonModel.TABLE_POKEMON} " +
         "(${PokemonModel.ID} INTEGER NOT NULL PRIMARY KEY," +
         "${PokemonModel.POKEMON_ID} INTEGER NOT NULL," +
         "${PokemonModel.IMAGE_PATH} TEXT NOT NULL," +
@@ -31,17 +35,29 @@ class PokemonDatabase : SQLiteOpenHelper {
         "${PokemonModel.NAME_ROOMAJI}," +
         "${PokemonModel.NAME_JA} TEXT, " +
         "${PokemonModel.FILTER} INTEGER NOT NULL DEFAULT 0)"
+
+    private val CREATE_FILTER_LIST = "CREATE TABLE ${FilterModel.TABLE_FILTER} " +
+        "(${FilterModel.ID} INTEGER NOT NULL PRIMARY KEY, " +
+        "${FilterModel.POKEMON_ID} INTEGER NOT NULL)"
   }
 
   @Inject
-  constructor(context: Context) : super(context, DB_NAME, null, DB_VERSION)
+  constructor(ctx: Context) : super(ctx, DB_NAME, null, DB_VERSION) {
+    context = ctx
+  }
 
   override fun onCreate(database: SQLiteDatabase?) {
     database?.execSQL(CREATE_POKEMON_LIST)
-    database?.insert(PokemonModel.TABLE, null, PokemonModel.Builder()
-        .pokemonId("0")
-        .nameEn("All")
-        .nameFr("Tous")
+    database?.execSQL(CREATE_FILTER_LIST)
+
+    database?.insert(FilterModel.TABLE_FILTER, null, FilterModel.Builder()
+        .pokemonId(FilterModel.ALL_POKEMON_ID)
+        .build())
+
+    database?.insert(PokemonModel.TABLE_POKEMON, null, PokemonModel.Builder()
+        .pokemonId(PokemonModel.ALL_POKEMON_ID)
+        .nameEn(context.getString(R.string.all_name_en))
+        .nameFr(context.getString(R.string.all_name_fr))
         .imagePath(PokemonModel.ALL_POKEMON_PICTURE_NAME)
         .filter(1)
         .build())

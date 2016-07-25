@@ -32,4 +32,8 @@
     <string name="browse_pokemon_id_value">#%1$s</string>
     <string name="browse_search">Search</string>
     <string name="browse_hint_search">"Search a Pokémon"</string>
+
+    <!-- Database -->
+    <string name="all_name_en" translatable="false">All</string>
+    <string name="all_name_fr" translatable="false">Tous</string>
 </resources>

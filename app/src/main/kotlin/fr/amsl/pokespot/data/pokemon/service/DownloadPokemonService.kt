@@ -8,6 +8,6 @@ import rx.Observable
  * @author mehdichouag on 20/07/2016.
  */
 interface DownloadPokemonService {
-  @GET("/pokemon")
+  @GET("/v2/pokedex")
   fun getPokemonList(): Observable<List<PokemonApiModel>>
 }

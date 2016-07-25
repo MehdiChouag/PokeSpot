@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import com.soundcloud.lightcycle.LightCycle
@@ -134,6 +135,15 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
     return true
   }
 
+  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    if (item?.itemId == android.R.id.home) {
+      if (isFilter) {
+        presenter.batchFilter()
+      }
+    }
+    return super.onOptionsItemSelected(item)
+  }
+
   override fun showLoadingView() {
     progressBar.visibility = View.VISIBLE
   }
@@ -143,4 +153,11 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
   }
 
   override fun context(): Context = applicationContext
+
+  override fun onBackPressed() {
+    if (presenter.isFilter) {
+      presenter.batchFilter()
+    }
+    super.onBackPressed()
+  }
 }

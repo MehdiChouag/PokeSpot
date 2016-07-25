@@ -30,9 +30,20 @@ class PokemonSharedPreference @Inject constructor(private val context: Context) 
 
   var reliability: Int
     set(value) = sharedPreference.edit().putInt(KEY_FILTER_RELIABILITY, value).apply()
-    get() = sharedPreference.getInt(KEY_FILTER_RELIABILITY, 100)
+    get() = sharedPreference.getInt(KEY_FILTER_RELIABILITY, 70)
 
   var firstSeen: Int
     set(value) = sharedPreference.edit().putInt(KEY_FILTER_FIRST_SEEN, value).apply()
-    get() = sharedPreference.getInt(KEY_FILTER_FIRST_SEEN, 5)
+    get() = sharedPreference.getInt(KEY_FILTER_FIRST_SEEN, 60)
+
+  fun getFreshness(): Int {
+    val time = firstSeen
+    return if (time <= 120) {
+      time
+    } else if (time == 121) {
+      60 * 24
+    } else {
+      0
+    }
+  }
 }

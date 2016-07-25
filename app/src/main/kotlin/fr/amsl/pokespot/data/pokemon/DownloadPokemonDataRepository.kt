@@ -25,6 +25,7 @@ class DownloadPokemonDataRepository
                     private val pokemonSharedPreference: PokemonSharedPreference,
                     private val downloadPokemonService: DownloadPokemonService) : DownloadPokemonRepository {
 
+  //TODO Optimize insertion.
   override fun getPokemonList(): Observable<List<PokemonApiModel>> {
     return downloadPokemonService.getPokemonList()
         .subscribeOn(workerThreadScheduler)
@@ -35,7 +36,7 @@ class DownloadPokemonDataRepository
             val value = getValue(item, fileName)
 
             outStream.use { it.write(android.util.Base64.decode(item.image, android.util.Base64.DEFAULT)); it.flush() }
-            briteDatabase.executeTransaction({ insert(PokemonModel.TABLE, value) })
+            briteDatabase.executeTransaction({ insert(PokemonModel.TABLE_POKEMON, value) })
           }
           pokemonSharedPreference.isPokemonDownloaded = true
         }

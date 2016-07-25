@@ -15,15 +15,11 @@ import java.io.File
 // Name could be null if the pokemon name is null in translation.
 data class PokemonModel(val id: String, val name: String, val imagePath: String, val pokemonId: String, val filter: Int) : Parcelable {
 
-  var numberSelectedPokemon: Int? = null
-
   companion object {
-    val TABLE = "pokemon"
+    val TABLE_POKEMON = "pokemon"
 
+    val ALL_POKEMON_ID = "0"
     val ALL_POKEMON_PICTURE_NAME = "all"
-
-    val WITH_FILTER = "1"
-    val WITHOUT_FILTER = "0"
 
     val ID = "_id"
     val POKEMON_ID = "pokemon_id"
@@ -44,76 +40,50 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
 
     fun isLocaleExist(locale: String): Boolean = LOCALES.find { it == locale } != null
 
+    private fun getNameLocale(locale: String): String {
+      return if (isLocaleExist(locale)) ", ${NAME + locale} " else " "
+    }
+
     fun selectPokemonByLocaleWithoutAll(locale: String): String {
-      return if (!isLocaleExist(locale)) {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER, FROM $TABLE WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
-      } else {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
-            " ${NAME + locale} FROM $TABLE WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
-      }
+      return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
+          getNameLocale(locale) + "FROM $TABLE_POKEMON " +
+          "WHERE $POKEMON_ID > 0 ORDER BY $POKEMON_ID ASC"
     }
 
     fun selectPokemonByLocale(locale: String): String {
-      return if (!isLocaleExist(locale)) {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER, FROM $TABLE ORDER BY $POKEMON_ID ASC"
-      } else {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
-            " ${NAME + locale} FROM $TABLE ORDER BY $POKEMON_ID ASC"
-      }
+      return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
+          getNameLocale(locale) +
+          "FROM $TABLE_POKEMON ORDER BY $POKEMON_ID ASC"
     }
 
     fun selectPokemonFilterByLocale(locale: String): String {
-      return if (!isLocaleExist(locale)) {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
-            " ${NAME + locale} FROM $TABLE " +
-            "WHERE $FILTER=1 " +
-            "ORDER BY $POKEMON_ID ASC "
-      } else {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
-            " ${NAME + locale} FROM $TABLE " +
-            "WHERE $FILTER=1 " +
-            "ORDER BY $POKEMON_ID ASC"
-      }
+      return "SELECT $ID, " +
+          "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
+          getNameLocale(locale) + "FROM $TABLE_POKEMON " +
+          "WHERE $FILTER=1 " +
+          "ORDER BY $POKEMON_ID ASC"
+    }
+
+    fun selectPokemonFilterMap(): String {
+      return "SELECT $ID, $POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER FROM $TABLE_POKEMON " +
+          "WHERE $FILTER=1 " + "ORDER BY $POKEMON_ID ASC "
     }
 
     fun selectPokemonByQuery(locale: String): String {
-      return if (!isLocaleExist(locale)) {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER," +
-            " ${NAME + locale} FROM $TABLE " +
-            "WHERE $NAME_EN LIKE ? " +
-            "ORDER BY $POKEMON_ID ASC "
-      } else {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
-            " ${NAME + locale} FROM $TABLE " +
-            "WHERE ${NAME + locale} LIKE ? " +
-            "ORDER BY $POKEMON_ID ASC"
-      }
+      return "SELECT $ID, " +
+          "$POKEMON_ID, $IMAGE_PATH, $NAME_EN $FILTER" +
+          getNameLocale(locale) +
+          "FROM $TABLE_POKEMON " +
+          "WHERE $NAME_EN LIKE ? " +
+          "ORDER BY $POKEMON_ID ASC"
     }
 
     fun selectPokemonByQueryWithoutAll(locale: String): String {
-      return if (!isLocaleExist(locale)) {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
-            " ${NAME + locale} FROM $TABLE " +
-            "WHERE $NAME_EN LIKE ? AND " +
-            "$POKEMON_ID > 0 " +
-            "ORDER BY $POKEMON_ID ASC "
-      } else {
-        "SELECT $ID, " +
-            "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER," +
-            " ${NAME + locale} FROM $TABLE " +
-            "WHERE ${NAME + locale} LIKE ? AND " +
-            "$POKEMON_ID > 0 " +
-            "ORDER BY $POKEMON_ID ASC"
-      }
+      return "SELECT $ID, " +
+          "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
+          getNameLocale(locale) + "FROM $TABLE_POKEMON " +
+          "WHERE $NAME_EN LIKE ? AND " + "$POKEMON_ID > 0 " +
+          "ORDER BY $POKEMON_ID ASC"
     }
 
     @JvmField val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {

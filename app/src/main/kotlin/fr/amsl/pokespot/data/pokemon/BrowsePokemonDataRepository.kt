@@ -5,6 +5,7 @@ import com.squareup.sqlbrite.BriteDatabase
 import fr.amsl.pokespot.data.database.util.executeTransactionRun
 import fr.amsl.pokespot.data.database.util.getInt
 import fr.amsl.pokespot.data.database.util.getString
+import fr.amsl.pokespot.data.pokemon.model.FilterModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.BrowsePokemonRepository
 import rx.Observable
@@ -22,12 +23,11 @@ class BrowsePokemonDataRepository
                     private val briteDatabase: BriteDatabase,
                     private val userLocale: Locale) : BrowsePokemonRepository, Func1<Cursor, PokemonModel> {
 
-
   var numberSelectedPokemon: Int = 0
 
   override fun searchPokemon(query: String): Observable<List<PokemonModel>> {
     val formattedQuery = "%$query%"
-    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQueryWithoutAll(userLocale.language), formattedQuery)
+    return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.selectPokemonByQueryWithoutAll(userLocale.language), formattedQuery)
         .mapToList(this)
         .observeOn(mainThreadScheduler)
   }
@@ -35,20 +35,20 @@ class BrowsePokemonDataRepository
   override fun searchFilterPokemon(query: String): Observable<List<PokemonModel>> {
     val formattedQuery = "%$query%"
     numberSelectedPokemon = 0
-    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByQuery(userLocale.language), formattedQuery)
+    return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.selectPokemonByQuery(userLocale.language), formattedQuery)
         .mapToList(this)
         .observeOn(mainThreadScheduler)
   }
 
   override fun getAllPokemons(): Observable<List<PokemonModel>> {
-    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByLocaleWithoutAll(userLocale.language))
+    return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.selectPokemonByLocaleWithoutAll(userLocale.language))
         .mapToList(this)
         .observeOn(mainThreadScheduler)
   }
 
   override fun getAllFilterPokemon(): Observable<List<PokemonModel>> {
     numberSelectedPokemon = 0
-    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonByLocale(userLocale.language))
+    return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.selectPokemonByLocale(userLocale.language))
         .mapToList(this)
         .observeOn(mainThreadScheduler)
   }
@@ -60,20 +60,20 @@ class BrowsePokemonDataRepository
     return if (pokemonModel.pokemonId == "0" && filter == 1) {
       numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
-        update(PokemonModel.TABLE, prevValue, "${PokemonModel.POKEMON_ID}!=?", "${pokemonModel.pokemonId}")
-        update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+        update(PokemonModel.TABLE_POKEMON, prevValue, "${PokemonModel.POKEMON_ID}!=?", "${pokemonModel.pokemonId}")
+        update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
     } else if (pokemonModel.id != "0" && filter == 1 || filter == 0 && numberSelectedPokemon == 1) {
       numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
-        update(PokemonModel.TABLE, prevValue, "${PokemonModel.POKEMON_ID}=?", "0")
-        update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+        update(PokemonModel.TABLE_POKEMON, prevValue, "${PokemonModel.POKEMON_ID}=?", "0")
+        update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
 
     } else if (pokemonModel.pokemonId != "0") {
       numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
-        update(PokemonModel.TABLE, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+        update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
     } else {
       numberSelectedPokemon = 0
@@ -81,12 +81,29 @@ class BrowsePokemonDataRepository
     }
   }
 
+  override fun batchFilter() {
+    briteDatabase.delete(FilterModel.TABLE_FILTER, null)
+    briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.selectPokemonFilterMap())
+        .mapToList(this)
+        .map {
+          val transaction = briteDatabase.newTransaction()
+          try {
+            it.forEach {
+              val value = FilterModel.Builder().pokemonId(it.pokemonId).build()
+              briteDatabase.insert(FilterModel.TABLE_FILTER, value)
+            }
+            transaction.markSuccessful()
+          } finally {
+            transaction.end()
+          }
+        }
+  }
+
   override fun call(cursor: Cursor): PokemonModel {
     val nameEn = cursor.getString(PokemonModel.NAME_EN)
     val nameLocale = if (PokemonModel.isLocaleExist(userLocale.language)) {
       cursor.getString(PokemonModel.NAME + userLocale.language)
     } else null
-
 
     val pokemonModel = PokemonModel(cursor.getString(PokemonModel.ID)!!,
         nameLocale ?: nameEn!!,
@@ -98,5 +115,4 @@ class BrowsePokemonDataRepository
 
     return pokemonModel
   }
-
 }

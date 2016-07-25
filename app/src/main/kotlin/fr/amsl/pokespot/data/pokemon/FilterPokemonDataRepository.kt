@@ -22,7 +22,7 @@ class FilterPokemonDataRepository
                     private val userLocale: Locale) : FilterPokemonRepository, Func1<Cursor, PokemonModel> {
 
   override fun getFilteredPokemon(): Observable<List<PokemonModel>> {
-    return briteDatabase.createQuery(PokemonModel.TABLE, PokemonModel.selectPokemonFilterByLocale(userLocale.language))
+    return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.selectPokemonFilterByLocale(userLocale.language))
         .mapToList(this)
         .observeOn(mainThreadScheduler)
   }

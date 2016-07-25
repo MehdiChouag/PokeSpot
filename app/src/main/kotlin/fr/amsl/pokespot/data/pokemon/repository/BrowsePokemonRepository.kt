@@ -16,4 +16,6 @@ interface BrowsePokemonRepository {
   fun getAllFilterPokemon(): Observable<List<PokemonModel>>
 
   fun updatePokemonFilter(pokemonModel: PokemonModel, filter: Int): Int
+
+  fun batchFilter()
 }
