@@ -90,6 +90,7 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
     searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
     searchView.setOnQueryTextListener(this)
     searchView.onActionViewExpanded()
+    searchView.clearFocus()
 
     return true
   }

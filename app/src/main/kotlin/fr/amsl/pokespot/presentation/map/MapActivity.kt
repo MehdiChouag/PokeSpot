@@ -16,7 +16,6 @@ import fr.amsl.pokespot.presentation.browse.BrowsePokemonActivity
 import fr.amsl.pokespot.presentation.map.filter.FilterFragment
 import fr.amsl.pokespot.presentation.navigator.Navigator
 import fr.amsl.pokespot.presentation.util.bindView
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -28,7 +27,6 @@ class MapActivity : BaseActivity() {
 
   companion object {
     private val REQUEST_BROWSE_POKEMON = 10
-    val REQUEST_BROWSE_POKEMON_FILTER = 11
   }
 
   val drawerLayout: DrawerLayout by bindView(R.id.drawer_layout)
@@ -100,10 +98,7 @@ class MapActivity : BaseActivity() {
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     if (requestCode == REQUEST_BROWSE_POKEMON && resultCode == Activity.RESULT_OK) {
       val pokemon: PokemonModel = data!!.getParcelableExtra(BrowsePokemonActivity.KEY_POKEMON)
-      Timber.d(pokemon.toString())
-      // TODO Call api here.
-    } else if (requestCode == REQUEST_BROWSE_POKEMON_FILTER && resultCode == Activity.RESULT_OK) {
-      Timber.d("OnActivityResult")
+      mapFragment.submitPokemon(pokemon)
     }
   }
 

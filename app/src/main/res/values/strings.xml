@@ -36,4 +36,10 @@
     <!-- Database -->
     <string name="all_name_en" translatable="false">All</string>
     <string name="all_name_fr" translatable="false">Tous</string>
+
+    <!-- Add pokemon -->
+    <string name="add_pokemon_success">Pokémon successfully added</string>
+    <string name="add_pokemon_error">An error occurred. Please retry in a few minutes</string>
+    <string name="add_pokemon_error_location">"Location needed to add a Pokémon"</string>
+
 </resources>

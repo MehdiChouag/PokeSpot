@@ -19,6 +19,7 @@ import javax.inject.Named
  */
 class MapPokemonDataRepository
 @Inject constructor(@Named("MainThread") private val mainThreadScheduler: Scheduler,
+                    @Named("WorkerThread") private val workerThreadScheduler: Scheduler,
                     @Named("phoneId") private val phoneId: String,
                     private val briteDatabase: BriteDatabase,
                     private val pokemonSharedPreference: PokemonSharedPreference,
@@ -36,7 +37,7 @@ class MapPokemonDataRepository
               pokeSpotService.getPokemonList(phoneId, latitude, longitude, reliability, freshness, distance)
             } else {
               pokeSpotService.getPokemonFilter(phoneId, latitude, longitude,
-                  reliability, freshness, getPokemonId(it))
+                  reliability, freshness, distance, getPokemonId(it))
             }
           } else {
             if (it.find { it.pokemonId == FilterModel.ALL_POKEMON_ID } != null) {
@@ -60,6 +61,12 @@ class MapPokemonDataRepository
       }
     }
     return pokemonId
+  }
+
+  override fun submitPokemon(latitude: Double, longitude: Double, pokemonId: String): Observable<PokemonMapApi> {
+    return pokeSpotService.submitPokemon(phoneId, latitude, longitude, pokemonId)
+        .subscribeOn(workerThreadScheduler)
+        .observeOn(mainThreadScheduler)
   }
 
   override fun call(cursor: Cursor): FilterModel {

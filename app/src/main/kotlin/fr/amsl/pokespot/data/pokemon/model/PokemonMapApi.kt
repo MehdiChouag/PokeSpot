@@ -3,6 +3,9 @@ package fr.amsl.pokespot.data.pokemon.model
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Parcel
+import android.os.Parcelable
+import com.google.android.gms.maps.model.Marker
 import java.io.File
 
 /**
@@ -19,7 +22,44 @@ data class PokemonMapApi(
     val trainerName: String,
     val reliability: Int,
     val phoneId: String,
-    val type: String) {
+    val type: String) : Parcelable {
+
+  @Transient
+  var marker: Marker? = null
+
+  companion object {
+    @JvmField val CREATOR: Parcelable.Creator<PokemonMapApi> = object : Parcelable.Creator<PokemonMapApi> {
+      override fun createFromParcel(parcel: Parcel): PokemonMapApi {
+        return PokemonMapApi(parcel)
+      }
+
+      override fun newArray(size: Int): Array<PokemonMapApi?> {
+        return arrayOfNulls<PokemonMapApi?>(size)
+      }
+    }
+  }
+
+  constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(),
+      parcel.readDouble(), parcel.readDouble(), parcel.readInt(), parcel.readInt(),
+      parcel.readLong(), parcel.readString(), parcel.readInt(), parcel.readString(), parcel.readString())
+
+  override fun writeToParcel(out: Parcel?, flag: Int) {
+    out?.writeString(id)
+    out?.writeDouble(latitude)
+    out?.writeDouble(longitude)
+    out?.writeInt(upvotes)
+    out?.writeInt(downvotes)
+    out?.writeString(pokemonId)
+    out?.writeLong(creationDate)
+    out?.writeString(trainerName)
+    out?.writeInt(reliability)
+    out?.writeString(phoneId)
+    out?.writeString(type)
+  }
+
+  override fun describeContents(): Int {
+    return 0
+  }
 
   fun getImageBitmap(context: Context): Bitmap {
     val file = File(context.filesDir, "$pokemonId.png")

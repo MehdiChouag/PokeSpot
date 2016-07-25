@@ -1,8 +1,7 @@
 package fr.amsl.pokespot.data.pokemon.service
 
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 import rx.Observable
 
 /**
@@ -40,4 +39,11 @@ interface PokeSpotService {
                        @Query("reliability") reliability: Int,
                        @Query("distance") distance: Int,
                        @Query("pokemonId") pokemonId: String): Observable<List<PokemonMapApi>>
+
+  @FormUrlEncoded
+  @POST("/v2/place")
+  fun submitPokemon(@Field("phoneId") phoneId: String,
+                    @Field("latitude") latitude: Double,
+                    @Field("longitude") longitude: Double,
+                    @Field("pokemonId") pokemonId: String): Observable<PokemonMapApi>
 }

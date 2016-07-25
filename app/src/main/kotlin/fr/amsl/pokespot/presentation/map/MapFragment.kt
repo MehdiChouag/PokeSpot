@@ -3,6 +3,7 @@ package fr.amsl.pokespot.presentation.map
 import android.content.Context
 import android.location.Location
 import android.os.Bundle
+import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
@@ -15,7 +16,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import fr.amsl.pokespot.BuildConfig
 import fr.amsl.pokespot.PSApplication
+import fr.amsl.pokespot.R
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
+import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
 import fr.amsl.pokespot.di.module.MapModule
 import javax.inject.Inject
@@ -37,7 +40,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   var currentLocation: Location? = null
   var shouldFocus: Boolean = true
   var latLng: LatLng? = null
-  var markers: List<Marker> = listOf()
+  var pokemons: List<PokemonMapApi> = listOf()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -104,6 +107,27 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     }
   }
 
+  fun submitPokemon(pokemonModel: PokemonModel) {
+    if (currentLocation != null) {
+      presenter.submitPokemon(currentLocation!!.latitude, currentLocation!!.longitude, pokemonModel)
+    } else {
+      Toast.makeText(context(), R.string.add_pokemon_error_location, Toast.LENGTH_SHORT).show()
+    }
+  }
+
+  override fun pokemonAdded(pokemonMapApi: PokemonMapApi) {
+    val position = LatLng(pokemonMapApi.latitude, pokemonMapApi.longitude)
+    pokemonMapApi.marker = map?.addMarker(MarkerOptions()
+        .position(position)
+        .icon(BitmapDescriptorFactory.fromBitmap(pokemonMapApi.getImageBitmap(context()))))
+    pokemons.plus(pokemonMapApi)
+    Toast.makeText(context(), R.string.add_pokemon_success, Toast.LENGTH_SHORT).show()
+  }
+
+  override fun errorPokemonAdd() {
+    Toast.makeText(context(), R.string.add_pokemon_error, Toast.LENGTH_SHORT).show()
+  }
+
   override fun onStop() {
     super.onStop()
     googleApiClient?.run {
@@ -115,17 +139,16 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
   override fun displayPokemon(list: List<PokemonMapApi>) {
     map?.clear()
-    for (item in list) {
-      val position = LatLng(item.latitude, item.longitude)
-      map?.addMarker(MarkerOptions()
+    list.forEach {
+      val position = LatLng(it.latitude, it.longitude)
+      it.marker = map?.addMarker(MarkerOptions()
           .position(position)
-          .icon(BitmapDescriptorFactory.fromBitmap(item.getImageBitmap(context()))))
+          .icon(BitmapDescriptorFactory.fromBitmap(it.getImageBitmap(context()))))
     }
   }
 
   override fun onMarkerClick(p0: Marker?): Boolean {
-    /*val test: List<Pair<PokemonMapApi, Marker>>
-    test.find {  }*/
+
     return true
   }
 

@@ -11,4 +11,14 @@ interface MapView : View {
    * Display Pokemon on the map
    */
   fun displayPokemon(list: List<PokemonMapApi>)
+
+  /**
+   * Add pokemon on the map.
+   */
+  fun pokemonAdded(pokemonMapApi: PokemonMapApi)
+
+  /**
+   * Display error message.
+   */
+  fun errorPokemonAdd()
 }

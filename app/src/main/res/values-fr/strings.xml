@@ -20,4 +20,8 @@
     <string name="browse_search">Chercher</string>
     <string name="browse_hint_search">"Chercher un Pokémon"</string>
 
+    <!-- Add pokemon -->
+    <string name="add_pokemon_success">Pokémon ajouté avec succès</string>
+    <string name="add_pokemon_error">An error occurred. Please retry in a few minutes</string>
+    <string name="add_pokemon_error_location">"Localisation nécessaire pour ajouter un Pokémon"</string>
 </resources>

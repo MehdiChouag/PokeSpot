@@ -8,4 +8,6 @@ import rx.Observable
  */
 interface MapPokemonRepository {
   fun getPokemon(latitude: Double, longitude: Double): Observable<List<PokemonMapApi>>
+
+  fun submitPokemon(latitude: Double, longitude: Double, pokemonId: String): Observable<PokemonMapApi>
 }
