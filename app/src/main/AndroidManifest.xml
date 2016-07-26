@@ -45,7 +45,12 @@
         <activity
             android:name=".presentation.map.detail.MapDetailActivity"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.PokeSpot.TransparentStatusBarStyle" />
+            android:parentActivityName=".presentation.map.MapActivity"
+            android:theme="@style/Theme.PokeSpot.TransparentStatusBarStyle">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.browse.BrowsePokemonActivity" />
+        </activity>
 
         <activity
             android:name=".presentation.browse.BrowsePokemonActivity"
