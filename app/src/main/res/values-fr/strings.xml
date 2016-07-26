@@ -5,14 +5,22 @@
     <string name="app_error_internet">Aucune connexion internet.</string>
     <string name="app_error_default">Une erreur est survenue.</string>
     <string name="app_error_location">Aucune localisation disponible.</string>
+    <string name="app_error_play_services_title">Google Play Services</string>
+    <string name="app_error_play_services_content">Les Google Play Services sont requis pour utiliser cette application.
+        Veuillez les installer et réessayer.</string>
+    <string name="app_error_internet_connection_title">Connexion internet</string>
+    <string name="app_error_internet_connection_content">Une connexion internet est nécessaire pour télécharger le Pokédex.
+        Veuillez vérifier votre connexion et réessayer.</string>
+    <string name="app_dialog_quit_button">Quitter</string>
+
 
     <!-- Menu -->
     <string name="map_menu_filter">Filtre</string>
 
     <!-- Download -->
-    <string name="download_message">"Téléchargment des Pokémons&#8230;"</string>
+    <string name="download_message">"Téléchargment du Pokédex&#8230;"</string>
     <string name="download_dialog_error_title">Erreur</string>
-    <string name="download_error_message">Une erreur est survenue. Veuillez réessayer dans une minute.</string>
+    <string name="download_error_message">Une erreur est survenue pendant le téléchargement du Pokédex. Veuillez réessayer plus tard.</string>
 
     <!-- Filter -->
     <string name="filter_show_only">Afficher seulement</string>

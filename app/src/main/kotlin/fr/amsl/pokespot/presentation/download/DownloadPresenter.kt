@@ -15,10 +15,9 @@ class DownloadPresenter @Inject constructor(private val downloadPokemonRepositor
   fun startDownload() {
     view?.showLoadingView()
     subscriptions.add(downloadPokemonRepository.getPokemonList()
-        .subscribe({
-          Timber.d("TOTO")
-        }, {
+        .subscribe({}, {
           view?.hideLoadingView()
+          view?.displayError()
           Timber.e(it.message, it.cause)
         }, {
           view?.hideLoadingView()

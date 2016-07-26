@@ -1,20 +1,25 @@
 <resources>
-    <string name="app_name" translatable="false">Pokespot for Pokemon GO</string>
+    <string name="app_name" translatable="false">Pokéspot for Pokemon GO</string>
 
     <string name="app_error_internet">No internet connection.</string>
     <string name="app_error_default">An error occurred.</string>
     <string name="app_error_location">No location available.</string>
+    <string name="app_error_play_services_title">Google Play Services</string>
+    <string name="app_error_play_services_content">Google Play Services are required to used this application. Please install them and retry.</string>
+    <string name="app_error_internet_connection_title">Internet connection</string>
+    <string name="app_error_internet_connection_content">An internet connection in needed to download the Pokédex. Please check your connection and retry.</string>
+    <string name="app_dialog_quit_button">Quit</string>
 
     <!-- Toolbar -->
-    <string name="toolbar_title" translatable="false">Pokespot</string>
+    <string name="toolbar_title" translatable="false">Pokéspot</string>
 
     <!-- Menu -->
     <string name="map_menu_filter">Filter</string>
 
     <!-- Download -->
-    <string name="download_message">"Downloading Pokémon&#8230;"</string>
+    <string name="download_message">"Downloading Pokédex&#8230;"</string>
     <string name="download_dialog_error_title">Error</string>
-    <string name="download_error_message">An error occurred. Please retry in a few minutes.</string>
+    <string name="download_error_message">An error has occurred while downloading the Pokédex. Please retry later</string>
 
     <!-- Filter -->
     <string name="filter_show_only">Only show</string>
@@ -28,7 +33,7 @@
     <string name="filter_reliability">Reliability</string>
     <string name="filter_reliability_value" translatable="false">"%1$d%%"</string>
     <string name="filter_reliability_greater_value" translatable="false">"> %1$d%%"</string>
-    <string name="filter_content_description">Pokemon</string>
+    <string name="filter_content_description">Pokémon</string>
     <string name="filter_offset">+%1$d</string>
 
     <!-- Browse -->
