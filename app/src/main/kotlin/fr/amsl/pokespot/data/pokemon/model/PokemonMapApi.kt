@@ -3,6 +3,7 @@ package fr.amsl.pokespot.data.pokemon.model
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.android.gms.maps.model.Marker
@@ -45,11 +46,11 @@ data class PokemonMapApi(
 
   override fun writeToParcel(out: Parcel?, flag: Int) {
     out?.writeString(id)
+    out?.writeString(pokemonId)
     out?.writeDouble(latitude)
     out?.writeDouble(longitude)
     out?.writeInt(upvotes)
     out?.writeInt(downvotes)
-    out?.writeString(pokemonId)
     out?.writeLong(creationDate)
     out?.writeString(trainerName)
     out?.writeInt(reliability)
@@ -65,5 +66,13 @@ data class PokemonMapApi(
     val file = File(context.filesDir, "$pokemonId.png")
     val bitmap = BitmapFactory.decodeFile(file.absolutePath)
     return Bitmap.createScaledBitmap(bitmap, 170, 170, false)
+  }
+
+  /**
+   * Return Pokemon image's Uri.
+   */
+  fun getImageUri(context: Context): Uri {
+    val file = File(context.filesDir, "$pokemonId.png")
+    return Uri.fromFile(file)
   }
 }

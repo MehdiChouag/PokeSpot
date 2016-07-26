@@ -19,7 +19,7 @@ ext {
 
   //Libraries
   androidSupportVersion = '24.1.0'
-  circleImageViewVersion = '2.0.0'
+  circleImageViewVersion = '2.1.0'
   daggerVersion = '2.2'
   butterKnifeVersion = '7.0.1'
   glideVersion = '3.7.0'
@@ -54,11 +54,11 @@ ext {
                   androidDesign     : "com.android.support:design:${androidSupportVersion}",
                   androidSupport    : "com.android.support:support-v4:${androidSupportVersion}",
                   androidAnnotations: "com.android.support:support-annotations:${androidSupportVersion}",
+                  androidPercent    : "com.android.support:percent:${androidSupportVersion}",
+                  circleImageView   : "de.hdodenhof:circleimageview:${circleImageViewVersion}",
                   crashlytics       : "com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}@aar",
                   timber            : "com.jakewharton.timber:timber:${timberVersion}",
                   autoParcelCompiler: "frankiesardo:auto-parcel:${autoParcelVersion}",
-                  authPlayService   : "com.google.android.gms:play-services-auth:${playServiceVersion}",
-                  facebookSdk       : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
                   lightCycle        : "com.soundcloud.lightcycle:lightcycle-lib:${lightCycleVersion}",
                   lightCycleCompiler: "com.soundcloud.lightcycle:lightcycle-processor:${lightCycleVersion}",
                   okHttp            : "com.squareup.okhttp3:okhttp:${okHttpVersion}",

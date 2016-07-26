@@ -21,4 +21,8 @@
     <dimen name="browse_item_size">100dp</dimen>
 
     <dimen name="pokemon_image_size">90dp</dimen>
+
+    <!-- Map Detail -->
+    <dimen name="pokemon_detail_image_size">80dp</dimen>
+    <dimen name="pokemon_detail_image_margin">-20dp</dimen>
 </resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_heightPercent="60%" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pokemonImage"
+        style="@style/DetailMap.Image"
+        android:layout_width="@dimen/pokemon_image_size"
+        android:layout_height="@dimen/pokemon_image_size"
+        android:layout_below="@+id/map_view"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/pokemonName"
+        style="@style/DetailMap.Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/map_view"
+        android:layout_toEndOf="@+id/pokemonImage"
+        android:text="TOTO" />
+
+    <TextView
+        android:id="@+id/reliability"
+        style="@style/DetailMap.Reliability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pokemonName"
+        android:layout_toEndOf="@+id/pokemonImage"
+        android:text="TOTO" />
+
+    <TextView
+        android:id="@+id/last_seen"
+        style="@style/DetailMap.LastSeen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pokemonImage"
+        android:text="@string/last_seen" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/map_view">
+
+    </LinearLayout>
+
+</android.support.percent.PercentRelativeLayout>

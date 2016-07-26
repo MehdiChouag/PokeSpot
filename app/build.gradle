@@ -90,11 +90,12 @@ dependencies {
   compile dependencies.retrofit
   compile dependencies.retrofitRx
   compile dependencies.gsonConverter
-  compile dependencies.facebookSdk
   compile dependencies.sqlbrite
   compile dependencies.mapsServices
   compile dependencies.locationServices
   compile dependencies.searchView
+  compile dependencies.androidPercent
+  compile dependencies.circleImageView
   compile(dependencies.crashlytics) {
     transitive = true;
   }

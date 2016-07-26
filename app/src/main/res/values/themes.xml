@@ -11,6 +11,11 @@
         <item name="searchViewStyle">@style/PokeSpot.SearchView</item>
     </style>
 
+    <style name="Theme.PokeSpot.TransparentToolbar" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
     <style name="Theme.PokeSpot.SplashScreen" parent="Theme.PokeSpot">
         <item name="android:windowBackground">@drawable/launch_screen_logo</item>
     </style>
@@ -19,4 +24,5 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
+    <style name="Theme.PokeSpot.TransparentStatusBarStyle" parent="Theme.Base" />
 </resources>

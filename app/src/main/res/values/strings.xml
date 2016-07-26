@@ -42,4 +42,7 @@
     <string name="add_pokemon_error">An error occurred. Please retry in a few minutes</string>
     <string name="add_pokemon_error_location">"Location needed to add a Pokémon"</string>
 
+    <!-- Detail Map -->
+    <string name="last_seen">Last seen %1$s ago</string>
+
 </resources>

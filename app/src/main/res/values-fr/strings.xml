@@ -22,6 +22,9 @@
 
     <!-- Add pokemon -->
     <string name="add_pokemon_success">Pokémon ajouté avec succès</string>
-    <string name="add_pokemon_error">An error occurred. Please retry in a few minutes</string>
+    <string name="add_pokemon_error">Une erreur est survenue. Veuillez réessayer dans une minute.</string>
     <string name="add_pokemon_error_location">"Localisation nécessaire pour ajouter un Pokémon"</string>
+
+    <!-- Detail Map -->
+    <string name="last_seen">Dernière apparition il y a %1$s</string>
 </resources>

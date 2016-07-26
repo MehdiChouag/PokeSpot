@@ -41,6 +41,11 @@
             android:launchMode="singleTop" />
 
         <activity
+            android:name=".presentation.map.detail.MapDetailActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.PokeSpot.TransparentStatusBarStyle" />
+
+        <activity
             android:name=".presentation.browse.BrowsePokemonActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".presentation.map.MapActivity"
@@ -61,7 +66,6 @@
             <meta-data
                 android:name="fr.amsl.pokespot.android.app.searchable"
                 android:resource="@xml/searchable" />
-
         </activity>
 
         <meta-data

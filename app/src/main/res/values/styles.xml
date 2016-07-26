@@ -24,6 +24,12 @@
         <item name="title">@string/toolbar_title</item>
     </style>
 
+    <style name="PokeSpot.Toolbar.Transparent">
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="title">@null</item>
+    </style>
+
     <!-- ProgressBar -->
     <style name="Base.ProgressBar" parent="Widget.AppCompat.ProgressBar">
         <item name="android:indeterminate">true</item>
@@ -100,4 +106,29 @@
 
     <style name="Browse.ProgressBar" parent="Base.ProgressBar" />
 
+    <!-- Detail Map -->
+    <style name="DetailMap" />
+
+    <style name="DetailMap.Name" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:layout_marginTop">@dimen/space_big</item>
+        <item name="android:layout_marginLeft">@dimen/space_big</item>
+    </style>
+
+    <style name="DetailMap.Reliability" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:layout_marginTop">@dimen/space_std</item>
+        <item name="android:layout_marginLeft">@dimen/space_big</item>
+    </style>
+
+    <style name="DetailMap.LastSeen" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:layout_marginTop">@dimen/space_big</item>
+        <item name="android:layout_marginLeft">@dimen/space_std</item>
+    </style>
+
+    <style name="DetailMap.Image">
+        <item name="android:layout_marginTop">@dimen/pokemon_detail_image_margin</item>
+        <item name="android:layout_marginLeft">@dimen/space_std</item>
+        <item name="civ_border_color">@color/bright_gray</item>
+        <item name="civ_fill_color">@android:color/white</item>
+        <item name="civ_border_width">2dp</item>
+    </style>
 </resources>

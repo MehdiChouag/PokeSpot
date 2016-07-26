@@ -21,6 +21,7 @@ import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
 import fr.amsl.pokespot.di.module.MapModule
+import fr.amsl.pokespot.presentation.navigator.Navigator
 import javax.inject.Inject
 
 /**
@@ -31,6 +32,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
   @Inject lateinit var presenter: MapPresenter
   @Inject lateinit var pokemonPref: PokemonSharedPreference
+  @Inject lateinit var navigator: Navigator
 
   val refWatch by lazy { PSApplication.get(activity).refWatcher }
   val applicationComponent by lazy { PSApplication.get(activity).applicationComponent }
@@ -70,6 +72,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     map = googleMap
     map?.run {
       mapType = GoogleMap.MAP_TYPE_NORMAL
+      setOnMarkerClickListener(this@MapFragment)
       setOnCameraChangeListener(this@MapFragment)
       isMyLocationEnabled = true
 
@@ -77,6 +80,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
       uiSettings.isZoomControlsEnabled = BuildConfig.DEBUG
       uiSettings?.isMyLocationButtonEnabled = false
       uiSettings?.isTiltGesturesEnabled = false
+      uiSettings?.isIndoorLevelPickerEnabled = false
     }
   }
 
@@ -119,7 +123,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     pokemonMapApi.marker = map?.addMarker(MarkerOptions()
         .position(position)
         .icon(BitmapDescriptorFactory.fromBitmap(pokemonMapApi.getImageBitmap(context()))))
-    pokemons.plus(pokemonMapApi)
+    pokemons.plusAssign(pokemonMapApi)
     Toast.makeText(context(), R.string.add_pokemon_success, Toast.LENGTH_SHORT).show()
   }
 
@@ -144,7 +148,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
       it.marker = map?.addMarker(MarkerOptions()
           .position(position)
           .icon(BitmapDescriptorFactory.fromBitmap(it.getImageBitmap(context()))))
-      pokemons.plus(it)
+      pokemons.plusAssign(it)
     }
   }
 
@@ -155,14 +159,17 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
         it.marker = map?.addMarker(MarkerOptions()
             .position(position)
             .icon(BitmapDescriptorFactory.fromBitmap(it.getImageBitmap(context()))))
-        pokemons.plus(it)
+        pokemons.plusAssign(it)
       }
     }
   }
 
-  override fun onMarkerClick(p0: Marker?): Boolean {
-
-    return true
+  override fun onMarkerClick(marker: Marker?): Boolean {
+    val isFind = pokemons.find { it.marker == marker }
+    if (isFind != null) {
+      navigator.navigateToMapDetail(activity, isFind)
+    }
+    return isFind != null
   }
 
   override fun context(): Context = activity.applicationContext
