@@ -109,18 +109,20 @@
     <!-- Detail Map -->
     <style name="DetailMap" />
 
+    <style name="DetailMap.ProgressBar" parent="Base.ProgressBar" />
+
     <style name="DetailMap.Name" parent="TextAppearance.AppCompat.Headline">
-        <item name="android:layout_marginTop">@dimen/space_big</item>
-        <item name="android:layout_marginLeft">@dimen/space_big</item>
+        <item name="android:layout_marginTop">@dimen/space_std</item>
+        <item name="android:layout_marginLeft">@dimen/space_std</item>
     </style>
 
     <style name="DetailMap.Reliability" parent="TextAppearance.AppCompat.Subhead">
-        <item name="android:layout_marginTop">@dimen/space_std</item>
-        <item name="android:layout_marginLeft">@dimen/space_big</item>
+        <item name="android:layout_marginTop">@dimen/space_small</item>
+        <item name="android:layout_marginLeft">@dimen/space_std</item>
     </style>
 
     <style name="DetailMap.LastSeen" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:layout_marginTop">@dimen/space_big</item>
+        <item name="android:layout_marginTop">@dimen/space_std</item>
         <item name="android:layout_marginLeft">@dimen/space_std</item>
     </style>
 

@@ -17,8 +17,8 @@ class BrowsePokemonPresenter
 
   fun searchPokemon(query: String) {
     view?.showLoadingView()
-    subscription.clear()
-    subscription.add(getSearchPokemon(query).subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
+    subscriptions.clear()
+    subscriptions.add(getSearchPokemon(query).subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
   }
 
   private fun getSearchPokemon(query: String): Observable<List<PokemonModel>> {
@@ -31,8 +31,8 @@ class BrowsePokemonPresenter
 
   fun AllPokemon() {
     view?.showLoadingView()
-    subscription.clear()
-    subscription.add(getAllPokemon().subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
+    subscriptions.clear()
+    subscriptions.add(getAllPokemon().subscribe { view?.hideLoadingView(); view?.displayPokemons(it) })
   }
 
   private fun getAllPokemon(): Observable<List<PokemonModel>> {

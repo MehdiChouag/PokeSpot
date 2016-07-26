@@ -91,9 +91,12 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   fun focusOnCurrentLocation() {
+    currentLocation = googleApiClient?.run {
+      LocationServices.FusedLocationApi.getLastLocation(this)
+    }
     currentLocation?.apply {
       val position = CameraPosition.builder().target(LatLng(latitude,
-          longitude)).zoom(13f).bearing(0.0f).tilt(0.0f).build()
+          longitude)).zoom(15f).bearing(0.0f).tilt(0.0f).build()
 
       map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
     }
@@ -175,7 +178,6 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   override fun context(): Context = activity.applicationContext
 
   override fun onConnected(p0: Bundle?) {
-    currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
     if (shouldFocus) {
       focusOnCurrentLocation()
       shouldFocus = false

@@ -27,10 +27,6 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
 
   override val layoutResource: Int = R.layout.filter
 
-  companion object {
-    private val REQUEST_BROWSE_POKEMON_FILTER = 11
-  }
-
   @Inject lateinit var pokePreference: PokemonSharedPreference
   @Inject lateinit var adapter: FilterAdapter
   @Inject @LightCycle lateinit var presenter: FilterPresenter

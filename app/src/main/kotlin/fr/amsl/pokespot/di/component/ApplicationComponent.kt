@@ -27,4 +27,6 @@ interface ApplicationComponent {
   fun plus(browsePokemonModule: BrowsePokemonModule): BrowsePokemonComponent
 
   fun plus(mapModule: MapModule): MapComponent
+
+  fun plus(mapDetailModule: MapDetailModule): MapDetailComponent
 }

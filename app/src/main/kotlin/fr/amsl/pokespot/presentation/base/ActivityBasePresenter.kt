@@ -10,11 +10,11 @@ import rx.subscriptions.CompositeSubscription
 abstract class ActivityBasePresenter<T : View> : DefaultActivityLightCycle<AppCompatActivity>() {
 
   var view: T? = null
-  var subscription: CompositeSubscription = CompositeSubscription()
+  var subscriptions: CompositeSubscription = CompositeSubscription()
 
   override fun onDestroy(activity: AppCompatActivity?) {
     view = null
-    subscription.clear()
+    subscriptions.clear()
     super.onDestroy(activity)
   }
 }

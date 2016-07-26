@@ -2,22 +2,35 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map_view"
+    <FrameLayout
+        android:id="@+id/map_container"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_heightPercent="60%" />
+        app:layout_heightPercent="60%">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/DetailMap.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" />
+
+    </FrameLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/pokemonImage"
         style="@style/DetailMap.Image"
         android:layout_width="@dimen/pokemon_image_size"
         android:layout_height="@dimen/pokemon_image_size"
-        android:layout_below="@+id/map_view"
+        android:layout_below="@+id/map_container"
         tools:src="@mipmap/ic_launcher" />
 
     <TextView
@@ -25,7 +38,7 @@
         style="@style/DetailMap.Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/map_view"
+        android:layout_below="@+id/map_container"
         android:layout_toEndOf="@+id/pokemonImage"
         android:text="TOTO" />
 
@@ -36,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/pokemonName"
         android:layout_toEndOf="@+id/pokemonImage"
-        android:text="TOTO" />
+        tools:text="@string/detail_map_reliability" />
 
     <TextView
         android:id="@+id/last_seen"
@@ -44,12 +57,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pokemonImage"
-        android:text="@string/last_seen" />
+        android:text="@string/detail_map_last_seen" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/map_view">
+        android:layout_below="@+id/map_container">
 
     </LinearLayout>
 

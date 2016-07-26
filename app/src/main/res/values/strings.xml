@@ -43,6 +43,6 @@
     <string name="add_pokemon_error_location">"Location needed to add a Pokémon"</string>
 
     <!-- Detail Map -->
-    <string name="last_seen">Last seen %1$s ago</string>
-
+    <string name="detail_map_last_seen">Last seen %1$s ago</string>
+    <string name="detail_map_reliability">Reliability %1$d%%</string>
 </resources>
