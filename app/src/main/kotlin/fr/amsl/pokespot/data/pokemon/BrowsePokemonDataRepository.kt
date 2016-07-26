@@ -5,7 +5,6 @@ import com.squareup.sqlbrite.BriteDatabase
 import fr.amsl.pokespot.data.database.util.executeTransactionRun
 import fr.amsl.pokespot.data.database.util.getInt
 import fr.amsl.pokespot.data.database.util.getString
-import fr.amsl.pokespot.data.pokemon.model.FilterModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.BrowsePokemonRepository
 import rx.Observable
@@ -57,20 +56,25 @@ class BrowsePokemonDataRepository
     val prevFilter = if (filter == 0) 1 else 0
     val newValue = PokemonModel.Builder().filter(filter).build()
     val prevValue = PokemonModel.Builder().filter(prevFilter).build()
-    return if (pokemonModel.pokemonId == "0" && filter == 1) {
+    return if (pokemonModel.pokemonId == PokemonModel.ALL_POKEMON_ID && filter == 1) {
       numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
         update(PokemonModel.TABLE_POKEMON, prevValue, "${PokemonModel.POKEMON_ID}!=?", "${pokemonModel.pokemonId}")
         update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
-    } else if (pokemonModel.id != "0" && filter == 1 || filter == 0 && numberSelectedPokemon == 1) {
+    } else if (pokemonModel.pokemonId != PokemonModel.ALL_POKEMON_ID && (filter == 1 || (filter == 0 && numberSelectedPokemon == 1))) {
       numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
-        update(PokemonModel.TABLE_POKEMON, prevValue, "${PokemonModel.POKEMON_ID}=?", "0")
+        update(PokemonModel.TABLE_POKEMON, prevValue, "${PokemonModel.POKEMON_ID}=?", PokemonModel.ALL_POKEMON_ID)
         update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
-
-    } else if (pokemonModel.pokemonId != "0") {
+    } /*else if (pokemonModel.id != PokemonModel.ALL_POKEMON_ID && filter == 0 && numberSelectedPokemon == 1) {
+      briteDatabase.executeTransactionRun {
+        numberSelectedPokemon = 0
+        update(PokemonModel.TABLE_POKEMON, prevValue, "${PokemonModel.POKEMON_ID}=?", PokemonModel.ALL_POKEMON_ID)
+        update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
+      }
+    }*/ else if (pokemonModel.pokemonId != PokemonModel.ALL_POKEMON_ID) {
       numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
         update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")

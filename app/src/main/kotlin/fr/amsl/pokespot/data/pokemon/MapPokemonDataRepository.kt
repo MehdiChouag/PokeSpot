@@ -5,6 +5,7 @@ import com.squareup.sqlbrite.BriteDatabase
 import fr.amsl.pokespot.data.database.util.getString
 import fr.amsl.pokespot.data.pokemon.model.FilterModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
+import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.MapPokemonRepository
 import fr.amsl.pokespot.data.pokemon.service.PokeSpotService
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
@@ -26,7 +27,7 @@ class MapPokemonDataRepository
                     private val pokeSpotService: PokeSpotService) : MapPokemonRepository, Func1<Cursor, FilterModel> {
 
   override fun getPokemon(latitude: Double, longitude: Double): Observable<List<PokemonMapApi>> {
-    return briteDatabase.createQuery(FilterModel.TABLE_FILTER, FilterModel.SELECT_ALL)
+    return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.SELECT_ALL_FILTER)
         .mapToList(this)
         .concatMap {
           val reliability = pokemonSharedPreference.reliability

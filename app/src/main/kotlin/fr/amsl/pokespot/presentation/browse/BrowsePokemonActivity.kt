@@ -105,6 +105,10 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
     }
   }
 
+  override fun resultCodeOk() {
+    setResult(Activity.RESULT_OK)
+  }
+
   override fun displayPokemons(list: List<PokemonModel>) {
     adapter.pokemonList = list
     adapter.notifyDataSetChanged()
@@ -112,10 +116,6 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
 
   override fun onClickListener(pokemonModel: PokemonModel) {
     presenter.handlePokemonClick(pokemonModel)
-  }
-
-  override fun resultCodeOk() {
-    setResult(Activity.RESULT_OK)
   }
 
   override fun finishActivity(pokemonModel: PokemonModel) {
@@ -138,9 +138,7 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
     if (item?.itemId == android.R.id.home) {
-      if (isFilter) {
-        presenter.batchFilter()
-      }
+      finish()
     }
     return super.onOptionsItemSelected(item)
   }
@@ -154,11 +152,4 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
   }
 
   override fun context(): Context = applicationContext
-
-  override fun onBackPressed() {
-    if (presenter.isFilter) {
-      presenter.batchFilter()
-    }
-    super.onBackPressed()
-  }
 }

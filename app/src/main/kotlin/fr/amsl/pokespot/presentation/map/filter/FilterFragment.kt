@@ -15,6 +15,7 @@ import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
 import fr.amsl.pokespot.di.module.FilterModule
 import fr.amsl.pokespot.presentation.base.BaseFragment
+import fr.amsl.pokespot.presentation.map.MapActivity
 import fr.amsl.pokespot.presentation.navigator.Navigator
 import fr.amsl.pokespot.presentation.util.bindView
 import javax.inject.Inject
@@ -25,6 +26,10 @@ import javax.inject.Inject
 class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterView {
 
   override val layoutResource: Int = R.layout.filter
+
+  companion object {
+    private val REQUEST_BROWSE_POKEMON_FILTER = 11
+  }
 
   @Inject lateinit var pokePreference: PokemonSharedPreference
   @Inject lateinit var adapter: FilterAdapter
@@ -64,7 +69,7 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
     initRadius()
     initReliability()
     initFirstSeen()
-    filterContainer.setOnClickListener { navigator.navigateToBrowsePokemonFilter(activity) }
+    filterContainer.setOnClickListener { navigator.navigateToBrowsePokemonFilter(activity, MapActivity.REQUEST_BROWSE_POKEMON_FILTER) }
   }
 
   fun initRecyclerView() {

@@ -27,6 +27,7 @@ class MapActivity : BaseActivity() {
 
   companion object {
     private val REQUEST_BROWSE_POKEMON = 10
+    val REQUEST_BROWSE_POKEMON_FILTER = 11
   }
 
   val drawerLayout: DrawerLayout by bindView(R.id.drawer_layout)
@@ -99,6 +100,8 @@ class MapActivity : BaseActivity() {
     if (requestCode == REQUEST_BROWSE_POKEMON && resultCode == Activity.RESULT_OK) {
       val pokemon: PokemonModel = data!!.getParcelableExtra(BrowsePokemonActivity.KEY_POKEMON)
       mapFragment.submitPokemon(pokemon)
+    } else if (requestCode == REQUEST_BROWSE_POKEMON_FILTER && resultCode == Activity.RESULT_OK) {
+      filterFragment.hasBeenModify = true
     }
   }
 

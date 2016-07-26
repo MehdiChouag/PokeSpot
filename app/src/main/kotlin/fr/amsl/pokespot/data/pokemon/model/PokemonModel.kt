@@ -36,6 +36,8 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
     val NAME_JA = "name_ja"
     val FILTER = "filter"
 
+    val SELECT_ALL_FILTER = "SELECT $ID, $POKEMON_ID FROM $TABLE_POKEMON WHERE $FILTER=1"
+
     val LOCALES = arrayOf("en", "it", "es", "de", "fr", "zh", "ko", "roomaji", "ja")
 
     fun isLocaleExist(locale: String): Boolean = LOCALES.find { it == locale } != null

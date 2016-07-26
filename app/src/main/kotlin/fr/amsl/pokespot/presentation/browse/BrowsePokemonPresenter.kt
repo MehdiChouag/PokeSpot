@@ -1,7 +1,6 @@
 package fr.amsl.pokespot.presentation.browse
 
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
-import fr.amsl.pokespot.data.pokemon.repository.BatchFilterRepository
 import fr.amsl.pokespot.data.pokemon.repository.BrowsePokemonRepository
 import fr.amsl.pokespot.presentation.base.ActivityBasePresenter
 import rx.Observable
@@ -11,8 +10,7 @@ import javax.inject.Inject
  * @author mehdichouag on 23/07/2016.
  */
 class BrowsePokemonPresenter
-@Inject constructor(private val browsePokemonRepository: BrowsePokemonRepository,
-                    private val batchFilterRepository: BatchFilterRepository) :
+@Inject constructor(private val browsePokemonRepository: BrowsePokemonRepository) :
     ActivityBasePresenter<BrowsePokemonView>() {
 
   var isFilter = false
@@ -49,12 +47,9 @@ class BrowsePokemonPresenter
     if (isFilter) {
       val newFilter = if (pokemonModel.filter == 1) 0 else 1
       browsePokemonRepository.updatePokemonFilter(pokemonModel, newFilter)
+      view?.resultCodeOk()
     } else {
       view?.finishActivity(pokemonModel)
     }
-  }
-
-  fun batchFilter() {
-    batchFilterRepository.batchFilter()
   }
 }
