@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Application -->
+    <string name="app_error_internet">Aucune connexion internet.</string>
+    <string name="app_error_default">Une erreur est survenue.</string>
+    <string name="app_error_location">Aucune localisation disponible.</string>
+
     <!-- Menu -->
     <string name="map_menu_filter">Filtre</string>
 
@@ -22,7 +27,6 @@
 
     <!-- Add pokemon -->
     <string name="add_pokemon_success">Pokémon ajouté avec succès</string>
-    <string name="add_pokemon_error">Une erreur est survenue. Veuillez réessayer dans une minute.</string>
     <string name="add_pokemon_error_location">"Localisation nécessaire pour ajouter un Pokémon"</string>
 
     <!-- Detail Map -->

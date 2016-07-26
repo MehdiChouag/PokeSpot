@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">Pokespot for Pokemon GO</string>
 
+    <string name="app_error_internet">No internet connection.</string>
+    <string name="app_error_default">An error occurred.</string>
+    <string name="app_error_location">No location available.</string>
+
     <!-- Toolbar -->
     <string name="toolbar_title" translatable="false">Pokespot</string>
 
@@ -38,9 +42,8 @@
     <string name="all_name_fr" translatable="false">Tous</string>
 
     <!-- Add pokemon -->
-    <string name="add_pokemon_success">Pokémon successfully added</string>
-    <string name="add_pokemon_error">An error occurred. Please retry in a few minutes</string>
-    <string name="add_pokemon_error_location">"Location needed to add a Pokémon"</string>
+    <string name="add_pokemon_success">Pokémon successfully added.</string>
+    <string name="add_pokemon_error_location">Location needed to add a Pokémon.</string>
 
     <!-- Detail Map -->
     <string name="detail_map_last_seen">Last seen %1$s ago</string>

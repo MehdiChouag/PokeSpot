@@ -81,7 +81,7 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
   override fun onMapReady(googleMap: GoogleMap) {
     map = googleMap
     map?.run {
-      isMyLocationEnabled = true
+      isMyLocationEnabled = false
       isTrafficEnabled = false
       isBuildingsEnabled = false
 

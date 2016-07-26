@@ -21,9 +21,4 @@ interface MapView : View {
    * Add pokemon on the map.
    */
   fun pokemonAdded(pokemonMapApi: PokemonMapApi)
-
-  /**
-   * Display error message.
-   */
-  fun errorPokemonAdd()
 }

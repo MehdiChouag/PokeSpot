@@ -22,6 +22,7 @@ import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
 import fr.amsl.pokespot.di.module.MapModule
 import fr.amsl.pokespot.presentation.navigator.Navigator
+import fr.amsl.pokespot.presentation.util.getLocalisationError
 import javax.inject.Inject
 
 /**
@@ -93,14 +94,16 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   fun focusOnCurrentLocation() {
-    currentLocation = googleApiClient?.run {
-      LocationServices.FusedLocationApi.getLastLocation(this)
-    }
-    currentLocation?.apply {
-      val position = CameraPosition.builder().target(LatLng(latitude,
-          longitude)).zoom(16f).bearing(0.0f).tilt(0.0f).build()
+    getLastKnowLocation()
+    if (currentLocation != null) {
+      currentLocation!!.apply {
+        val position = CameraPosition.builder().target(LatLng(latitude,
+            longitude)).zoom(16f).bearing(0.0f).tilt(0.0f).build()
 
-      map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
+        map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
+      }
+    } else {
+      Toast.makeText(context(), getLocalisationError(context()), Toast.LENGTH_SHORT).show()
     }
   }
 
@@ -116,6 +119,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   fun submitPokemon(pokemonModel: PokemonModel) {
+    getLastKnowLocation()
     if (currentLocation != null) {
       presenter.submitPokemon(currentLocation!!.latitude, currentLocation!!.longitude, pokemonModel)
     } else {
@@ -132,17 +136,13 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     Toast.makeText(context(), R.string.add_pokemon_success, Toast.LENGTH_SHORT).show()
   }
 
-  override fun errorPokemonAdd() {
-    Toast.makeText(context(), R.string.add_pokemon_error, Toast.LENGTH_SHORT).show()
-  }
-
   override fun onStop() {
-    super.onStop()
     googleApiClient?.run {
       unregisterConnectionCallbacks(this@MapFragment)
       unregisterConnectionFailedListener(this@MapFragment)
       disconnect()
     }
+    super.onStop()
   }
 
   override fun clearAndDisplayPokemon(list: List<PokemonMapApi>) {
@@ -175,6 +175,12 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
       navigator.navigateToMapDetail(activity, isFind)
     }
     return isFind != null
+  }
+
+  private fun getLastKnowLocation() {
+    currentLocation = googleApiClient?.run {
+      LocationServices.FusedLocationApi.getLastLocation(this)
+    }
   }
 
   override fun context(): Context = activity.applicationContext
