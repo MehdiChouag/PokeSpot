@@ -7,14 +7,9 @@ import android.content.ContentValues
  */
 data class FilterModel(val pokemonId: String) {
   companion object {
-    val TABLE_FILTER = "filter"
-
-    val ID = "_id"
-    val POKEMON_ID = "pokemon_id"
-
     val ALL_POKEMON_ID = "0"
 
-    val SELECT_ALL = "SELECT * FROM $TABLE_FILTER"
+    val POKEMON_ID = "pokemon_id"
   }
 
   class Builder {
