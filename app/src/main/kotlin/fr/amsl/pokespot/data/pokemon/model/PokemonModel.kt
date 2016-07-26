@@ -68,27 +68,38 @@ data class PokemonModel(val id: String, val name: String, val imagePath: String,
 
     fun selectPokemonById(locale: String): String {
       return "SELECT $ID, " +
-      "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
+          "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
           getNameLocale(locale) +
           "FROM $TABLE_POKEMON " +
           "WHERE $POKEMON_ID=?"
     }
 
     fun selectPokemonByQuery(locale: String): String {
-      return "SELECT $ID, " +
+      val baseRequest = "SELECT $ID, " +
           "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
-          getNameLocale(locale) +
-          "FROM $TABLE_POKEMON " +
-          "WHERE $NAME_EN LIKE ? AND $POKEMON_ID < 152 " +
-          "ORDER BY $POKEMON_ID ASC"
+          getNameLocale(locale) + "FROM $TABLE_POKEMON " +
+          "WHERE $POKEMON_ID < 152 AND "
+      val endRequest = " ORDER BY $POKEMON_ID ASC"
+
+      if (isLocaleExist(locale)) {
+        return baseRequest + "${NAME + locale} LIKE ?" + endRequest
+      } else {
+        return baseRequest + "$NAME_EN LIKE ?" + endRequest
+      }
     }
 
     fun selectPokemonByQueryWithoutAll(locale: String): String {
-      return "SELECT $ID, " +
+      val baseRequest = "SELECT $ID, " +
           "$POKEMON_ID, $IMAGE_PATH, $NAME_EN, $FILTER" +
           getNameLocale(locale) + "FROM $TABLE_POKEMON " +
-          "WHERE $NAME_EN LIKE ? AND " + "$POKEMON_ID > 0 AND $POKEMON_ID < 152 " +
-          "ORDER BY $POKEMON_ID ASC"
+          "WHERE $POKEMON_ID > 0 AND $POKEMON_ID < 152 AND "
+      val endRequest = " ORDER BY $POKEMON_ID ASC"
+
+      if (isLocaleExist(locale)) {
+        return baseRequest + "${NAME + locale} LIKE ?" + endRequest
+      } else {
+        return baseRequest + "$NAME_EN LIKE ?" + endRequest
+      }
     }
 
     @JvmField val CREATOR: Parcelable.Creator<PokemonModel> = object : Parcelable.Creator<PokemonModel> {

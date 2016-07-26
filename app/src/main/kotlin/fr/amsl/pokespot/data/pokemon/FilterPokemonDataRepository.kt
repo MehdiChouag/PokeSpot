@@ -28,13 +28,12 @@ class FilterPokemonDataRepository
   }
 
   override fun call(cursor: Cursor): PokemonModel {
-    val nameEn = cursor.getString(PokemonModel.NAME_EN)
-    val nameLocale = if (PokemonModel.isLocaleExist(userLocale.language)) {
+    val name = if (PokemonModel.isLocaleExist(userLocale.language)) {
       cursor.getString(PokemonModel.NAME + userLocale.language)
-    } else null
+    } else cursor.getString(PokemonModel.NAME_EN)
 
     return PokemonModel(cursor.getString(PokemonModel.ID)!!,
-        nameLocale ?: nameEn!!,
+        name!!,
         cursor.getString(PokemonModel.IMAGE_PATH)!!,
         cursor.getString(PokemonModel.POKEMON_ID)!!,
         cursor.getInt(PokemonModel.FILTER))

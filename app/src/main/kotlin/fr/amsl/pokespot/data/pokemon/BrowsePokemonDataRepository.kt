@@ -68,13 +68,7 @@ class BrowsePokemonDataRepository
         update(PokemonModel.TABLE_POKEMON, prevValue, "${PokemonModel.POKEMON_ID}=?", PokemonModel.ALL_POKEMON_ID)
         update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
       }
-    } /*else if (pokemonModel.id != PokemonModel.ALL_POKEMON_ID && filter == 0 && numberSelectedPokemon == 1) {
-      briteDatabase.executeTransactionRun {
-        numberSelectedPokemon = 0
-        update(PokemonModel.TABLE_POKEMON, prevValue, "${PokemonModel.POKEMON_ID}=?", PokemonModel.ALL_POKEMON_ID)
-        update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
-      }
-    }*/ else if (pokemonModel.pokemonId != PokemonModel.ALL_POKEMON_ID) {
+    } else if (pokemonModel.pokemonId != PokemonModel.ALL_POKEMON_ID) {
       numberSelectedPokemon = 0
       briteDatabase.executeTransactionRun {
         update(PokemonModel.TABLE_POKEMON, newValue, "${PokemonModel.POKEMON_ID}=?", "${pokemonModel.pokemonId}")
@@ -86,13 +80,12 @@ class BrowsePokemonDataRepository
   }
 
   override fun call(cursor: Cursor): PokemonModel {
-    val nameEn = cursor.getString(PokemonModel.NAME_EN)
-    val nameLocale = if (PokemonModel.isLocaleExist(userLocale.language)) {
+    val name = if (PokemonModel.isLocaleExist(userLocale.language)) {
       cursor.getString(PokemonModel.NAME + userLocale.language)
-    } else null
+    } else cursor.getString(PokemonModel.NAME_EN)
 
     val pokemonModel = PokemonModel(cursor.getString(PokemonModel.ID)!!,
-        nameLocale ?: nameEn!!,
+        name!!,
         cursor.getString(PokemonModel.IMAGE_PATH)!!,
         cursor.getString(PokemonModel.POKEMON_ID)!!,
         cursor.getInt(PokemonModel.FILTER))

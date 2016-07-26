@@ -96,7 +96,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     }
     currentLocation?.apply {
       val position = CameraPosition.builder().target(LatLng(latitude,
-          longitude)).zoom(15f).bearing(0.0f).tilt(0.0f).build()
+          longitude)).zoom(16f).bearing(0.0f).tilt(0.0f).build()
 
       map?.animateCamera(CameraUpdateFactory.newCameraPosition(position), null)
     }
