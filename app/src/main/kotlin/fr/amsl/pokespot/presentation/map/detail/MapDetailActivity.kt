@@ -48,9 +48,9 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    progressBar.visibility = View.VISIBLE
     mapView.onCreate(savedInstanceState)
     mapView.getMapAsync(this)
-    progressBar.visibility = View.VISIBLE
   }
 
   override fun initializeInjector() {
@@ -81,6 +81,10 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
   override fun onMapReady(googleMap: GoogleMap) {
     map = googleMap
     map?.run {
+      isMyLocationEnabled = true
+      isTrafficEnabled = false
+      isBuildingsEnabled = false
+
       uiSettings?.setAllGesturesEnabled(false)
       setCameraOnPokemon()
     }

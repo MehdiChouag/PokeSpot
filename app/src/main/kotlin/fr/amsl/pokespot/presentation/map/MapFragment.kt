@@ -75,6 +75,8 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
       setOnMarkerClickListener(this@MapFragment)
       setOnCameraChangeListener(this@MapFragment)
       isMyLocationEnabled = true
+      isTrafficEnabled = false
+      isBuildingsEnabled = false
 
       // Zoom Controls only for debug.
       uiSettings.isZoomControlsEnabled = BuildConfig.DEBUG
