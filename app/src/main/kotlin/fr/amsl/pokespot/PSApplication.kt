@@ -2,6 +2,7 @@ package fr.amsl.pokespot
 
 import android.app.Application
 import android.content.Context
+import android.support.v7.app.AppCompatDelegate
 import com.crashlytics.android.Crashlytics
 import com.squareup.leakcanary.RefWatcher
 import fr.amsl.pokespot.di.component.ApplicationComponent
@@ -29,6 +30,9 @@ open class PSApplication : Application() {
     initializeInjector()
     initializeLeakCanary()
     initializeFabric()
+
+    // Enable vector drawable into selector.
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
   }
 
   fun initializeInjector() {
