@@ -6,8 +6,6 @@ import android.support.annotation.NonNull
 import dagger.Module
 import dagger.Provides
 import fr.amsl.pokespot.PSApplication
-import fr.amsl.pokespot.data.pokemon.BatchFilterDataRepository
-import fr.amsl.pokespot.data.pokemon.repository.BatchFilterRepository
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -37,14 +35,7 @@ class ApplicationModule(private val application: PSApplication) {
   @Singleton
   @Named("WorkerThread")
   fun provideWorkerThreadScheduler(): Scheduler = Schedulers.io()
-
-  @NonNull
-  @Provides
-  @Singleton
-  fun provideBatchFilterRepository(batchFilterDataRepository: BatchFilterDataRepository): BatchFilterRepository {
-    return batchFilterDataRepository
-  }
-
+  
   @NonNull
   @Provides
   @Singleton
