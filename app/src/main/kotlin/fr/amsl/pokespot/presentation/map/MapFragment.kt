@@ -178,8 +178,8 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   private fun getLastKnowLocation() {
-    currentLocation = googleApiClient?.run {
-      LocationServices.FusedLocationApi.getLastLocation(this)
+    if (googleApiClient != null && googleApiClient!!.isConnected) {
+      currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
     }
   }
 
