@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#1976d2</color>
     <color name="colorAccent">#F44336</color>
     <color name="bright_gray">#9E9E9E</color>
+
+    <color name="reliability_good">#2ECC71</color>
+    <color name="reliability_middle">#EB974E</color>
+    <color name="reliability_low">#D64541</color>
 </resources>

@@ -2,6 +2,7 @@ package fr.amsl.pokespot.presentation.map.detail
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -62,7 +63,14 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
     presenter.view = this
     presenter.getPokemon(pokemon!!.pokemonId)
 
+    val color = if (pokemon!!.reliability > 70) {
+      R.color.reliability_good
+    } else if (pokemon!!.reliability < 30) {
+      R.color.reliability_low
+    } else R.color.reliability_middle
+    reliability.setTextColor(ContextCompat.getColor(this, color))
     reliability.text = getString(R.string.detail_map_reliability, pokemon!!.reliability)
+
     image.setImageURI(pokemon!!.getImageUri(this))
   }
 
