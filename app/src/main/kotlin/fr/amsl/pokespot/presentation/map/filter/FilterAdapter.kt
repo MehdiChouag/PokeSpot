@@ -1,5 +1,6 @@
 package fr.amsl.pokespot.presentation.map.filter
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -8,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import fr.amsl.pokespot.R
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
+import fr.amsl.pokespot.presentation.map.MapActivity
+import fr.amsl.pokespot.presentation.navigator.Navigator
 import fr.amsl.pokespot.presentation.util.bindView
 import fr.amsl.pokespot.presentation.util.inflate
 import javax.inject.Inject
@@ -15,7 +18,8 @@ import javax.inject.Inject
 /**
  * @author mehdichouag on 23/07/2016.
  */
-class FilterAdapter @Inject constructor(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FilterAdapter @Inject constructor(private val context: Context,
+                                        private val navigator: Navigator) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
   companion object {
     private val TYPE_POKEMON = 0
@@ -24,6 +28,7 @@ class FilterAdapter @Inject constructor(private val context: Context) : Recycler
 
   var pokemonList: List<PokemonModel>? = null
   var numberPokemonOffset: Int = 0
+  var activity: Activity? = null
 
   override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
     return when (viewType) {
@@ -53,6 +58,10 @@ class FilterAdapter @Inject constructor(private val context: Context) : Recycler
   inner class FilterPokemonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val pokemonImage: ImageView by bindView(R.id.pokemon)
 
+    init {
+      itemView.setOnClickListener { navigator.navigateToBrowsePokemonFilter(activity!!, MapActivity.REQUEST_BROWSE_POKEMON_FILTER) }
+    }
+
     fun displayPokemon(pokemonModel: PokemonModel) {
       pokemonModel.setPokemonPicture(context, pokemonImage)
     }
@@ -60,6 +69,10 @@ class FilterAdapter @Inject constructor(private val context: Context) : Recycler
 
   inner class FilterOffsetViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val pokemonOffset: TextView by bindView(R.id.filter_offset)
+
+    init {
+      itemView.setOnClickListener { navigator.navigateToBrowsePokemonFilter(activity!!, MapActivity.REQUEST_BROWSE_POKEMON_FILTER) }
+    }
 
     fun displayOffset(offset: Int) {
       pokemonOffset.text = context.getString(R.string.filter_offset, offset)

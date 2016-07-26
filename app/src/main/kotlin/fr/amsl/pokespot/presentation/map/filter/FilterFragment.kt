@@ -55,6 +55,7 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
   }
 
   override fun initialize() {
+    adapter.activity = activity
     recycler.adapter = adapter
     presenter.getFilterPokemon(rowNumber, columnNumber)
   }
@@ -65,7 +66,6 @@ class FilterFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, FilterVi
     initRadius()
     initReliability()
     initFirstSeen()
-    recycler.setOnClickListener { navigator.navigateToBrowsePokemonFilter(activity, MapActivity.REQUEST_BROWSE_POKEMON_FILTER) }
     filterContainer.setOnClickListener { navigator.navigateToBrowsePokemonFilter(activity, MapActivity.REQUEST_BROWSE_POKEMON_FILTER) }
   }
 
