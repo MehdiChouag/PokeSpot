@@ -47,7 +47,7 @@ class MapPresenter
   private fun displayError(throwable: Throwable) {
     val ctx = view!!.context()
     toast?.cancel()
-    toast = Toast.makeText(ctx, errorConverter.getErrorMessage(throwable), Toast.LENGTH_SHORT)
+    toast = Toast.makeText(ctx, errorConverter.getErrorMessage(throwable, {}), Toast.LENGTH_SHORT)
     toast!!.show()
   }
 }

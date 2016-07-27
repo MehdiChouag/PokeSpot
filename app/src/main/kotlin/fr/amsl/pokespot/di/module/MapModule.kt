@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import fr.amsl.pokespot.data.pokemon.MapPokemonDataRepository
 import fr.amsl.pokespot.data.pokemon.repository.MapPokemonRepository
-import fr.amsl.pokespot.data.pokemon.service.PokeSpotService
+import fr.amsl.pokespot.data.pokemon.service.SearchService
 import fr.amsl.pokespot.di.scope.ActivityScope
 import fr.amsl.pokespot.presentation.exception.ErrorConverter
 import fr.amsl.pokespot.presentation.map.MapErrorConverter
@@ -18,7 +18,7 @@ class MapModule {
 
   @Provides
   @ActivityScope
-  fun providePokespotService(retrofit: Retrofit): PokeSpotService = retrofit.create(PokeSpotService::class.java)
+  fun provideSearchService(retrofit: Retrofit): SearchService = retrofit.create(SearchService::class.java)
 
   @Provides
   @ActivityScope

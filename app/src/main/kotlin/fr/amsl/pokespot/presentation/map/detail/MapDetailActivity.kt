@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
@@ -65,7 +66,6 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    progressBar.visibility = View.VISIBLE
     mapView.onCreate(savedInstanceState)
     mapView.getMapAsync(this)
     initializeGoogleApiClient()
@@ -81,9 +81,7 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
 
     presenter.view = this
     presenter.getPokemon(pokemon!!.pokemonId)
-
-    displayReliability()
-    displayLastSeen()
+    presenter.getPokemonRemote(pokemon!!.id)
 
     image.setImageURI(pokemon!!.getImageUri(this))
   }
@@ -130,34 +128,6 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
     name.text = pokemonModel.name
   }
 
-  override fun onMapReady(googleMap: GoogleMap) {
-    map = googleMap
-    map?.run {
-      isMyLocationEnabled = false
-      isTrafficEnabled = false
-      isBuildingsEnabled = false
-
-      uiSettings?.setAllGesturesEnabled(false)
-      setCameraOnPokemon()
-    }
-    progressBar.visibility = View.GONE
-  }
-
-  private fun setCameraOnPokemon() {
-    val latLng = LatLng(pokemon!!.latitude, pokemon!!.longitude)
-    val position = CameraPosition.builder().target(latLng)
-        .zoom(17f).bearing(0.0f).tilt(0.0f).build()
-    map!!.moveCamera(CameraUpdateFactory.newCameraPosition(position))
-    map!!.addMarker(MarkerOptions().position(latLng))
-  }
-
-  override fun context(): Context = applicationContext
-
-  override fun onSaveInstanceState(outState: Bundle) {
-    super.onSaveInstanceState(outState)
-    mapView.onSaveInstanceState(outState)
-  }
-
   override fun onStart() {
     super.onStart()
     initializeGoogleApiClient()
@@ -170,6 +140,56 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
         .addOnConnectionFailedListener(this)
         .addApi(LocationServices.API)
         .build()
+  }
+
+  override fun onMapReady(googleMap: GoogleMap) {
+    map = googleMap
+    map?.run {
+      isMyLocationEnabled = false
+      isTrafficEnabled = false
+      isBuildingsEnabled = false
+
+      uiSettings?.setAllGesturesEnabled(false)
+      setCameraOnPokemon()
+    }
+  }
+
+  private fun setCameraOnPokemon() {
+    val latLng = LatLng(pokemon!!.latitude, pokemon!!.longitude)
+    val position = CameraPosition.builder().target(latLng)
+        .zoom(17f).bearing(0.0f).tilt(0.0f).build()
+    map!!.moveCamera(CameraUpdateFactory.newCameraPosition(position))
+    map!!.addMarker(MarkerOptions().position(latLng))
+  }
+
+  override fun showLoadingView() {
+    progressBar.visibility = View.VISIBLE
+  }
+
+  override fun hideLoadingView() {
+    progressBar.visibility = View.INVISIBLE
+  }
+
+  override fun displayRemotePokemon(pokemonMapApi: PokemonMapApi) {
+    pokemon = pokemonMapApi
+
+    displayReliability()
+    displayLastSeen()
+  }
+
+  override fun displayError(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+  }
+
+  override fun finishActivity() {
+    finish()
+  }
+
+  override fun context(): Context = applicationContext
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    mapView.onSaveInstanceState(outState)
   }
 
   override fun onPause() {

@@ -11,15 +11,15 @@ import java.io.IOException
  */
 abstract class ErrorConverter(protected val context: Context) {
 
-  fun getErrorMessage(throwable: Throwable): String {
+  fun getErrorMessage(throwable: Throwable, block: () -> Unit): String {
     return if (throwable is HttpException) {
-      getMessageByStatusCode(throwable.code())
+      getMessageByStatusCode(throwable.code(), block)
     } else {
       getDefaultMessage(throwable)
     }
   }
 
-  abstract protected fun getMessageByStatusCode(statusCode: Int): String
+  abstract protected fun getMessageByStatusCode(statusCode: Int, block: () -> Unit): String
 
   protected fun getDefaultMessage(throwable: Throwable): String {
     return if (!isConnected(context) || throwable is IOException) {

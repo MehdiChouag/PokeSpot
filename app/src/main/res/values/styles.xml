@@ -31,7 +31,7 @@
     </style>
 
     <!-- ProgressBar -->
-    <style name="Base.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+    <style name="Base.ProgressBar">
         <item name="android:indeterminate">true</item>
         <item name="android:visibility">invisible</item>
         <item name="android:layout_gravity">center</item>

@@ -1,4 +1,4 @@
-package fr.amsl.pokespot.presentation.map
+package fr.amsl.pokespot.presentation.map.detail
 
 import android.content.Context
 import fr.amsl.pokespot.R
@@ -7,17 +7,20 @@ import fr.amsl.pokespot.presentation.exception.ErrorConverter
 import javax.inject.Inject
 
 /**
- * @author mehdichouag on 26/07/2016.
+ * @author mehdichouag on 27/07/2016.
  */
 @ActivityScope
-class MapErrorConverter @Inject constructor(context: Context) : ErrorConverter(context) {
+class MapDetailErrorConverter @Inject constructor(context: Context) : ErrorConverter(context) {
   companion object {
-    private val FORBIDDEN_POKEMON_ADD = 422
+    private val POKEMON_NOT_FOUND = 404
   }
 
   override fun getMessageByStatusCode(statusCode: Int, block: () -> Unit): String {
     return when (statusCode) {
-      FORBIDDEN_POKEMON_ADD -> context.getString(R.string.add_pokemon_error_forbidden_pokemon)
+      POKEMON_NOT_FOUND -> {
+        block()
+        context.getString(R.string.detail_map_error_pokemon_not_found)
+      }
       else -> getUnexpectedErrorMessage()
     }
   }

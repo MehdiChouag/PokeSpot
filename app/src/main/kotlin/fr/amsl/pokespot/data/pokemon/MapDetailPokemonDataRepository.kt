@@ -3,8 +3,10 @@ package fr.amsl.pokespot.data.pokemon
 import com.squareup.sqlbrite.BriteDatabase
 import fr.amsl.pokespot.data.database.util.getInt
 import fr.amsl.pokespot.data.database.util.getString
+import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.MapDetailPokemonRepository
+import fr.amsl.pokespot.data.pokemon.service.PlaceService
 import rx.Observable
 import rx.Scheduler
 import java.util.*
@@ -15,8 +17,11 @@ import javax.inject.Named
  * @author mehdichouag on 25/07/2016.
  */
 class MapDetailPokemonDataRepository @Inject constructor(@Named("MainThread") private val mainThreadScheduler: Scheduler,
+                                                         @Named("WorkerThread") private val workerThreadScheduler: Scheduler,
+                                                         private val placeService: PlaceService,
                                                          private val briteDatabase: BriteDatabase,
                                                          private val userLocale: Locale) : MapDetailPokemonRepository {
+
   override fun getPokemonById(id: String): Observable<PokemonModel> {
     return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON,
         PokemonModel.selectPokemonById(userLocale.language), id)
@@ -31,6 +36,12 @@ class MapDetailPokemonDataRepository @Inject constructor(@Named("MainThread") pr
               cursor.getString(PokemonModel.POKEMON_ID)!!,
               cursor.getInt(PokemonModel.FILTER))
         }
+        .observeOn(mainThreadScheduler)
+  }
+
+  override fun getPokemonRemoteById(id: String): Observable<PokemonMapApi> {
+    return placeService.getPokemon(id)
+        .subscribeOn(workerThreadScheduler)
         .observeOn(mainThreadScheduler)
   }
 }

@@ -1,5 +1,6 @@
 package fr.amsl.pokespot.data.pokemon.repository
 
+import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import rx.Observable
 
@@ -8,4 +9,6 @@ import rx.Observable
  */
 interface MapDetailPokemonRepository {
   fun getPokemonById(id: String): Observable<PokemonModel>
+
+  fun getPokemonRemoteById(id: String): Observable<PokemonMapApi>
 }

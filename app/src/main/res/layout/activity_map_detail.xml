@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/map_container"
         android:layout_toEndOf="@+id/pokemonImage"
-        android:text="TOTO" />
+        tools:text="TOTO" />
 
     <TextView
         android:id="@+id/reliability"

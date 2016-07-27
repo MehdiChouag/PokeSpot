@@ -5,6 +5,8 @@ import android.provider.Settings.Secure
 import dagger.Module
 import dagger.Provides
 import fr.amsl.pokespot.PSApplication
+import fr.amsl.pokespot.data.pokemon.service.PlaceService
+import retrofit2.Retrofit
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -42,4 +44,8 @@ class ApplicationModule(private val application: PSApplication) {
   @Singleton
   @Named("phoneId")
   fun providePhoneId(): String = Secure.getString(application.contentResolver, Secure.ANDROID_ID)
+
+  @Provides
+  @Singleton
+  fun providePokespotService(retrofit: Retrofit): PlaceService = retrofit.create(PlaceService::class.java)
 }

@@ -7,7 +7,8 @@ import fr.amsl.pokespot.data.pokemon.model.FilterModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.MapPokemonRepository
-import fr.amsl.pokespot.data.pokemon.service.PokeSpotService
+import fr.amsl.pokespot.data.pokemon.service.PlaceService
+import fr.amsl.pokespot.data.pokemon.service.SearchService
 import fr.amsl.pokespot.data.pref.PokemonSharedPreference
 import rx.Observable
 import rx.Scheduler
@@ -24,7 +25,8 @@ class MapPokemonDataRepository
                     @Named("phoneId") private val phoneId: String,
                     private val briteDatabase: BriteDatabase,
                     private val pokemonSharedPreference: PokemonSharedPreference,
-                    private val pokeSpotService: PokeSpotService) : MapPokemonRepository, Func1<Cursor, FilterModel> {
+                    private val pokeSpotService: PlaceService,
+                    private val searchService: SearchService) : MapPokemonRepository, Func1<Cursor, FilterModel> {
 
   override fun getPokemon(latitude: Double, longitude: Double): Observable<List<PokemonMapApi>> {
     return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.SELECT_ALL_FILTER)
@@ -35,16 +37,16 @@ class MapPokemonDataRepository
           val freshness = pokemonSharedPreference.getFreshness()
           if (freshness != 0) {
             if (it.find { it.pokemonId == FilterModel.ALL_POKEMON_ID } != null) {
-              pokeSpotService.getPokemonList(phoneId, latitude, longitude, reliability, freshness, distance)
+              searchService.getPokemonList(phoneId, latitude, longitude, reliability, freshness, distance)
             } else {
-              pokeSpotService.getPokemonFilter(phoneId, latitude, longitude,
+              searchService.getPokemonFilter(phoneId, latitude, longitude,
                   reliability, freshness, distance, getPokemonId(it))
             }
           } else {
             if (it.find { it.pokemonId == FilterModel.ALL_POKEMON_ID } != null) {
-              pokeSpotService.getPokemonList(phoneId, latitude, longitude, reliability, distance)
+              searchService.getPokemonList(phoneId, latitude, longitude, reliability, distance)
             } else {
-              pokeSpotService.getPokemonFilter(phoneId, latitude, longitude,
+              searchService.getPokemonFilter(phoneId, latitude, longitude,
                   reliability, distance, getPokemonId(it))
             }
           }
