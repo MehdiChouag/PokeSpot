@@ -14,8 +14,8 @@ fun getElapsedTime(timeInSecond: Int): DateModel {
   val end = DateTime.now()
 
   val days = Days.daysBetween(start, end).days
-  val hours = Hours.hoursBetween(start, end).hours
-  val minutes = Minutes.minutesBetween(start, end).minutes
+  val hours = Hours.hoursBetween(start, end).hours % 24
+  val minutes = Minutes.minutesBetween(start, end).minutes % 60
 
   return DateModel(days, hours, minutes)
 }

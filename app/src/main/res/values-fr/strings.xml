@@ -31,7 +31,7 @@
 
     <!-- Filter -->
     <string name="filter_show_only">Afficher seulement</string>
-    <string name="filter_first_seen">Première apparition</string>
+    <string name="filter_first_seen">Dernière apparition</string>
     <string name="filter_first_seen_all">Tous</string>
     <string name="filter_radius">Rayon</string>
     <string name="filter_reliability">Fiabilité</string>
@@ -46,7 +46,7 @@
 
     <!-- Detail Map -->
     <string name="detail_map_last_seen">Dernière apparition il y a %1$s</string>
-    <string name="detail_map_last_seen_days_and_hours">Dernière apparition il y a %1$s et %2$s</string>
+    <string name="detail_map_last_seen_detail">Dernière apparition il y a %1$s et %2$s</string>
     <string name="detail_map_last_seen_unknown">Dernière apparition inconnu</string>
     <string name="detail_map_reliability">Fiabilité %1$d%%</string>
 </resources>

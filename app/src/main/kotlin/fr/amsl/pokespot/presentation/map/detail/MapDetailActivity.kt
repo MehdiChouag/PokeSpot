@@ -87,21 +87,23 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
       display = getString(R.string.detail_map_last_seen_unknown)
     } else {
       val date = getElapsedTime(pokemon!!.lastSeen)
-      if (date.days == 0 && date.hours == 0) {
+      if (date.days != 0 && date.hours == 0) {
+        display = getString(R.string.detail_map_last_seen,
+            resources.getQuantityString(R.plurals.day, date.days, date.days))
+      } else if (date.hours != 0 && date.minutes == 0) {
+        display = getString(R.string.detail_map_last_seen,
+            resources.getQuantityString(R.plurals.hour, date.hours, date.hours))
+      } else if (date.hours == 0 && date.minutes != 0) {
         display = getString(R.string.detail_map_last_seen,
             resources.getQuantityString(R.plurals.minute, date.minutes, date.minutes))
+      } else if (date.days == 0 && date.hours != 0 && date.minutes != 0) {
+        display = getString(R.string.detail_map_last_seen_detail,
+            resources.getQuantityString(R.plurals.hour, date.hours, date.hours),
+            resources.getQuantityString(R.plurals.minute, date.minutes, date.minutes))
       } else {
-        if (date.days != 0 && date.hours == 0) {
-          display = getString(R.string.detail_map_last_seen,
-              resources.getQuantityString(R.plurals.day, date.days, date.days))
-        } else if (date.days == 0 && date.hours != 0) {
-          display = getString(R.string.detail_map_last_seen,
-              resources.getQuantityString(R.plurals.day, date.hours, date.hours))
-        } else {
-          display = getString(R.string.detail_map_last_seen_days_and_hours,
-              resources.getQuantityString(R.plurals.day, date.days, date.days),
-              resources.getQuantityString(R.plurals.hour, date.hours, date.hours))
-        }
+        display = getString(R.string.detail_map_last_seen_detail,
+            resources.getQuantityString(R.plurals.day, date.days, date.days),
+            resources.getQuantityString(R.plurals.hour, date.hours, date.hours))
       }
     }
     lastSeen.text = display

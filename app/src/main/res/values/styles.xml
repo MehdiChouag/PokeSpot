@@ -124,6 +124,8 @@
     <style name="DetailMap.LastSeen" parent="TextAppearance.AppCompat.Body1">
         <item name="android:layout_marginTop">@dimen/space_std</item>
         <item name="android:layout_marginLeft">@dimen/space_std</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="DetailMap.Image">
