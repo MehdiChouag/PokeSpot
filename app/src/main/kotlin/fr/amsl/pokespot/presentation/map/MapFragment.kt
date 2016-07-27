@@ -128,7 +128,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   override fun pokemonAdded(pokemonMapApi: PokemonMapApi) {
-    presenter.fetchPokemon(latLng!!.latitude, latLng!!.longitude)
+    focusOnCurrentLocation()
     Toast.makeText(context(), R.string.add_pokemon_success, Toast.LENGTH_SHORT).show()
   }
 
