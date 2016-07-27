@@ -96,6 +96,7 @@ dependencies {
   compile dependencies.searchView
   compile dependencies.androidPercent
   compile dependencies.circleImageView
+  compile dependencies.jodaTime
   compile(dependencies.crashlytics) {
     transitive = true;
   }

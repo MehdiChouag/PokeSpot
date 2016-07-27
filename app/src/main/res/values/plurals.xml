@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="day">
+        <item quantity="one">@string/day</item>
+        <item quantity="other">@string/days</item>
+    </plurals>
+
+    <plurals name="hour">
+        <item quantity="one">@string/hour</item>
+        <item quantity="other">@string/hours</item>
+    </plurals>
+
+    <plurals name="minute">
+        <item quantity="one">@string/minute</item>
+        <item quantity="other">@string/minutes</item>
+    </plurals>
+</resources>

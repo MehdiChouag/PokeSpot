@@ -59,10 +59,16 @@
         android:layout_below="@+id/pokemonImage"
         android:text="@string/detail_map_last_seen" />
 
+    <View
+        android:id="@+id/separator"
+        android:layout_below="@+id/last_seen"
+        style="@style/DetailMap.Separator" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/map_container">
+        android:layout_below="@+id/separator"
+        android:orientation="horizontal">
 
     </LinearLayout>
 

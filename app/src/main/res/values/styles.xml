@@ -133,4 +133,15 @@
         <item name="civ_fill_color">@android:color/white</item>
         <item name="civ_border_width">2dp</item>
     </style>
+
+    <style name="DetailMap.Separator">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">@dimen/space_big</item>
+        <item name="android:layout_marginBottom">@dimen/space_std</item>
+        <item name="android:layout_marginLeft">@dimen/space_std</item>
+        <item name="android:layout_marginRight">@dimen/space_std</item>
+        <item name="android:background">@color/bright_gray</item>
+    </style>
+
 </resources>

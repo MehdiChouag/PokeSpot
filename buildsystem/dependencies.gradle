@@ -43,6 +43,7 @@ ext {
   sqlbriteVersion = '0.7.0'
   multiDexVersion = '1.0.1'
   searchViewVersion = '3.4.1'
+  jodaTimeVersion = '2.9.4.1'
 
   dependencies = [daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
                   dagger            : "com.google.dagger:dagger:${daggerVersion}",
@@ -71,7 +72,8 @@ ext {
                   sqlbrite          : "com.squareup.sqlbrite:sqlbrite:${sqlbriteVersion}",
                   mapsServices      : "com.google.android.gms:play-services-maps:${playServiceVersion}",
                   locationServices  : "com.google.android.gms:play-services-location:${playServiceVersion}",
-                  searchView        : "com.lapism:searchview:${searchViewVersion}"]
+                  searchView        : "com.lapism:searchview:${searchViewVersion}",
+                  jodaTime          : "net.danlew:android.joda:${jodaTimeVersion}"]
 
   debugDependencies =
       [leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",

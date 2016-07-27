@@ -19,17 +19,19 @@ data class PokemonMapApi(
     val longitude: Double,
     val upvotes: Int,
     val downvotes: Int,
-    val creationDate: Long,
+    val creationDate: Int,
     val trainerName: String,
     val reliability: Int,
-    val phoneId: String,
+    val lastSeen: Int,
+    val phoneId: String?,
     val type: String) : Parcelable {
 
   @Transient
   var marker: Marker? = null
 
   companion object {
-    @JvmField val CREATOR: Parcelable.Creator<PokemonMapApi> = object : Parcelable.Creator<PokemonMapApi> {
+    @JvmField @Suppress("unused")
+    val CREATOR: Parcelable.Creator<PokemonMapApi> = object : Parcelable.Creator<PokemonMapApi> {
       override fun createFromParcel(parcel: Parcel): PokemonMapApi {
         return PokemonMapApi(parcel)
       }
@@ -40,9 +42,10 @@ data class PokemonMapApi(
     }
   }
 
-  constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(),
-      parcel.readDouble(), parcel.readDouble(), parcel.readInt(), parcel.readInt(),
-      parcel.readLong(), parcel.readString(), parcel.readInt(), parcel.readString(), parcel.readString())
+  constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readDouble(),
+      parcel.readDouble(), parcel.readInt(), parcel.readInt(),
+      parcel.readInt(), parcel.readString(), parcel.readInt(),
+      parcel.readInt(), parcel.readString(), parcel.readString())
 
   override fun writeToParcel(out: Parcel?, flag: Int) {
     out?.writeString(id)
@@ -51,9 +54,10 @@ data class PokemonMapApi(
     out?.writeDouble(longitude)
     out?.writeInt(upvotes)
     out?.writeInt(downvotes)
-    out?.writeLong(creationDate)
+    out?.writeInt(creationDate)
     out?.writeString(trainerName)
     out?.writeInt(reliability)
+    out?.writeInt(lastSeen)
     out?.writeString(phoneId)
     out?.writeString(type)
   }

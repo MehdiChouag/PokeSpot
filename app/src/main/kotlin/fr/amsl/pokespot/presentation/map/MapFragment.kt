@@ -128,11 +128,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   override fun pokemonAdded(pokemonMapApi: PokemonMapApi) {
-    val position = LatLng(pokemonMapApi.latitude, pokemonMapApi.longitude)
-    pokemonMapApi.marker = map?.addMarker(MarkerOptions()
-        .position(position)
-        .icon(BitmapDescriptorFactory.fromBitmap(pokemonMapApi.getImageBitmap(context()))))
-    pokemons.plusAssign(pokemonMapApi)
+    presenter.fetchPokemon(latLng!!.latitude, latLng!!.longitude)
     Toast.makeText(context(), R.string.add_pokemon_success, Toast.LENGTH_SHORT).show()
   }
 

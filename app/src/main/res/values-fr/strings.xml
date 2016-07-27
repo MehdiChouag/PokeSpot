@@ -13,6 +13,13 @@
         Veuillez vérifier votre connexion et réessayer.</string>
     <string name="app_dialog_quit_button">Quitter</string>
 
+    <!-- Days and hours -->
+    <string name="day">%d jour</string>
+    <string name="days">%d jours</string>
+    <string name="hour">%d heure</string>
+    <string name="hours">%d heures</string>
+    <string name="minute">%d minute</string>
+    <string name="minutes">%d minutes</string>
 
     <!-- Menu -->
     <string name="map_menu_filter">Filtre</string>
@@ -39,5 +46,7 @@
 
     <!-- Detail Map -->
     <string name="detail_map_last_seen">Dernière apparition il y a %1$s</string>
+    <string name="detail_map_last_seen_days_and_hours">Dernière apparition il y a %1$s et %2$s</string>
+    <string name="detail_map_last_seen_unknown">Dernière apparition inconnu</string>
     <string name="detail_map_reliability">Fiabilité %1$d%%</string>
 </resources>

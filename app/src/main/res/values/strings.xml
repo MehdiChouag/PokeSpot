@@ -10,6 +10,14 @@
     <string name="app_error_internet_connection_content">An internet connection in needed to download the Pokédex. Please check your connection and retry.</string>
     <string name="app_dialog_quit_button">Quit</string>
 
+    <!-- Days and hours -->
+    <string name="day">%d day</string>
+    <string name="days">%d days</string>
+    <string name="hour">%d hour</string>
+    <string name="hours">%d hours</string>
+    <string name="minute">%d minute</string>
+    <string name="minutes">%d minutes</string>
+
     <!-- Toolbar -->
     <string name="toolbar_title" translatable="false">Pokéspot</string>
 
@@ -52,5 +60,7 @@
 
     <!-- Detail Map -->
     <string name="detail_map_last_seen">Last seen %1$s ago</string>
+    <string name="detail_map_last_seen_days_and_hours">Last seen %1$s and %2$s ago</string>
+    <string name="detail_map_last_seen_unknown">Last seen unknown</string>
     <string name="detail_map_reliability">Reliability %1$d%%</string>
 </resources>

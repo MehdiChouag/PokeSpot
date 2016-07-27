@@ -11,6 +11,7 @@ import fr.amsl.pokespot.di.module.ApplicationModule
 import fr.amsl.pokespot.di.module.DatabaseModule
 import fr.amsl.pokespot.di.module.NetModule
 import io.fabric.sdk.android.Fabric
+import net.danlew.android.joda.JodaTimeAndroid
 
 /**
  * Application class.
@@ -33,6 +34,7 @@ open class PSApplication : Application() {
 
     // Enable vector drawable into selector.
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    JodaTimeAndroid.init(this)
   }
 
   fun initializeInjector() {

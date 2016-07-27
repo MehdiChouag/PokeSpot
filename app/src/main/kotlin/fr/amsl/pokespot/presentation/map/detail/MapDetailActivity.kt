@@ -21,6 +21,7 @@ import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.di.module.MapDetailModule
 import fr.amsl.pokespot.presentation.base.BaseActivity
 import fr.amsl.pokespot.presentation.util.bindView
+import fr.amsl.pokespot.presentation.util.getElapsedTime
 import javax.inject.Inject
 
 /**
@@ -40,6 +41,7 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
   val image: CircleImageView by bindView(R.id.pokemonImage)
   val name: TextView by bindView(R.id.pokemonName)
   val reliability: TextView by bindView(R.id.reliability)
+  val lastSeen: TextView by bindView(R.id.last_seen)
   val progressBar: ProgressBar by bindView(R.id.progress_bar)
 
   var map: GoogleMap? = null
@@ -63,6 +65,13 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
     presenter.view = this
     presenter.getPokemon(pokemon!!.pokemonId)
 
+    displayReliability()
+    displayLastSeen()
+
+    image.setImageURI(pokemon!!.getImageUri(this))
+  }
+
+  private fun displayReliability() {
     val color = if (pokemon!!.reliability > 70) {
       R.color.reliability_good
     } else if (pokemon!!.reliability < 30) {
@@ -70,8 +79,32 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
     } else R.color.reliability_middle
     reliability.setTextColor(ContextCompat.getColor(this, color))
     reliability.text = getString(R.string.detail_map_reliability, pokemon!!.reliability)
+  }
 
-    image.setImageURI(pokemon!!.getImageUri(this))
+  private fun displayLastSeen() {
+    val display: String
+    if (pokemon!!.lastSeen == 0) {
+      display = getString(R.string.detail_map_last_seen_unknown)
+    } else {
+      val date = getElapsedTime(pokemon!!.lastSeen)
+      if (date.days == 0 && date.hours == 0) {
+        display = getString(R.string.detail_map_last_seen,
+            resources.getQuantityString(R.plurals.minute, date.minutes, date.minutes))
+      } else {
+        if (date.days != 0 && date.hours == 0) {
+          display = getString(R.string.detail_map_last_seen,
+              resources.getQuantityString(R.plurals.day, date.days, date.days))
+        } else if (date.days == 0 && date.hours != 0) {
+          display = getString(R.string.detail_map_last_seen,
+              resources.getQuantityString(R.plurals.day, date.hours, date.hours))
+        } else {
+          display = getString(R.string.detail_map_last_seen_days_and_hours,
+              resources.getQuantityString(R.plurals.day, date.days, date.days),
+              resources.getQuantityString(R.plurals.hour, date.hours, date.hours))
+        }
+      }
+    }
+    lastSeen.text = display
   }
 
   override fun displayPokemon(pokemonModel: PokemonModel) {
