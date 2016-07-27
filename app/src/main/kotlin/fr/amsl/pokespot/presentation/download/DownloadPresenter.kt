@@ -3,7 +3,6 @@ package fr.amsl.pokespot.presentation.download
 import fr.amsl.pokespot.data.pokemon.repository.DownloadPokemonRepository
 import fr.amsl.pokespot.di.scope.ActivityScope
 import fr.amsl.pokespot.presentation.base.FragmentBasePresenter
-import fr.amsl.pokespot.presentation.exception.ErrorConverter
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -11,16 +10,14 @@ import javax.inject.Inject
  * @author mehdichouag on 20/07/2016.
  */
 @ActivityScope
-class DownloadPresenter
-@Inject constructor(private val downloadPokemonRepository: DownloadPokemonRepository,
-                    private val errorConverter: ErrorConverter) : FragmentBasePresenter<DownloadView>() {
+class DownloadPresenter @Inject constructor(private val downloadPokemonRepository: DownloadPokemonRepository) : FragmentBasePresenter<DownloadView>() {
 
   fun startDownload() {
     view?.showLoadingView()
     subscriptions.add(downloadPokemonRepository.getPokemonList()
         .subscribe({}, {
           view?.hideLoadingView()
-          view?.displayError(errorConverter.getErrorMessage(it))
+          view?.displayError()
           Timber.e(it.message, it.cause)
         }, {
           view?.hideLoadingView()
