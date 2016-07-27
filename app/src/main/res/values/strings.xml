@@ -61,6 +61,7 @@
     <string name="add_pokemon_dialog_btn_negative">Cancel</string>
     <string name="add_pokemon_success">Pokémon successfully added.</string>
     <string name="add_pokemon_error_location">Location needed to add a Pokémon.</string>
+    <string name="add_pokemon_error_forbidden_pokemon">You can\'t add this Pokémon yet</string>
 
     <!-- Detail Map -->
     <string name="detail_map_last_seen">Last seen %1$s ago</string>

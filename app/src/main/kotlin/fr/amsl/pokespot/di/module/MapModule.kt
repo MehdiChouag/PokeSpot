@@ -6,6 +6,8 @@ import fr.amsl.pokespot.data.pokemon.MapPokemonDataRepository
 import fr.amsl.pokespot.data.pokemon.repository.MapPokemonRepository
 import fr.amsl.pokespot.data.pokemon.service.PokeSpotService
 import fr.amsl.pokespot.di.scope.ActivityScope
+import fr.amsl.pokespot.presentation.exception.ErrorConverter
+import fr.amsl.pokespot.presentation.map.MapErrorConverter
 import retrofit2.Retrofit
 
 /**
@@ -22,5 +24,11 @@ class MapModule {
   @ActivityScope
   fun provideMapPokemonRepository(mapPokemonDataRepository: MapPokemonDataRepository): MapPokemonRepository {
     return mapPokemonDataRepository
+  }
+
+  @Provides
+  @ActivityScope
+  fun provideMapErrorConverter(errorConverter: MapErrorConverter): ErrorConverter {
+    return errorConverter
   }
 }

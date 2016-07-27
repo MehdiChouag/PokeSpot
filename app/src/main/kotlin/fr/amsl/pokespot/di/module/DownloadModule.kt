@@ -1,6 +1,5 @@
 package fr.amsl.pokespot.di.module
 
-import android.support.annotation.NonNull
 import dagger.Module
 import dagger.Provides
 import fr.amsl.pokespot.data.pokemon.DownloadPokemonDataRepository
@@ -15,14 +14,12 @@ import retrofit2.Retrofit
 @Module
 class DownloadModule() {
 
-  @NonNull
   @Provides
   @ActivityScope
   fun provideDownloadPokemonService(retrofit: Retrofit): DownloadPokemonService {
     return retrofit.create(DownloadPokemonService::class.java)
   }
 
-  @NonNull
   @Provides
   @ActivityScope
   fun provideDownloadPokemonRepository(downloadPokemonDataRepository: DownloadPokemonDataRepository): DownloadPokemonRepository {

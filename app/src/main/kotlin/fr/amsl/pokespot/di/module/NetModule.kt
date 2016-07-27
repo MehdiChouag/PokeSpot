@@ -1,6 +1,5 @@
 package fr.amsl.pokespot.di.module
 
-import android.support.annotation.NonNull
 import dagger.Module
 import dagger.Provides
 import fr.amsl.pokespot.BuildConfig
@@ -18,7 +17,6 @@ import javax.inject.Singleton
 @Module
 open class NetModule {
 
-  @NonNull
   @Provides
   @Singleton
   @Named("Authorization")
@@ -27,7 +25,6 @@ open class NetModule {
   /**
    * Provide OkHttp.Builder
    */
-  @NonNull
   @Provides
   @Singleton
   open fun provideOkHttpBuilder(authorizationInterceptor: AuthorizationInterceptor): OkHttpClient.Builder {
@@ -38,7 +35,6 @@ open class NetModule {
   /**
    * Provide retrofit dependencies.
    */
-  @NonNull
   @Provides
   @Singleton
   fun provideRetrofit(client: OkHttpClient.Builder): Retrofit {
