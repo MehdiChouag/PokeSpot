@@ -1,11 +1,17 @@
 package fr.amsl.pokespot.presentation.map.detail
 
 import android.content.Context
+import android.location.Location
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -22,17 +28,22 @@ import fr.amsl.pokespot.di.module.MapDetailModule
 import fr.amsl.pokespot.presentation.base.BaseActivity
 import fr.amsl.pokespot.presentation.util.bindView
 import fr.amsl.pokespot.presentation.util.getElapsedTime
+import fr.amsl.pokespot.presentation.util.isUserInRangeInMeter
 import javax.inject.Inject
 
 /**
  * @author mehdichouag on 25/07/2016.
  */
-class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
+class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
+    OnConnectionFailedListener, OnMapReadyCallback, MapDetailView {
 
   override val layoutResource: Int = R.layout.activity_map_detail
 
   companion object {
     val INTENT_KEY_POKEMON = "fr.amsl.pokespot.presentation.map.detail.INTENT_KEY_POKEMON"
+
+    // Range within the user can vote
+    val RANGE_TO_VOTE = 150f
   }
 
   @Inject @LightCycle lateinit var presenter: MapDetailPresenter
@@ -45,6 +56,10 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
   val progressBar: ProgressBar by bindView(R.id.progress_bar)
 
   var map: GoogleMap? = null
+  var currentLocation: Location? = null
+  var pokemonPosition: LatLng? = null
+  var isUserInRange: Boolean = false
+  var googleApiClient: GoogleApiClient? = null
   var pokemon: PokemonMapApi? = null
   val pokemonModel: PokemonModel? = null
 
@@ -53,6 +68,7 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
     progressBar.visibility = View.VISIBLE
     mapView.onCreate(savedInstanceState)
     mapView.getMapAsync(this)
+    initializeGoogleApiClient()
   }
 
   override fun initializeInjector() {
@@ -61,6 +77,7 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
 
   override fun initialize() {
     pokemon = intent.getParcelableExtra(INTENT_KEY_POKEMON)
+    pokemonPosition = LatLng(pokemon!!.latitude, pokemon!!.longitude)
 
     presenter.view = this
     presenter.getPokemon(pokemon!!.pokemonId)
@@ -131,7 +148,7 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
     val position = CameraPosition.builder().target(latLng)
         .zoom(17f).bearing(0.0f).tilt(0.0f).build()
     map!!.moveCamera(CameraUpdateFactory.newCameraPosition(position))
-    map?.addMarker(MarkerOptions().position(latLng))
+    map!!.addMarker(MarkerOptions().position(latLng))
   }
 
   override fun context(): Context = applicationContext
@@ -139,6 +156,20 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
   override fun onSaveInstanceState(outState: Bundle) {
     super.onSaveInstanceState(outState)
     mapView.onSaveInstanceState(outState)
+  }
+
+  override fun onStart() {
+    super.onStart()
+    initializeGoogleApiClient()
+    googleApiClient?.connect()
+  }
+
+  fun initializeGoogleApiClient() {
+    googleApiClient = GoogleApiClient.Builder(this)
+        .addConnectionCallbacks(this)
+        .addOnConnectionFailedListener(this)
+        .addApi(LocationServices.API)
+        .build()
   }
 
   override fun onPause() {
@@ -149,6 +180,28 @@ class MapDetailActivity : BaseActivity(), OnMapReadyCallback, MapDetailView {
   override fun onResume() {
     super.onResume()
     mapView.onResume()
+  }
+
+  override fun onStop() {
+    googleApiClient?.run {
+      unregisterConnectionCallbacks(this@MapDetailActivity)
+      unregisterConnectionFailedListener(this@MapDetailActivity)
+      disconnect()
+    }
+    super.onStop()
+  }
+
+  override fun onConnected(p0: Bundle?) {
+    currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
+
+    isUserInRange = currentLocation!!.isUserInRangeInMeter(pokemonPosition!!, RANGE_TO_VOTE)
+  }
+
+  override fun onConnectionSuspended(p0: Int) {
+    googleApiClient?.connect()
+  }
+
+  override fun onConnectionFailed(p0: ConnectionResult) {
   }
 
   override fun onLowMemory() {
