@@ -26,6 +26,7 @@
             android:name=".presentation.launcher.LauncherActivity"
             android:label="@string/app_name"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PokeSpot.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,15 +37,18 @@
 
         <activity
             android:name=".presentation.download.DownloadActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PokeSpot.Download" />
 
         <activity
             android:name=".presentation.map.MapActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
 
         <activity
             android:name=".presentation.map.detail.MapDetailActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:parentActivityName=".presentation.map.MapActivity"
             android:theme="@style/Theme.PokeSpot.TransparentStatusBarStyle">
             <meta-data
@@ -55,6 +59,7 @@
         <activity
             android:name=".presentation.browse.BrowsePokemonActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:parentActivityName=".presentation.map.MapActivity"
             android:windowSoftInputMode="adjustResize">
 
