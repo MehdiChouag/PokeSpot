@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
@@ -118,7 +119,16 @@ class BrowsePokemonActivity : BaseActivity(), BrowsePokemonView, BrowsePokemonLi
     presenter.handlePokemonClick(pokemonModel)
   }
 
-  override fun finishActivity(pokemonModel: PokemonModel) {
+  override fun displayConfirmation(pokemonModel: PokemonModel) {
+    AlertDialog.Builder(this)
+        .setTitle(R.string.add_pokemon_dialog_title)
+        .setMessage(R.string.add_pokemon_dialog_content)
+        .setNegativeButton(R.string.add_pokemon_dialog_btn_negative, { dialogInterface, i -> dialogInterface.dismiss() })
+        .setPositiveButton(R.string.add_pokemon_dialog_btn_positive, { dialogInterface, i -> finishAddPokemonActivity(pokemonModel) })
+        .create().show()
+  }
+
+  private fun finishAddPokemonActivity(pokemonModel: PokemonModel) {
     val data = Intent()
     data.putExtra(KEY_POKEMON, pokemonModel)
 

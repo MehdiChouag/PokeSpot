@@ -25,7 +25,7 @@ interface BrowsePokemonView : View {
   /**
    * Finish activity with result
    */
-  fun finishActivity(pokemonModel: PokemonModel)
+  fun displayConfirmation(pokemonModel: PokemonModel)
 
   /**
    * Set a result_OK code if filter has been changed.

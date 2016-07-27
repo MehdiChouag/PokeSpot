@@ -55,6 +55,10 @@
     <string name="all_name_fr" translatable="false">Tous</string>
 
     <!-- Add pokemon -->
+    <string name="add_pokemon_dialog_title">Confirmation</string>
+    <string name="add_pokemon_dialog_content">Are you sure you to add this Pokémon on your location?</string>
+    <string name="add_pokemon_dialog_btn_positive">OK</string>
+    <string name="add_pokemon_dialog_btn_negative">Cancel</string>
     <string name="add_pokemon_success">Pokémon successfully added.</string>
     <string name="add_pokemon_error_location">Location needed to add a Pokémon.</string>
 

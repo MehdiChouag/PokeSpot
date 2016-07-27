@@ -41,6 +41,10 @@
     <string name="browse_hint_search">"Chercher un Pokémon"</string>
 
     <!-- Add pokemon -->
+    <string name="add_pokemon_dialog_title">Confirmation</string>
+    <string name="add_pokemon_dialog_content">Êtes-vous sûr de vouloir ajouter ce Pokémon à votre emplacement ?</string>
+    <string name="add_pokemon_dialog_btn_positive">Ok</string>
+    <string name="add_pokemon_dialog_btn_negative">Annuler</string>
     <string name="add_pokemon_success">Pokémon ajouté avec succès</string>
     <string name="add_pokemon_error_location">"Localisation nécessaire pour ajouter un Pokémon"</string>
 

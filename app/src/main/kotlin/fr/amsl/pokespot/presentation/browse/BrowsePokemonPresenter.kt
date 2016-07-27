@@ -49,7 +49,7 @@ class BrowsePokemonPresenter
       browsePokemonRepository.updatePokemonFilter(pokemonModel, newFilter)
       view?.resultCodeOk()
     } else {
-      view?.finishActivity(pokemonModel)
+      view?.displayConfirmation(pokemonModel)
     }
   }
 }
