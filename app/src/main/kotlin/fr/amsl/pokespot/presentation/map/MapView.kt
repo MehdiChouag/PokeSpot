@@ -26,4 +26,9 @@ interface MapView : View {
    * Add pokemon on the map.
    */
   fun pokemonAdded(pokemonMapApi: PokemonMapApi)
+
+  /**
+   * Launch MapDetailActivity
+   */
+  fun launchDetailMapPokemon(pokemonMapApi: PokemonMapApi)
 }

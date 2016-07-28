@@ -81,7 +81,9 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
 
     presenter.view = this
     presenter.getPokemon(pokemon!!.pokemonId)
-    presenter.getPokemonRemote(pokemon!!.id)
+
+    displayReliability()
+    displayLastSeen()
 
     image.setImageURI(pokemon!!.getImageUri(this))
   }
@@ -168,13 +170,6 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
 
   override fun hideLoadingView() {
     progressBar.visibility = View.INVISIBLE
-  }
-
-  override fun displayRemotePokemon(pokemonMapApi: PokemonMapApi) {
-    pokemon = pokemonMapApi
-
-    displayReliability()
-    displayLastSeen()
   }
 
   override fun displayError(message: String) {

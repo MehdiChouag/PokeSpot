@@ -13,11 +13,13 @@ import javax.inject.Inject
 class MapErrorConverter @Inject constructor(context: Context) : ErrorConverter(context) {
   companion object {
     private val FORBIDDEN_POKEMON_ADD = 422
+    private val POKEMON_NOT_FOUND = 404
   }
 
-  override fun getMessageByStatusCode(statusCode: Int, block: () -> Unit): String {
+  override fun getMessageByStatusCode(statusCode: Int): String {
     return when (statusCode) {
       FORBIDDEN_POKEMON_ADD -> context.getString(R.string.add_pokemon_error_forbidden_pokemon)
+      POKEMON_NOT_FOUND -> context.getString(R.string.detail_map_error_pokemon_not_found)
       else -> getUnexpectedErrorMessage()
     }
   }

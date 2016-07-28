@@ -167,12 +167,16 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     }
   }
 
+  override fun launchDetailMapPokemon(pokemonMapApi: PokemonMapApi) {
+    navigator.navigateToMapDetail(activity, pokemonMapApi)
+  }
+
   override fun onMarkerClick(marker: Marker?): Boolean {
-    val isFind = presenter.allPokemon.find { it.marker == marker }
-    if (isFind != null) {
-      navigator.navigateToMapDetail(activity, isFind)
+    val pokemon = presenter.allPokemon.find { it.marker == marker }
+    if (pokemon != null) {
+      presenter.getDetailPokemon(pokemon.id)
     }
-    return isFind != null
+    return pokemon != null
   }
 
   private fun getLastKnowLocation() {

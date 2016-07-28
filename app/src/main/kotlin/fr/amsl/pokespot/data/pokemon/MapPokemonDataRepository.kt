@@ -27,7 +27,7 @@ class MapPokemonDataRepository
                     @Named("phoneId") private val phoneId: String,
                     private val briteDatabase: BriteDatabase,
                     private val pokemonSharedPreference: PokemonSharedPreference,
-                    private val pokeSpotService: PlaceService,
+                    private val placeService: PlaceService,
                     private val searchService: SearchService) : MapPokemonRepository, Func1<Cursor, FilterModel> {
 
   override val allPokemon: HashSet<PokemonMapApi> = HashSet()
@@ -62,6 +62,22 @@ class MapPokemonDataRepository
     return getPokemon(latitude, longitude)
   }
 
+  override fun getPokemonForDetail(id: String): Observable<PokemonMapApi> {
+    return placeService.getPokemon(id)
+        .subscribeOn(workerThreadScheduler)
+        .observeOn(mainThreadScheduler)
+  }
+
+  override fun submitPokemon(latitude: Double, longitude: Double, pokemonId: String): Observable<PokemonMapApi> {
+    return placeService.submitPokemon(phoneId, latitude, longitude, pokemonId)
+        .subscribeOn(workerThreadScheduler)
+        .observeOn(mainThreadScheduler)
+  }
+
+  override fun call(cursor: Cursor): FilterModel {
+    return FilterModel(cursor.getString(FilterModel.POKEMON_ID)!!)
+  }
+
   private fun getPokemonId(list: List<FilterModel>): String {
     var pokemonId: String = String()
 
@@ -75,17 +91,7 @@ class MapPokemonDataRepository
     return pokemonId
   }
 
-  override fun submitPokemon(latitude: Double, longitude: Double, pokemonId: String): Observable<PokemonMapApi> {
-    return pokeSpotService.submitPokemon(phoneId, latitude, longitude, pokemonId)
-        .subscribeOn(workerThreadScheduler)
-        .observeOn(mainThreadScheduler)
-  }
-
-  override fun call(cursor: Cursor): FilterModel {
-    return FilterModel(cursor.getString(FilterModel.POKEMON_ID)!!)
-  }
-
-  fun concatMap(latitude: Double, longitude: Double): Func1<List<FilterModel>, Observable<List<PokemonMapApi>>> {
+  private fun concatMap(latitude: Double, longitude: Double): Func1<List<FilterModel>, Observable<List<PokemonMapApi>>> {
     return Func1<List<FilterModel>, Observable<List<PokemonMapApi>>> {
       val reliability = pokemonSharedPreference.reliability
       val distance = pokemonSharedPreference.radius

@@ -16,4 +16,6 @@ interface MapPokemonRepository {
   fun getClearPokemon(latitude: Double, longitude: Double): Observable<PokemonMarker>
 
   fun submitPokemon(latitude: Double, longitude: Double, pokemonId: String): Observable<PokemonMapApi>
+
+  fun getPokemonForDetail(id: String): Observable<PokemonMapApi>
 }

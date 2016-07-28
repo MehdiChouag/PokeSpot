@@ -19,16 +19,4 @@ class MapDetailPresenter
     subscriptions.add(mapDetailPokemonRepository.getPokemonById(id)
         .subscribe { view?.displayPokemon(it) })
   }
-
-  fun getPokemonRemote(id: String) {
-    view?.showLoadingView()
-    subscriptions.add(mapDetailPokemonRepository.getPokemonRemoteById(id)
-        .subscribe({
-          view?.hideLoadingView()
-          view?.displayRemotePokemon(it)
-        }, {
-          view?.hideLoadingView()
-          view?.displayError(errorConverter.getErrorMessage(it, { view?.finishActivity() }))
-        }))
-  }
 }

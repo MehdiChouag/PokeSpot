@@ -36,7 +36,6 @@ class MapPresenter
             allPokemon.removeAll(this)
           }
         }, { displayError(it) }))
-
   }
 
   fun fetchAfterFilterPokemon(latitude: Double, longitude: Double) {
@@ -54,10 +53,15 @@ class MapPresenter
             .subscribe({ view?.pokemonAdded(it) }, { displayError(it) }))
   }
 
+  fun getDetailPokemon(id: String) {
+    subscriptions.add(mapPokemonRepository.getPokemonForDetail(id)
+        .subscribe({ view?.launchDetailMapPokemon(it) }, { displayError(it) }))
+  }
+
   private fun displayError(throwable: Throwable) {
     val ctx = view!!.context()
     toast?.cancel()
-    toast = Toast.makeText(ctx, errorConverter.getErrorMessage(throwable, {}), Toast.LENGTH_SHORT)
+    toast = Toast.makeText(ctx, errorConverter.getErrorMessage(throwable), Toast.LENGTH_SHORT)
     toast!!.show()
   }
 }
