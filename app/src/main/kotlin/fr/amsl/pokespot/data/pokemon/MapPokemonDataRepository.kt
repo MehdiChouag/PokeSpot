@@ -63,7 +63,7 @@ class MapPokemonDataRepository
   }
 
   override fun getPokemonForDetail(id: String): Observable<PokemonMapApi> {
-    return placeService.getPokemon(id)
+    return placeService.getPokemon(id, phoneId)
         .subscribeOn(workerThreadScheduler)
         .observeOn(mainThreadScheduler)
   }

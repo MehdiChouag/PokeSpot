@@ -1,6 +1,7 @@
 package fr.amsl.pokespot.data.pokemon.service
 
 import fr.amsl.pokespot.data.pokemon.model.PokemonApiModel
+import retrofit2.http.Field
 import retrofit2.http.GET
 import rx.Observable
 
@@ -9,5 +10,5 @@ import rx.Observable
  */
 interface DownloadPokemonService {
   @GET("/v2/pokedex")
-  fun getPokemonList(): Observable<List<PokemonApiModel>>
+  fun getPokemonList(@Field("phoneId") phoneId: String): Observable<List<PokemonApiModel>>
 }

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import fr.amsl.pokespot.R
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
+import fr.amsl.pokespot.data.pokemon.model.VoteModel
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,6 +35,12 @@ class PokemonDatabase : SQLiteOpenHelper {
         "${PokemonModel.NAME_ROOMAJI}," +
         "${PokemonModel.NAME_JA} TEXT, " +
         "${PokemonModel.FILTER} INTEGER NOT NULL DEFAULT 0)"
+
+    private val CREATE_VOTE = "CREATE TABLE ${VoteModel.TABLE_VOTE} " +
+        "(${VoteModel.ID} INTEGER NOT NULL PRIMARY KEY, " +
+        "${VoteModel.UNIQUE_ID} TEXT NOT NULL, " +
+        "${VoteModel.UPVOTE} INTEGER NOT NULL DEFAULT 0, " +
+        "${VoteModel.DOWNVOTE} INTEGER NOT NULL DEFAULT 0)"
   }
 
   @Inject
@@ -43,6 +50,7 @@ class PokemonDatabase : SQLiteOpenHelper {
 
   override fun onCreate(database: SQLiteDatabase?) {
     database?.execSQL(CREATE_POKEMON_LIST)
+    database?.execSQL(CREATE_VOTE)
 
     database?.insert(PokemonModel.TABLE_POKEMON, null, PokemonModel.Builder()
         .pokemonId(PokemonModel.ALL_POKEMON_ID)

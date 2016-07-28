@@ -25,6 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import fr.amsl.pokespot.R
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
+import fr.amsl.pokespot.data.pokemon.model.VoteModel
 import fr.amsl.pokespot.di.module.MapDetailModule
 import fr.amsl.pokespot.presentation.base.BaseActivity
 import fr.amsl.pokespot.presentation.util.bindView
@@ -62,7 +63,7 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
   var isUserInRange: Boolean = false
   var googleApiClient: GoogleApiClient? = null
   var pokemon: PokemonMapApi? = null
-  val pokemonModel: PokemonModel? = null
+  var vote: VoteModel? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -176,8 +177,9 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
   }
 
-  override fun finishActivity() {
-    finish()
+  override fun displayVote(voteModel: VoteModel) {
+    vote = voteModel
+    // set Button styles
   }
 
   override fun context(): Context = applicationContext

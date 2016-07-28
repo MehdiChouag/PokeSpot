@@ -19,4 +19,19 @@ class MapDetailPresenter
     subscriptions.add(mapDetailPokemonRepository.getPokemonById(id)
         .subscribe { view?.displayPokemon(it) })
   }
+
+  fun getVote(id: String) {
+    subscriptions.add(mapDetailPokemonRepository.getVote(id)
+        .subscribe { view?.displayVote(it) })
+  }
+
+  fun sendUpVote(id: String) {
+    subscriptions.add(mapDetailPokemonRepository.sendUpVote(id)
+        .subscribe({ }, { view?.displayError(errorConverter.getErrorMessage(it)) }))
+  }
+
+  fun sendDownVote(id: String) {
+    subscriptions.add(mapDetailPokemonRepository.sendUpVote(id)
+        .subscribe({ }, { view?.displayError(errorConverter.getErrorMessage(it)) }))
+  }
 }

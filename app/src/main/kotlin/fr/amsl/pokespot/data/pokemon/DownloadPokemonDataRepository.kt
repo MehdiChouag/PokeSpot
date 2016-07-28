@@ -19,13 +19,14 @@ import javax.inject.Named
 class DownloadPokemonDataRepository
 @Inject constructor(@Named("MainThread") private val mainThreadScheduler: Scheduler,
                     @Named("WorkerThread") private val workerThreadScheduler: Scheduler,
+                    @Named("phoneId") private val phoneId: String,
                     private val context: Context,
                     private val briteDatabase: BriteDatabase,
                     private val pokemonSharedPreference: PokemonSharedPreference,
                     private val downloadPokemonService: DownloadPokemonService) : DownloadPokemonRepository {
 
   override fun getPokemonList(): Observable<List<PokemonApiModel>> {
-    return downloadPokemonService.getPokemonList()
+    return downloadPokemonService.getPokemonList(phoneId)
         .subscribeOn(workerThreadScheduler)
         .doOnNext {
           val transaction = briteDatabase.newTransaction()

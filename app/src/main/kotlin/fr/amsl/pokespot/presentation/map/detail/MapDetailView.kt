@@ -1,6 +1,7 @@
 package fr.amsl.pokespot.presentation.map.detail
 
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
+import fr.amsl.pokespot.data.pokemon.model.VoteModel
 import fr.amsl.pokespot.presentation.base.View
 
 /**
@@ -28,7 +29,7 @@ interface MapDetailView : View {
   fun displayError(message: String)
 
   /**
-   * Call if the place doesn't exist.
+   * Display vote
    */
-  fun finishActivity()
+  fun displayVote(voteModel: VoteModel)
 }
