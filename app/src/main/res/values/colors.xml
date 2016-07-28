@@ -9,12 +9,10 @@
     <color name="reliability_middle">#EB974E</color>
     <color name="reliability_low">#D64541</color>
 
-    <color name="location">#45A1DF</color>
-    <color name="location_pressed">#66B2E5</color>
     <color name="thumb_up">#4CAF50</color>
     <color name="thumb_up_pressed">#81C784</color>
     <color name="thumb_down">#F44336</color>
-    <color name="thumb_down_pressed">#EF5350</color>
+    <color name="thumb_down_pressed">#E57373</color>
     <color name="trash">#212121</color>
     <color name="trash_pressed">#424242</color>
 </resources>
