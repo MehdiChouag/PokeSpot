@@ -16,7 +16,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
-import fr.amsl.pokespot.BuildConfig
 import fr.amsl.pokespot.PSApplication
 import fr.amsl.pokespot.R
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
@@ -85,7 +84,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
       isBuildingsEnabled = false
 
       // Zoom Controls only for debug.
-      uiSettings.isZoomControlsEnabled = BuildConfig.DEBUG
+      uiSettings.isZoomControlsEnabled = false
       uiSettings?.isMyLocationButtonEnabled = false
       uiSettings?.isTiltGesturesEnabled = false
       uiSettings?.isIndoorLevelPickerEnabled = false
