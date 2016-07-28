@@ -66,7 +66,6 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
   var map: GoogleMap? = null
   var currentLocation: Location? = null
   var pokemonPosition: LatLng? = null
-  var isUserInRange: Boolean = false
   var googleApiClient: GoogleApiClient? = null
   var pokemon: PokemonMapApi? = null
   var vote: VoteModel? = null
@@ -267,8 +266,6 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
 
   override fun onConnected(p0: Bundle?) {
     currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
-
-    isUserInRange = currentLocation!!.isUserInRangeInMeter(pokemonPosition!!, RANGE_TO_VOTE)
   }
 
   override fun onConnectionSuspended(p0: Int) {
