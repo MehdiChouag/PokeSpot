@@ -29,4 +29,9 @@ interface PlaceService {
   fun sendDownVote(@Query("phoneId") phoneId: String,
                    @Path("placeId") placeId: String,
                    @Field("downVote") downvote: Boolean = true): Observable<PokemonMapApi>
+
+  @FormUrlEncoded
+  @PUT("/v2/place/{placeId}")
+  fun detelePokemon(@Query("phoneId") phoneId: String,
+                    @Path("placeId") placeId: String): Observable<Void>
 }

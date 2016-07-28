@@ -31,7 +31,12 @@ class MapDetailPresenter
   }
 
   fun sendDownVote(id: String) {
-    subscriptions.add(mapDetailPokemonRepository.sendUpVote(id)
+    subscriptions.add(mapDetailPokemonRepository.sendDownVote(id)
         .subscribe({ }, { view?.displayError(errorConverter.getErrorMessage(it)) }))
+  }
+
+  fun deletePokemon(id: String) {
+    subscriptions.add(mapDetailPokemonRepository.deletePokemon(id)
+        .subscribe({ }, { }))
   }
 }

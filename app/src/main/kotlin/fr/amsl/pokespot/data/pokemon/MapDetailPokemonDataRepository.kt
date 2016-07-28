@@ -78,4 +78,10 @@ class MapDetailPokemonDataRepository @Inject constructor(@Named("MainThread") pr
         }
         .observeOn(mainThreadScheduler)
   }
+
+  override fun deletePokemon(id: String): Observable<Void> {
+    return placeService.detelePokemon(phoneId, id)
+        .subscribeOn(workerThreadScheduler)
+        .observeOn(mainThreadScheduler)
+  }
 }

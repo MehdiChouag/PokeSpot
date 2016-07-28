@@ -18,4 +18,6 @@ interface MapDetailPokemonRepository {
   fun sendUpVote(id: String): Observable<PokemonMapApi>
 
   fun sendDownVote(id: String): Observable<PokemonMapApi>
+
+  fun deletePokemon(id: String): Observable<Void>
 }
