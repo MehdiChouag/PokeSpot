@@ -1,5 +1,6 @@
 package fr.amsl.pokespot.presentation.map.detail
 
+import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.model.VoteModel
 import fr.amsl.pokespot.presentation.base.View
@@ -24,6 +25,11 @@ interface MapDetailView : View {
   fun displayPokemon(pokemonModel: PokemonModel)
 
   /**
+   * Update pokemon.
+   */
+  fun updatePokemon(pokemonModel: PokemonMapApi)
+
+  /**
    * Display an error message.
    */
   fun displayError(message: String)
@@ -32,4 +38,9 @@ interface MapDetailView : View {
    * Display vote
    */
   fun displayVote(voteModel: VoteModel)
+
+  /**
+   * Delete pokemon
+   */
+  fun deletePokemon()
 }

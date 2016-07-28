@@ -38,7 +38,7 @@ class MapPresenter
         }, { displayError(it) }))
   }
 
-  fun fetchAfterFilterPokemon(latitude: Double, longitude: Double) {
+  fun cleanFetchPokemon(latitude: Double, longitude: Double) {
     subscriptions.add(mapPokemonRepository.getClearPokemon(latitude, longitude)
         .subscribe({
           it.toAdd?.run {

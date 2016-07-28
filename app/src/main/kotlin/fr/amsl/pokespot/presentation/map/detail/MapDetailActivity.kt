@@ -1,5 +1,6 @@
 package fr.amsl.pokespot.presentation.map.detail
 
+import android.app.Activity
 import android.content.Context
 import android.location.Location
 import android.os.Bundle
@@ -33,13 +34,12 @@ import fr.amsl.pokespot.presentation.util.bindView
 import fr.amsl.pokespot.presentation.util.getElapsedTime
 import fr.amsl.pokespot.presentation.util.isUserInRangeInMeter
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * @author mehdichouag on 25/07/2016.
  */
 class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
-    OnConnectionFailedListener, OnMapReadyCallback, MapDetailView {
+    OnConnectionFailedListener, OnMapReadyCallback, MapDetailView, View.OnClickListener {
 
   override val layoutResource: Int = R.layout.activity_map_detail
 
@@ -50,7 +50,7 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
     val RANGE_TO_VOTE = 150f
   }
 
-  @Inject @Named("phoneId") lateinit var phoneId: String
+  @Inject lateinit var phoneId: String
   @Inject @LightCycle lateinit var presenter: MapDetailPresenter
 
   val mapView: MapView by bindView(R.id.map_view)
@@ -88,12 +88,17 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
 
     presenter.view = this
     presenter.getPokemon(pokemon!!.pokemonId)
+    presenter.getVote(pokemon!!.id)
 
     displayReliability()
     displayLastSeen()
 
-    image.setImageURI(pokemon!!.getImageUri(this))
+    thumbUp.setOnClickListener(this)
+    thumbDown.setOnClickListener(this)
+    delete.setOnClickListener { presenter.deletePokemon(pokemon!!.id) }
+
     delete.visibility = if (phoneId == pokemon!!.phoneId) View.VISIBLE else View.GONE
+    image.setImageURI(pokemon!!.getImageUri(this))
   }
 
   private fun displayReliability() {
@@ -112,7 +117,9 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
       display = getString(R.string.detail_map_last_seen_unknown)
     } else {
       val date = getElapsedTime(pokemon!!.lastSeen)
-      if (date.days != 0 && date.hours == 0) {
+      if (date.isNow()) {
+        display = getString(R.string.detail_map_last_seen_now)
+      } else if (date.days != 0 && date.hours == 0) {
         display = getString(R.string.detail_map_last_seen,
             resources.getQuantityString(R.plurals.day, date.days, date.days))
       } else if (date.hours != 0 && date.minutes == 0) {
@@ -132,10 +139,6 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
       }
     }
     lastSeen.text = display
-  }
-
-  override fun displayPokemon(pokemonModel: PokemonModel) {
-    name.text = pokemonModel.name
   }
 
   override fun onStart() {
@@ -173,6 +176,45 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
     map!!.addMarker(MarkerOptions().position(latLng))
   }
 
+  override fun onClick(view: View?) {
+    if (isNearToPlace()) {
+      val isVoteExist = vote != null
+      if (!isVoteExist) {
+        if (view == thumbUp) {
+          presenter.sendUpVote(pokemon!!.id, isVoteExist)
+        } else if (view == thumbDown) {
+          presenter.sendDownVote(pokemon!!.id, isVoteExist)
+        }
+      } else {
+        displayError(getString(R.string.detail_map_error_already_vote))
+      }
+    } else {
+      displayError(getLocationErrorMessage())
+    }
+  }
+
+  fun isNearToPlace(): Boolean {
+    return currentLocation?.isUserInRangeInMeter(pokemonPosition!!, RANGE_TO_VOTE) ?: false
+  }
+
+  fun getLocationErrorMessage(): String {
+    return if (currentLocation == null) {
+      getString(R.string.detail_map_error_location)
+    } else {
+      getString(R.string.detail_map_error_distance_vote)
+    }
+  }
+
+  override fun displayPokemon(pokemonModel: PokemonModel) {
+    name.text = pokemonModel.name
+  }
+
+  override fun updatePokemon(pokemonModel: PokemonMapApi) {
+    pokemon = pokemonModel
+    displayLastSeen()
+    displayReliability()
+  }
+
   override fun showLoadingView() {
     progressBar.visibility = View.VISIBLE
   }
@@ -189,6 +231,12 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
     vote = voteModel
     thumbUp.isSelected = voteModel.isUpVoted
     thumbDown.isSelected = voteModel.isDownVoted
+  }
+
+  override fun deletePokemon() {
+    Toast.makeText(this, getString(R.string.detail_map_pokemon_delete), Toast.LENGTH_SHORT).show()
+    setResult(Activity.RESULT_OK)
+    finish()
   }
 
   override fun context(): Context = applicationContext

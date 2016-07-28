@@ -20,6 +20,11 @@ data class VoteModel(val isUpVoted: Boolean, val isDownVoted: Boolean) {
   class Builder {
     private val contentValue = ContentValues()
 
+    fun uniqueId(uniqueId: String): Builder {
+      contentValue.put(UNIQUE_ID, uniqueId)
+      return this
+    }
+
     fun downvote(isDownVoted: Boolean): Builder {
       contentValue.put(DOWNVOTE, if (isDownVoted) 1 else 0)
       return this

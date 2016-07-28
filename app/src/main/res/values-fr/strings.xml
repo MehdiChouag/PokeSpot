@@ -53,6 +53,11 @@
     <string name="detail_map_last_seen">Dernière apparition il y a %1$s</string>
     <string name="detail_map_last_seen_detail">Dernière apparition il y a %1$s et %2$s</string>
     <string name="detail_map_last_seen_unknown">Dernière apparition inconnu</string>
+    <string name="detail_map_last_seen_now">Dernière apparition à l\'instant</string>
     <string name="detail_map_reliability">Fiabilité %1$d%%</string>
+    <string name="detail_map_pokemon_delete">Le Pokémon à été supprimé</string>
     <string name="detail_map_error_pokemon_not_found">Ce Pokémon n\'existe plus</string>
+    <string name="detail_map_error_already_vote">Vous avez déjà voté</string>
+    <string name="detail_map_error_distance_vote">Vous devez vous trouver à proximité pour voter</string>
+    <string name="detail_map_error_location">Vous devez être localisé pour voter</string>
 </resources>

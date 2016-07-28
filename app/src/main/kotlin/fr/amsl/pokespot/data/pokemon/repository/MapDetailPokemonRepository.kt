@@ -15,9 +15,9 @@ interface MapDetailPokemonRepository {
 
   fun getVote(id: String): Observable<VoteModel>
 
-  fun sendUpVote(id: String): Observable<PokemonMapApi>
+  fun sendUpVote(id: String, isAlreadyExist: Boolean): Observable<PokemonMapApi>
 
-  fun sendDownVote(id: String): Observable<PokemonMapApi>
+  fun sendDownVote(id: String, isAlreadyExist: Boolean): Observable<PokemonMapApi>
 
   fun deletePokemon(id: String): Observable<Void>
 }

@@ -25,18 +25,18 @@ class MapDetailPresenter
         .subscribe { view?.displayVote(it) })
   }
 
-  fun sendUpVote(id: String) {
-    subscriptions.add(mapDetailPokemonRepository.sendUpVote(id)
-        .subscribe({ }, { view?.displayError(errorConverter.getErrorMessage(it)) }))
+  fun sendUpVote(id: String, isAlreadyExist: Boolean) {
+    subscriptions.add(mapDetailPokemonRepository.sendUpVote(id, isAlreadyExist)
+        .subscribe({ view?.updatePokemon(it) }, { view?.displayError(errorConverter.getErrorMessage(it)) }))
   }
 
-  fun sendDownVote(id: String) {
-    subscriptions.add(mapDetailPokemonRepository.sendDownVote(id)
-        .subscribe({ }, { view?.displayError(errorConverter.getErrorMessage(it)) }))
+  fun sendDownVote(id: String, isAlreadyExist: Boolean) {
+    subscriptions.add(mapDetailPokemonRepository.sendDownVote(id, isAlreadyExist)
+        .subscribe({ view?.updatePokemon(it) }, { view?.displayError(errorConverter.getErrorMessage(it)) }))
   }
 
   fun deletePokemon(id: String) {
     subscriptions.add(mapDetailPokemonRepository.deletePokemon(id)
-        .subscribe({ }, { }))
+        .subscribe({ view?.deletePokemon() }, { view?.displayError(errorConverter.getErrorMessage(it)) }))
   }
 }

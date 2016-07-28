@@ -1,5 +1,6 @@
 package fr.amsl.pokespot.data.pokemon
 
+import android.content.ContentValues
 import com.squareup.sqlbrite.BriteDatabase
 import fr.amsl.pokespot.data.database.util.executeTransactionRun
 import fr.amsl.pokespot.data.database.util.getBoolean
@@ -50,37 +51,45 @@ class MapDetailPokemonDataRepository @Inject constructor(@Named("MainThread") pr
   }
 
   override fun getVote(id: String): Observable<VoteModel> {
-    return briteDatabase.createQuery(VoteModel.TABLE_VOTE, VoteModel.SELECT_BY_UNIQUE_ID)
+    return briteDatabase.createQuery(VoteModel.TABLE_VOTE, VoteModel.SELECT_BY_UNIQUE_ID, id)
         .mapToOne { VoteModel(it.getBoolean(VoteModel.UPVOTE), it.getBoolean(VoteModel.DOWNVOTE)) }
         .observeOn(mainThreadScheduler)
   }
 
-  override fun sendUpVote(id: String): Observable<PokemonMapApi> {
-    return placeService.sendUpVote(phoneId, id)
+  override fun sendUpVote(id: String, isAlreadyExist: Boolean): Observable<PokemonMapApi> {
+    return placeService.sendUpVote(id, phoneId)
         .subscribeOn(workerThreadScheduler)
         .doOnNext {
-          val value = VoteModel.Builder().upvote(true).downvote(false).build()
-          briteDatabase.executeTransactionRun {
-            update(VoteModel.TABLE_VOTE, value, "${VoteModel.UPVOTE}=?", id)
-          }
+          val value = VoteModel.Builder().uniqueId(id).upvote(true).downvote(false).build()
+          insertOrUpdateVote(value, id, isAlreadyExist)
         }
         .observeOn(mainThreadScheduler)
   }
 
-  override fun sendDownVote(id: String): Observable<PokemonMapApi> {
-    return placeService.sendDownVote(phoneId, id)
+  override fun sendDownVote(id: String, isAlreadyExist: Boolean): Observable<PokemonMapApi> {
+    return placeService.sendDownVote(id, phoneId)
         .subscribeOn(workerThreadScheduler)
         .doOnNext {
-          val value = VoteModel.Builder().upvote(false).downvote(true).build()
-          briteDatabase.executeTransactionRun {
-            update(VoteModel.TABLE_VOTE, value, "${VoteModel.UPVOTE}=?", id)
-          }
+          val value = VoteModel.Builder().uniqueId(id).upvote(false).downvote(true).build()
+          insertOrUpdateVote(value, id, isAlreadyExist)
         }
         .observeOn(mainThreadScheduler)
+  }
+
+  fun insertOrUpdateVote(values: ContentValues, id: String, isAlreadyExist: Boolean) {
+    if (isAlreadyExist) {
+      briteDatabase.executeTransactionRun {
+        update(VoteModel.TABLE_VOTE, values, "${VoteModel.UNIQUE_ID}=?", id)
+      }
+    } else {
+      briteDatabase.executeTransactionRun {
+        insert(VoteModel.TABLE_VOTE, values)
+      }
+    }
   }
 
   override fun deletePokemon(id: String): Observable<Void> {
-    return placeService.detelePokemon(phoneId, id)
+    return placeService.deletePokemon(id, phoneId)
         .subscribeOn(workerThreadScheduler)
         .observeOn(mainThreadScheduler)
   }

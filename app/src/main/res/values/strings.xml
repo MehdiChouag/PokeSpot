@@ -71,6 +71,11 @@
     <string name="detail_map_last_seen">Last seen %1$s ago</string>
     <string name="detail_map_last_seen_detail">Last seen %1$s and %2$s ago</string>
     <string name="detail_map_last_seen_unknown">Last seen unknown</string>
+    <string name="detail_map_last_seen_now">Last seen now</string>
     <string name="detail_map_reliability">Reliability %1$d%%</string>
+    <string name="detail_map_pokemon_delete">The Pokémon has been delete</string>
     <string name="detail_map_error_pokemon_not_found">This Pokémon doesn\'t exist anymore</string>
+    <string name="detail_map_error_already_vote">You have already voted</string>
+    <string name="detail_map_error_distance_vote">You have to close to vote</string>
+    <string name="detail_map_error_location">You have to be located to vote</string>
 </resources>

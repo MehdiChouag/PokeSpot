@@ -1,6 +1,8 @@
 package fr.amsl.pokespot.presentation.map
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
@@ -30,6 +32,10 @@ import javax.inject.Inject
  */
 class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     OnConnectionFailedListener, GoogleMap.OnCameraChangeListener, MapView, GoogleMap.OnMarkerClickListener {
+
+  companion object {
+    val REQUEST_CODE_MAP_DETAIL = 14
+  }
 
   @Inject lateinit var presenter: MapPresenter
   @Inject lateinit var pokemonPref: PokemonSharedPreference
@@ -113,7 +119,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
   fun reloadPokemon() {
     latLng?.run {
-      presenter.fetchAfterFilterPokemon(latitude, longitude)
+      presenter.cleanFetchPokemon(latitude, longitude)
     }
   }
 
@@ -123,6 +129,12 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
       presenter.submitPokemon(currentLocation!!.latitude, currentLocation!!.longitude, pokemonModel)
     } else {
       Toast.makeText(context(), R.string.add_pokemon_error_location, Toast.LENGTH_SHORT).show()
+    }
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (requestCode == REQUEST_CODE_MAP_DETAIL && resultCode == Activity.RESULT_OK) {
+      reloadPokemon()
     }
   }
 
@@ -168,7 +180,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   }
 
   override fun launchDetailMapPokemon(pokemonMapApi: PokemonMapApi) {
-    navigator.navigateToMapDetail(activity, pokemonMapApi)
+    navigator.navigateToMapDetail(this, REQUEST_CODE_MAP_DETAIL, pokemonMapApi)
   }
 
   override fun onMarkerClick(marker: Marker?): Boolean {

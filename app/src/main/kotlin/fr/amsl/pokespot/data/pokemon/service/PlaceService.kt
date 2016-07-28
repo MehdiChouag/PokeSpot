@@ -20,18 +20,17 @@ interface PlaceService {
 
   @FormUrlEncoded
   @PUT("/v2/place/{placeId}")
-  fun sendUpVote(@Query("phoneId") phoneId: String,
-                 @Path("placeId") placeId: String,
+  fun sendUpVote(@Path("placeId") placeId: String,
+                 @Field("phoneId") phoneId: String,
                  @Field("upvote") upvote: Boolean = true): Observable<PokemonMapApi>
 
   @FormUrlEncoded
   @PUT("/v2/place/{placeId}")
-  fun sendDownVote(@Query("phoneId") phoneId: String,
-                   @Path("placeId") placeId: String,
-                   @Field("downVote") downvote: Boolean = true): Observable<PokemonMapApi>
+  fun sendDownVote(@Path("placeId") placeId: String,
+                   @Field("phoneId") phoneId: String,
+                   @Field("downvote") downvote: Boolean = true): Observable<PokemonMapApi>
 
-  @FormUrlEncoded
-  @PUT("/v2/place/{placeId}")
-  fun detelePokemon(@Query("phoneId") phoneId: String,
-                    @Path("placeId") placeId: String): Observable<Void>
+  @DELETE("/v2/place/{placeId}")
+  fun deletePokemon(@Path("placeId") placeId: String,
+                    @Query("phoneId") phoneId: String): Observable<Void>
 }
