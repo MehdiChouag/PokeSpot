@@ -98,7 +98,7 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
 
   private fun displayLastSeen() {
     val display: String
-    if (pokemon!!.lastSeen == 0) {
+    if (pokemon!!.lastSeen == -1) {
       display = getString(R.string.detail_map_last_seen_unknown)
     } else {
       val date = getElapsedTime(pokemon!!.lastSeen)

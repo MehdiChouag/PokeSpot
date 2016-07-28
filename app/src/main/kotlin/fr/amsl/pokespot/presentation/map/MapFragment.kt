@@ -43,7 +43,6 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   var currentLocation: Location? = null
   var shouldFocus: Boolean = true
   var latLng: LatLng? = null
-  var pokemons: MutableSet<PokemonMapApi> = mutableSetOf()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -141,32 +140,35 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     super.onStop()
   }
 
-  override fun clearAndDisplayPokemon(list: List<PokemonMapApi>) {
-    map?.clear()
-    pokemons.clear()
-    list.forEach {
-      val position = LatLng(it.latitude, it.longitude)
-      it.marker = map?.addMarker(MarkerOptions()
+  override fun displayPokemon(list: List<PokemonMapApi>) {
+    for (i in list.indices) {
+      val item = presenter.allPokemon.elementAt(i)
+      val position = LatLng(item.latitude, item.longitude)
+      item.marker = map?.addMarker(MarkerOptions()
           .position(position)
-          .icon(BitmapDescriptorFactory.fromBitmap(it.getImageBitmap(context()))))
-      pokemons.plusAssign(it)
+          .icon(BitmapDescriptorFactory.fromBitmap(item.getImageBitmap(context()))))
     }
   }
 
-  override fun displayPokemon(list: List<PokemonMapApi>) {
+  override fun clearAndDisplayPokemon(list: List<PokemonMapApi>) {
+    map?.clear()
+    for (i in list.indices) {
+      val item = presenter.allPokemon.elementAt(i)
+      val position = LatLng(item.latitude, item.longitude)
+      item.marker = map?.addMarker(MarkerOptions()
+          .position(position)
+          .icon(BitmapDescriptorFactory.fromBitmap(item.getImageBitmap(context()))))
+    }
+  }
+
+  override fun removePokemon(list: List<PokemonMapApi>) {
     list.forEach {
-      if (!pokemons.contains(it)) {
-        val position = LatLng(it.latitude, it.longitude)
-        it.marker = map?.addMarker(MarkerOptions()
-            .position(position)
-            .icon(BitmapDescriptorFactory.fromBitmap(it.getImageBitmap(context()))))
-        pokemons.plusAssign(it)
-      }
+      it.marker?.remove()
     }
   }
 
   override fun onMarkerClick(marker: Marker?): Boolean {
-    val isFind = pokemons.find { it.marker == marker }
+    val isFind = presenter.allPokemon.find { it.marker == marker }
     if (isFind != null) {
       navigator.navigateToMapDetail(activity, isFind)
     }

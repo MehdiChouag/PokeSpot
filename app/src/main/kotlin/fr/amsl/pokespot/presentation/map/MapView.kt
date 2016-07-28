@@ -13,6 +13,11 @@ interface MapView : View {
   fun displayPokemon(list: List<PokemonMapApi>)
 
   /**
+   * Remove Pokemon on the map
+   */
+  fun removePokemon(list: List<PokemonMapApi>);
+
+  /**
    * Display Pokemon on the map
    */
   fun clearAndDisplayPokemon(list: List<PokemonMapApi>)

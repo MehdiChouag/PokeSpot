@@ -5,6 +5,7 @@ import com.squareup.sqlbrite.BriteDatabase
 import fr.amsl.pokespot.data.database.util.getString
 import fr.amsl.pokespot.data.pokemon.model.FilterModel
 import fr.amsl.pokespot.data.pokemon.model.PokemonMapApi
+import fr.amsl.pokespot.data.pokemon.model.PokemonMarker
 import fr.amsl.pokespot.data.pokemon.model.PokemonModel
 import fr.amsl.pokespot.data.pokemon.repository.MapPokemonRepository
 import fr.amsl.pokespot.data.pokemon.service.PlaceService
@@ -13,6 +14,7 @@ import fr.amsl.pokespot.data.pref.PokemonSharedPreference
 import rx.Observable
 import rx.Scheduler
 import rx.functions.Func1
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -28,29 +30,36 @@ class MapPokemonDataRepository
                     private val pokeSpotService: PlaceService,
                     private val searchService: SearchService) : MapPokemonRepository, Func1<Cursor, FilterModel> {
 
-  override fun getPokemon(latitude: Double, longitude: Double): Observable<List<PokemonMapApi>> {
+  override val allPokemon: HashSet<PokemonMapApi> = HashSet()
+
+  override fun getPokemon(latitude: Double, longitude: Double): Observable<PokemonMarker> {
     return briteDatabase.createQuery(PokemonModel.TABLE_POKEMON, PokemonModel.SELECT_ALL_FILTER)
         .mapToList(this)
-        .concatMap {
-          val reliability = pokemonSharedPreference.reliability
-          val distance = pokemonSharedPreference.radius
-          val freshness = pokemonSharedPreference.getFreshness()
-          if (freshness != 0) {
-            if (it.find { it.pokemonId == FilterModel.ALL_POKEMON_ID } != null) {
-              searchService.getPokemonList(phoneId, latitude, longitude, reliability, freshness, distance)
-            } else {
-              searchService.getPokemonFilter(phoneId, latitude, longitude,
-                  reliability, freshness, distance, getPokemonId(it))
-            }
+        .first()
+        .concatMap(concatMap(latitude, longitude))
+        .map { list ->
+          val range = pokemonSharedPreference.radius
+          if (!allPokemon.isEmpty()) {
+            val (allInRange, allNotInRange) = allPokemon.partition { it.isPokemonInRange(latitude, longitude, range) }
+            // All item to add
+            val (toAdd) = list.partition { item -> !allInRange.contains(item) }
+            // Item to remove.
+            val (toRemove) = allInRange.partition { item -> list.find { item == it } == null }
+            val allToRemove = allNotInRange.plus(toRemove)
+
+            allPokemon.addAll(toAdd)
+            PokemonMarker(toAdd, allToRemove)
           } else {
-            if (it.find { it.pokemonId == FilterModel.ALL_POKEMON_ID } != null) {
-              searchService.getPokemonList(phoneId, latitude, longitude, reliability, distance)
-            } else {
-              searchService.getPokemonFilter(phoneId, latitude, longitude,
-                  reliability, distance, getPokemonId(it))
-            }
+            allPokemon.addAll(list)
+            PokemonMarker(list, null)
           }
-        }.observeOn(mainThreadScheduler)
+        }
+        .observeOn(mainThreadScheduler)
+  }
+
+  override fun getClearPokemon(latitude: Double, longitude: Double): Observable<PokemonMarker> {
+    allPokemon.clear()
+    return getPokemon(latitude, longitude)
   }
 
   private fun getPokemonId(list: List<FilterModel>): String {
@@ -74,5 +83,29 @@ class MapPokemonDataRepository
 
   override fun call(cursor: Cursor): FilterModel {
     return FilterModel(cursor.getString(FilterModel.POKEMON_ID)!!)
+  }
+
+  fun concatMap(latitude: Double, longitude: Double): Func1<List<FilterModel>, Observable<List<PokemonMapApi>>> {
+    return Func1<List<FilterModel>, Observable<List<PokemonMapApi>>> {
+      val reliability = pokemonSharedPreference.reliability
+      val distance = pokemonSharedPreference.radius
+      val freshness = pokemonSharedPreference.getFreshness()
+      if (freshness != 0) {
+        if (it.find { it.pokemonId == FilterModel.ALL_POKEMON_ID } != null) {
+          searchService.getPokemonList(phoneId, latitude, longitude, reliability, freshness, distance)
+        } else {
+          searchService.getPokemonFilter(phoneId, latitude, longitude,
+              reliability, freshness, distance, getPokemonId(it))
+        }
+      } else {
+        if (it.find { it.pokemonId == FilterModel.ALL_POKEMON_ID } != null) {
+          searchService.getPokemonList(phoneId, latitude, longitude, reliability, distance)
+        } else {
+          searchService.getPokemonFilter(phoneId, latitude, longitude,
+              reliability, distance, getPokemonId(it))
+
+        }
+      }
+    }
   }
 }

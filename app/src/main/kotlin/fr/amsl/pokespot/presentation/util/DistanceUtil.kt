@@ -12,3 +12,11 @@ fun Location.isUserInRangeInMeter(pokemonPosition: LatLng, range: Float): Boolea
       pokemonPosition.latitude, pokemonPosition.longitude, result)
   return result[0] <= range
 }
+
+fun isInRangeInKilometer(startLatitude: Double, startLongitude: Double,
+                         endLatitude: Double, endLongitude: Double, range: Int): Boolean {
+  val result = FloatArray(3)
+  Location.distanceBetween(startLatitude, startLongitude,
+      endLatitude, endLongitude, result)
+  return result[0] / 1000 <= range
+}

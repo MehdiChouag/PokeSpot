@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.android.gms.maps.model.Marker
+import fr.amsl.pokespot.presentation.util.isInRangeInKilometer
 import java.io.File
 
 /**
@@ -78,5 +79,12 @@ data class PokemonMapApi(
   fun getImageUri(context: Context): Uri {
     val file = File(context.filesDir, "$pokemonId.png")
     return Uri.fromFile(file)
+  }
+
+  /**
+   * Return true if the pokemon is within a range
+   */
+  fun isPokemonInRange(startLatitude: Double, startLongitude: Double, range: Int): Boolean {
+    return isInRangeInKilometer(startLatitude, startLongitude, latitude, longitude, range)
   }
 }
