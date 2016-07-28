@@ -10,7 +10,7 @@
                 android:width="@dimen/stroke_size"
                 android:height="@dimen/stroke_size" />
 
-            <solid android:color="?colorControlNormal" />
+            <solid android:color="@color/gray_divider" />
         </shape>
     </item>
 </layer-list>
