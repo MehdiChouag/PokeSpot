@@ -53,6 +53,10 @@
     <!-- Database -->
     <string name="all_name_en" translatable="false">All</string>
     <string name="all_name_fr" translatable="false">Tous</string>
+    <string name="all_name_de" translatable="false">Alle</string>
+    <string name="all_name_es" translatable="false">Todos</string>
+    <string name="all_name_it" translatable="false">Tutto</string>
+    <string name="all_name_ja" translatable="false">"すべて"</string>
 
     <!-- Add pokemon -->
     <string name="add_pokemon_dialog_title">Confirmation</string>
