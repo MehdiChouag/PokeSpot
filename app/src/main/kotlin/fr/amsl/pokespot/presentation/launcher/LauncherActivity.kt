@@ -25,11 +25,13 @@ class LauncherActivity : AppCompatActivity() {
     initializeInjector()
 
     val googleAvailability = GoogleApiAvailability.getInstance()
-    if (googleAvailability.isGooglePlayServicesAvailable(this) != ConnectionResult.SUCCESS) displayPlayServicesDialogError()
-
-    if (!sharePref.isPokemonDownloaded) navigator.navigateToDownloadActivity(this)
-    else if (!isConnected(this)) displayInternetDialogError()
-    else navigator.navigateToMapActivity(this)
+    if (googleAvailability.isGooglePlayServicesAvailable(this) != ConnectionResult.SUCCESS) {
+      displayPlayServicesDialogError()
+    } else {
+      if (!sharePref.isPokemonDownloaded) navigator.navigateToDownloadActivity(this)
+      else if (!isConnected(this)) displayInternetDialogError()
+      else navigator.navigateToMapActivity(this)
+    }
   }
 
   /**

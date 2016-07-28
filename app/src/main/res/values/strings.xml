@@ -5,7 +5,7 @@
     <string name="app_error_default">An error occurred.</string>
     <string name="app_error_location">No location available.</string>
     <string name="app_error_play_services_title">Google Play Services</string>
-    <string name="app_error_play_services_content">Google Play Services are required to used this application. Please install them and retry.</string>
+    <string name="app_error_play_services_content">Google Play Services are required to use this application. Please install them and retry.</string>
     <string name="app_error_internet_connection_title">Internet connection</string>
     <string name="app_error_internet_connection_content">An internet connection in needed to download the Pokédex. Please check your connection and retry.</string>
     <string name="app_dialog_quit_button">Quit</string>
