@@ -25,5 +25,5 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="Theme.PokeSpot.TransparentStatusBarStyle" parent="Theme.Base" />
+    <style name="Theme.PokeSpot.TransparentStatusBarStyle" parent="Theme.PokeSpot" />
 </resources>

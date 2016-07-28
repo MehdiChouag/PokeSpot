@@ -5,4 +5,11 @@
         <item name="android:elevation">@dimen/toolbar_elevation</item>
     </style>
 
+    <style name="Base.FAB" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fabSize">normal</item>
+        <item name="android:clickable">true</item>
+    </style>
+
 </resources>
