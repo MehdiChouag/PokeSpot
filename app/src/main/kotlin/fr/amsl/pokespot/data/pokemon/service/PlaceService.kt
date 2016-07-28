@@ -16,7 +16,7 @@ interface PlaceService {
                     @Field("pokemonId") pokemonId: String): Observable<PokemonMapApi>
 
   @GET("/v2/place/{placeId}")
-  fun getPokemon(@Path("placeId") placeId: String, @Field("phoneId") phoneId: String): Observable<PokemonMapApi>
+  fun getPokemon(@Path("placeId") placeId: String, @Query("phoneId") phoneId: String): Observable<PokemonMapApi>
 
   @FormUrlEncoded
   @PUT("/v2/place/{placeId}")
