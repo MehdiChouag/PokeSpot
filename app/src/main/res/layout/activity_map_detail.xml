@@ -9,12 +9,13 @@
         android:id="@+id/map_container"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_heightPercent="60%">
+        app:layout_heightPercent="65%">
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/map_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:liteMode="true" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -61,14 +62,40 @@
 
     <View
         android:id="@+id/separator"
-        android:layout_below="@+id/last_seen"
-        style="@style/DetailMap.Separator" />
+        style="@style/DetailMap.Separator"
+        android:layout_below="@+id/last_seen" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/separator"
-        android:orientation="horizontal">
+        android:divider="@drawable/spacer_huge"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:showDividers="middle">
+
+        <ImageView
+            android:id="@+id/thumb_up"
+            android:layout_width="@dimen/detail_btn_size"
+            android:layout_height="@dimen/detail_btn_size"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_thumb_up" />
+
+        <ImageView
+            android:id="@+id/thumb_down"
+            android:layout_width="@dimen/detail_btn_size"
+            android:layout_height="@dimen/detail_btn_size"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_thumb_down" />
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="@dimen/detail_btn_size"
+            android:layout_height="@dimen/detail_btn_size"
+            android:clickable="true"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_trash" />
 
     </LinearLayout>
 

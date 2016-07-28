@@ -14,8 +14,11 @@
     <dimen name="stroke_size">1dp</dimen>
     <dimen name="filter_item_size">60dp</dimen>
     <dimen name="browse_item_size">100dp</dimen>
+
     <dimen name="pokemon_image_size">90dp</dimen>
     <dimen name="pokemon_detail_image_size">80dp</dimen>
     <dimen name="pokemon_detail_image_margin">-20dp</dimen>
     <dimen name="pokeball_loading_size">100dp</dimen>
+
+    <dimen name="detail_btn_size">48dp</dimen>
 </resources>

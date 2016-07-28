@@ -5,6 +5,7 @@ import android.location.Location
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -32,6 +33,7 @@ import fr.amsl.pokespot.presentation.util.bindView
 import fr.amsl.pokespot.presentation.util.getElapsedTime
 import fr.amsl.pokespot.presentation.util.isUserInRangeInMeter
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * @author mehdichouag on 25/07/2016.
@@ -48,6 +50,7 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
     val RANGE_TO_VOTE = 150f
   }
 
+  @Inject @Named("phoneId") lateinit var phoneId: String
   @Inject @LightCycle lateinit var presenter: MapDetailPresenter
 
   val mapView: MapView by bindView(R.id.map_view)
@@ -56,6 +59,9 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
   val reliability: TextView by bindView(R.id.reliability)
   val lastSeen: TextView by bindView(R.id.last_seen)
   val progressBar: ProgressBar by bindView(R.id.progress_bar)
+  val thumbUp: ImageView by bindView(R.id.thumb_up)
+  val thumbDown: ImageView by bindView(R.id.thumb_down)
+  val delete: ImageView by bindView(R.id.delete)
 
   var map: GoogleMap? = null
   var currentLocation: Location? = null
@@ -87,6 +93,7 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
     displayLastSeen()
 
     image.setImageURI(pokemon!!.getImageUri(this))
+    delete.visibility = if (phoneId == pokemon!!.phoneId) View.VISIBLE else View.GONE
   }
 
   private fun displayReliability() {
@@ -152,6 +159,7 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
       isTrafficEnabled = false
       isBuildingsEnabled = false
 
+      uiSettings?.isMapToolbarEnabled = true
       uiSettings?.setAllGesturesEnabled(false)
       setCameraOnPokemon()
     }
@@ -179,7 +187,8 @@ class MapDetailActivity : BaseActivity(), ConnectionCallbacks,
 
   override fun displayVote(voteModel: VoteModel) {
     vote = voteModel
-    // set Button styles
+    thumbUp.isSelected = voteModel.isUpVoted
+    thumbDown.isSelected = voteModel.isDownVoted
   }
 
   override fun context(): Context = applicationContext
