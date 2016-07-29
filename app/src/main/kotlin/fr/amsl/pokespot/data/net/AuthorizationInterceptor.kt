@@ -17,6 +17,7 @@ class AuthorizationInterceptor @Inject constructor(@Named("Authorization") priva
 
     val newRequest = request.newBuilder()
         .addHeader(ApiConstant.HEADER_AUTHORIZATION, authorization)
+        .addHeader(ApiConstant.HEADER_DEVICE_TYPE, "Android")
         .build()
 
     return chain.proceed(newRequest ?: request)
