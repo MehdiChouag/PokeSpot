@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
@@ -30,7 +31,7 @@ import javax.inject.Inject
  * @author mehdichouag on 22/07/2016.
  */
 class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
-    OnConnectionFailedListener, GoogleMap.OnCameraChangeListener, MapView, GoogleMap.OnMarkerClickListener {
+    OnConnectionFailedListener, GoogleMap.OnCameraChangeListener, MapView, GoogleMap.OnMarkerClickListener, GoogleMap.OnMyLocationButtonClickListener {
 
   companion object {
     val REQUEST_CODE_MAP_DETAIL = 14
@@ -47,6 +48,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
   var googleApiClient: GoogleApiClient? = null
   var currentLocation: Location? = null
   var shouldFocus: Boolean = true
+  var isPreLollipop: Boolean = false
   var latLng: LatLng? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +57,7 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     initializeInjector()
     initialize()
     shouldFocus = savedInstanceState == null
+    isPreLollipop = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
   }
 
   fun initializeInjector() {
@@ -83,11 +86,13 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
       isTrafficEnabled = false
       isBuildingsEnabled = false
 
-      // Zoom Controls only for debug.
+      uiSettings?.isMyLocationButtonEnabled = isPreLollipop
       uiSettings.isZoomControlsEnabled = false
-      uiSettings?.isMyLocationButtonEnabled = false
       uiSettings?.isTiltGesturesEnabled = false
       uiSettings?.isIndoorLevelPickerEnabled = false
+      if (isPreLollipop) {
+        setOnMyLocationButtonClickListener(this@MapFragment)
+      }
     }
   }
 
@@ -95,6 +100,11 @@ class MapFragment : MapFragment(), OnMapReadyCallback, ConnectionCallbacks,
     super.onStart()
     initializeGoogleApiClient()
     googleApiClient?.connect()
+  }
+
+  override fun onMyLocationButtonClick(): Boolean {
+    focusOnCurrentLocation()
+    return true
   }
 
   fun focusOnCurrentLocation() {

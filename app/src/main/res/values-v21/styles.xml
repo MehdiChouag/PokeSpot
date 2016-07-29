@@ -8,8 +8,17 @@
     <style name="Base.FAB" parent="Widget.Design.FloatingActionButton">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/fab_margin</item>
+        <item name="android:layout_marginBottom">@dimen/fab_margin</item>
         <item name="fabSize">normal</item>
         <item name="android:clickable">true</item>
+    </style>
+
+
+    <style name="PokeSpot.FAB.Location" parent="Base.FAB">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="srcCompat">@drawable/ic_my_location</item>
     </style>
 
 </resources>

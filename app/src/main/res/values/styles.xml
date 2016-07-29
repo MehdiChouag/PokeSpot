@@ -45,7 +45,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="fabSize">normal</item>
         <item name="android:clickable">true</item>
-        <item name="elevation">0dp</item>
     </style>
 
     <style name="PokeSpot.FAB.Add" parent="Base.FAB">
@@ -58,6 +57,7 @@
         <item name="android:layout_alignParentEnd">true</item>
         <item name="backgroundTint">@android:color/white</item>
         <item name="srcCompat">@drawable/ic_my_location</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <!-- Filter -->
